@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSheti Translation API Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">🌐 Translation API Test</h1>
+            
+            <!-- Status -->
+            <div id="status" class="mb-6 p-4 rounded-lg bg-gray-100">
+                <div class="flex items-center gap-2">
+                    <div id="statusIndicator" class="w-3 h-3 rounded-full bg-gray-400"></div>
+                    <span id="statusText">Checking API status...</span>
+                </div>
+            </div>
+            
+            <!-- Single Translation -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4">Single Text Translation</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Source Language</label>
+                        <select id="sourceLang" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi (हिंदी)</option>
+                            <option value="mr">Marathi (मराठी)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Target Language</label>
+                        <select id="targetLang" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                            <option value="hi">Hindi (हिंदी)</option>
+                            <option value="mr">Marathi (मराठी)</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                </div>
+                <textarea id="inputText" class="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4" rows="3" placeholder="Enter text to translate...">Welcome to SmartSheti. This is an agricultural platform for farmers.</textarea>
+                <button onclick="translateSingle()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">Translate</button>
+                <div id="singleResult" class="mt-4 p-4 bg-green-50 rounded-lg hidden">
+                    <h3 class="font-semibold mb-2">Translation:</h3>
+                    <p id="translatedText" class="text-lg"></p>
+                </div>
+            </div>
+            
+            <!-- Batch Translation -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4">Batch Translation (Multiple Texts)</h2>
+                <button onclick="translateBatch()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 mb-4">Translate Common Terms to Hindi</button>
+                <div id="batchResult" class="hidden">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="border border-gray-300 px-4 py-2 text-left">English</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Hindi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Cache Stats -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Cache Statistics</h2>
+                <button onclick="getCacheStats()" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 mr-2">Get Stats</button>
+                <button onclick="clearCache()" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">Clear Cache</button>
+                <div id="cacheStats" class="mt-4 p-4 bg-purple-50 rounded-lg hidden">
+                    <p id="cacheInfo"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001';
+        
+        // Check API status on load
+        async function checkStatus() {
+            try {
+                const response = await fetch(`${API_URL}/api/health`);
+                const data = await response.json();
+                
+                document.getElementById('statusIndicator').className = 'w-3 h-3 rounded-full bg-green-500 animate-pulse';
+                document.getElementById('statusText').textContent = `✅ API is online - ${data.cached_translations} translations cached`;
+            } catch (error) {
+                document.getElementById('statusIndicator').className = 'w-3 h-3 rounded-full bg-red-500';
+                document.getElementById('statusText').textContent = '❌ API is offline - Please start the server';
+            }
+        }
+        
+        // Translate single text
+        async function translateSingle() {
+            const text = document.getElementById('inputText').value;
+            const source = document.getElementById('sourceLang').value;
+            const target = document.getElementById('targetLang').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/translate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text, source, target })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('translatedText').textContent = data.translated;
+                    document.getElementById('singleResult').classList.remove('hidden');
+                } else {
+                    alert('Translation failed: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Translate batch
+        async function translateBatch() {
+            const texts = {
+                home: 'Home',
+                weather: 'Weather',
+                crops: 'Crops',
+                market: 'Market',
+                price: 'Price',
+                soil: 'Soil',
+                irrigation: 'Irrigation',
+                harvest: 'Harvest',
+                seed: 'Seed',
+                fertilizer: 'Fertilizer'
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/api/translate/batch`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texts, source: 'en', target: 'hi' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const tbody = document.getElementById('batchTableBody');
+                    tbody.innerHTML = '';
+                    
+                    Object.keys(texts).forEach(key => {
+                        const row = tbody.insertRow();
+                        row.innerHTML = `
+                            <td class="border border-gray-300 px-4 py-2">${texts[key]}</td>
+                            <td class="border border-gray-300 px-4 py-2 font-semibold text-blue-600">${data.translations[key]}</td>
+                        `;
+                    });
+                    
+                    document.getElementById('batchResult').classList.remove('hidden');
+                } else {
+                    alert('Batch translation failed: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Get cache stats
+        async function getCacheStats() {
+            try {
+                const response = await fetch(`${API_URL}/api/translate/cache/stats`);
+                const data = await response.json();
+                
+                document.getElementById('cacheInfo').textContent = 
+                    `Cached translations: ${data.cache_info.size} / ${data.cache_info.max_size}`;
+                document.getElementById('cacheStats').classList.remove('hidden');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Clear cache
+        async function clearCache() {
+            if (!confirm('Clear all cached translations?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/translate/cache/clear`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                alert(data.message);
+                checkStatus();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Check status on load
+        checkStatus();
+        setInterval(checkStatus, 10000); // Refresh every 10 seconds
+    </script>
+</body>
+</html>

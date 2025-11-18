@@ -212,38 +212,72 @@ class CropRecommendationEngine {
         }
     }
 
-    // Score crops based on suitability
-    scoreCrop(crop, userSoilType, irrigationType, landSize) {
+    // Temperature compatibility check (NEW)
+    getTemperatureCompatibility(crop, currentTemp) {
+        if (!crop.ideal_temperature_c || currentTemp === null || currentTemp === undefined) {
+            return { score: 0, reason: 'Temperature data unavailable' };
+        }
+
+        const minTemp = crop.ideal_temperature_c.min;
+        const maxTemp = crop.ideal_temperature_c.max;
+        const optimalTemp = (minTemp + maxTemp) / 2;
+        
+        // Perfect temperature range
+        if (currentTemp >= minTemp && currentTemp <= maxTemp) {
+            if (Math.abs(currentTemp - optimalTemp) <= 3) {
+                return { score: 25, reason: 'Perfect temperature match' };
+            } else {
+                return { score: 20, reason: 'Good temperature range' };
+            }
+        }
+        // Within 5 degrees of range
+        else if (currentTemp >= minTemp - 5 && currentTemp <= maxTemp + 5) {
+            return { score: 12, reason: 'Acceptable temperature' };
+        }
+        // Outside ideal range
+        else {
+            return { score: 3, reason: 'Temperature challenge - consider timing' };
+        }
+    }
+
+    // Score crops based on suitability with TEMPERATURE
+    scoreCrop(crop, userSoilType, irrigationType, landSize, currentTemp = null) {
         let score = 0;
         let reasons = [];
 
-        // Soil compatibility (40% weight)
+        // Temperature compatibility (25% weight) - NEW!
+        const tempResult = this.getTemperatureCompatibility(crop, currentTemp);
+        score += tempResult.score;
+        reasons.push(tempResult.reason);
+
+        // Soil compatibility (30% weight - reduced from 40%)
         if (this.getSoilCompatibility(crop.best_soil_types, userSoilType)) {
-            score += 40;
+            score += 30;
             reasons.push('Excellent soil compatibility');
         } else {
+            score += 5;
             reasons.push('Moderate soil compatibility');
         }
 
-        // Irrigation compatibility (30% weight)
+        // Irrigation compatibility (20% weight - reduced from 30%)
         if (this.getIrrigationCompatibility(crop, irrigationType)) {
-            score += 30;
+            score += 20;
             reasons.push('Suitable for your irrigation method');
         } else {
-            score += 10;
+            score += 8;
             reasons.push('May need irrigation adjustments');
         }
 
-        // Seasonal suitability (20% weight)
+        // Seasonal suitability (15% weight - reduced from 20%)
         const currentSeason = this.getCurrentSeasonRecommendation();
         if (crop.season === currentSeason || crop.season === 'All Seasons' || crop.season === 'Perennial') {
-            score += 20;
+            score += 15;
             reasons.push('Perfect seasonal timing');
         } else if (crop.season.includes(currentSeason)) {
-            score += 15;
+            score += 10;
             reasons.push('Good seasonal match');
         } else {
-            score += 5;
+            score += 3;
             reasons.push('Consider for next season');
         }
 
@@ -259,14 +293,16 @@ class CropRecommendationEngine {
         return { score, reasons };
     }
 
-    // Get crop recommendations
-    getRecommendations(location, soilType, landSize, irrigationType) {
+    // Get crop recommendations with WEATHER & DIVERSITY
+    getRecommendations(location, soilType, landSize, irrigationType, currentTemp = null) {
         if (!this.cropsData || !this.cropsData.crops) {
             return [];
         }
 
+        console.log('Generating recommendations with temperature:', currentTemp);
+
         const recommendations = this.cropsData.crops.map(crop => {
-            const { score, reasons } = this.scoreCrop(crop, soilType, irrigationType, landSize);
+            const { score, reasons } = this.scoreCrop(crop, soilType, irrigationType, landSize, currentTemp);
             
             return {
                 ...crop,
@@ -276,10 +312,59 @@ class CropRecommendationEngine {
             };
         });
 
-        // Sort by score and return top recommendations
-        return recommendations
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 8); // Return top 8 recommendations
+        // Sort by score
+        let sorted = recommendations.sort((a, b) => b.score - a.score);
+        
+        // Add diversity: Ensure variety in crop types
+        const diversified = this.diversifyRecommendations(sorted);
+        
+        // Return top 8 recommendations
+        return diversified.slice(0, 8);
+    }
+
+    // NEW: Diversify recommendations to avoid too many similar crops
+    diversifyRecommendations(sortedCrops) {
+        const cropCategories = {
+            cereals: ['Rice', 'Wheat', 'Maize', 'Jowar (Sorghum)', 'Jowar'],
+            cash: ['Cotton', 'Sugarcane', 'Soybean', 'Groundnut'],
+            vegetables: ['Tomato', 'Onion', 'Brinjal (Eggplant)', 'Chilli', 'Cabbage', 'Cauliflower', 'Okra (Lady Finger)', 'Carrot', 'Beetroot', 'Spinach', 'Cucumber'],
+            fruits: ['Banana', 'Grapes', 'Orange', 'Pomegranate', 'Mango', 'Papaya', 'Watermelon'],
+            pulses: ['Tur (Pigeon Pea)', 'Tur'],
+            spices: ['Turmeric', 'Ginger', 'Garlic', 'Chilli']
+        };
+        
+        const result = [];
+        const categoryCount = {};
+        
+        // First pass: Take top crop from each category
+        for (const crop of sortedCrops) {
+            if (result.length >= 8) break;
+            
+            let category = 'other';
+            for (const [cat, crops] of Object.entries(cropCategories)) {
+                if (crops.includes(crop.name)) {
+                    category = cat;
+                    break;
+                }
+            }
+            
+            // Limit 2-3 crops per category for diversity
+            const maxPerCategory = category === 'vegetables' ? 3 : 2;
+            if (!categoryCount[category] || categoryCount[category] < maxPerCategory) {
+                result.push(crop);
+                categoryCount[category] = (categoryCount[category] || 0) + 1;
+            }
+        }
+        
+        // Second pass: Fill remaining slots with highest scoring crops
+        for (const crop of sortedCrops) {
+            if (result.length >= 8) break;
+            if (!result.find(c => c.name === crop.name)) {
+                result.push(crop);
+            }
+        }
+        
+        return result;
     }
 
     getSuitabilityRating(score) {
@@ -297,20 +382,42 @@ class CropRecommendationEngine {
         // Try to get real market prices, fallback to estimates
         const marketData = await this.getMarketPrices(crop.name);
         
-        // Real market data for Maharashtra (updated periodically)
+        // Real market data for Maharashtra (Updated for 2025-26 season)
         const profitabilityMap = {
-            'Cotton': { yield: 1500, cost: 40000, msp: 6080 }, // MSP per quintal
-            'Soybean': { yield: 1200, cost: 25000, msp: 4892 }, // MSP per quintal
-            'Sugarcane': { yield: 40000, cost: 60000, msp: 340 }, // MSP per quintal
-            'Wheat': { yield: 2000, cost: 30000, msp: 2275 }, // MSP per quintal
-            'Rice': { yield: 2500, cost: 35000, msp: 2183 }, // MSP per quintal (common)
-            'Onion': { yield: 15000, cost: 45000, marketPrice: 12 }, // Current market price per kg
-            'Tomato': { yield: 20000, cost: 50000, marketPrice: 8 }, // Seasonal variation
-            'Grapes': { yield: 8000, cost: 150000, marketPrice: 80 }, // Export quality
-            'Banana': { yield: 25000, cost: 80000, marketPrice: 15 },
-            'Orange': { yield: 12000, cost: 100000, marketPrice: 25 },
-            'Jowar (Sorghum)': { yield: 1800, cost: 28000, msp: 3225 },
-            'Maize': { yield: 2200, cost: 32000, msp: 2090 }
+            'Cotton': { yield: 1500, cost: 40000, msp: 7521 }, // MSP 2025-26 per quintal (Medium Staple)
+            'Soybean': { yield: 1200, cost: 25000, msp: 4892 }, // MSP 2025-26 per quintal (Black)
+            'Sugarcane': { yield: 40000, cost: 60000, msp: 340 }, // MSP 2025-26 per quintal
+            'Wheat': { yield: 2000, cost: 30000, msp: 2425 }, // MSP 2025-26 per quintal
+            'Rice': { yield: 2500, cost: 35000, msp: 2320 }, // MSP 2025-26 per quintal (Common Grade)
+            'Onion': { yield: 15000, cost: 45000, marketPrice: 25 }, // Current market avg ₹20-30/kg
+            'Tomato': { yield: 20000, cost: 50000, marketPrice: 20 }, // Current market avg ₹15-25/kg
+            'Grapes': { yield: 8000, cost: 150000, marketPrice: 50 }, // Wholesale avg ₹40-60/kg
+            'Banana': { yield: 25000, cost: 80000, marketPrice: 15 }, // Market avg ₹12-18/kg
+            'Orange': { yield: 12000, cost: 100000, marketPrice: 30 }, // Market avg ₹25-35/kg
+            'Pomegranate': { yield: 8000, cost: 120000, marketPrice: 60 }, // Premium quality avg
+            'Mango': { yield: 10000, cost: 100000, marketPrice: 45 }, // Seasonal avg
+            'Papaya': { yield: 30000, cost: 50000, marketPrice: 18 }, // Market avg
+            'Groundnut': { yield: 1500, cost: 35000, msp: 6377 }, // MSP 2025-26 per quintal
+            'Tur (Pigeon Pea)': { yield: 1000, cost: 30000, msp: 7550 }, // MSP 2025-26 per quintal
+            'Tur': { yield: 1000, cost: 30000, msp: 7550 }, // MSP 2025-26 per quintal
+            'Jowar (Sorghum)': { yield: 1800, cost: 28000, msp: 3450 }, // MSP 2025-26 per quintal (Hybrid)
+            'Jowar': { yield: 1800, cost: 28000, msp: 3450 }, // MSP 2025-26 per quintal
+            'Maize': { yield: 2200, cost: 32000, msp: 2225 }, // MSP 2025-26 per quintal
+            'Chilli': { yield: 3000, cost: 40000, marketPrice: 80 }, // Dry chilli avg ₹70-90/kg
+            'Turmeric': { yield: 5000, cost: 50000, marketPrice: 90 }, // Dry turmeric avg
+            'Garlic': { yield: 5000, cost: 45000, marketPrice: 35 }, // Market avg ₹30-40/kg
+            'Cabbage': { yield: 25000, cost: 40000, marketPrice: 8 }, // Market avg ₹6-10/kg
+            'Cauliflower': { yield: 20000, cost: 45000, marketPrice: 12 }, // Market avg ₹10-15/kg
+            'Brinjal (Eggplant)': { yield: 18000, cost: 35000, marketPrice: 15 }, // Market avg ₹12-18/kg
+            'Brinjal': { yield: 18000, cost: 35000, marketPrice: 15 }, // Market avg
+            'Okra (Lady Finger)': { yield: 12000, cost: 38000, marketPrice: 25 }, // Market avg ₹20-30/kg
+            'Okra': { yield: 12000, cost: 38000, marketPrice: 25 }, // Market avg
+            'Watermelon': { yield: 30000, cost: 40000, marketPrice: 10 }, // Market avg ₹8-12/kg
+            'Carrot': { yield: 20000, cost: 35000, marketPrice: 18 }, // Market avg ₹15-20/kg
+            'Beetroot': { yield: 18000, cost: 35000, marketPrice: 20 }, // Market avg ₹18-22/kg
+            'Potato': { yield: 20000, cost: 40000, marketPrice: 15 }, // Market avg ₹12-18/kg
+            'Ginger': { yield: 8000, cost: 60000, marketPrice: 80 }, // Fresh ginger avg
+            'Cucumber': { yield: 15000, cost: 30000, marketPrice: 12 } // Market avg ₹10-15/kg
         };
 
         const cropData = profitabilityMap[crop.name] || { yield: 1500, cost: 35000, marketPrice: 30 };
@@ -361,25 +468,96 @@ class CropRecommendationEngine {
         return seasonalFactors[cropName] || 1.0;
     }
     
-    // Attempt to get real market prices (placeholder for API integration)
+    // Get real-time market prices from multiple sources
     async getMarketPrices(cropName) {
         try {
-            // This would integrate with APMC/AgMarkNet API in production
-            // For now, return null to use MSP/estimates
+            // Map crop names to API-friendly names
+            const cropMapping = {
+                'Rice': 'rice',
+                'Wheat': 'wheat',
+                'Cotton': 'cotton',
+                'Soybean': 'soyabean',
+                'Sugarcane': 'sugarcane',
+                'Onion': 'onion',
+                'Tomato': 'tomato',
+                'Potato': 'potato',
+                'Jowar (Sorghum)': 'jowar',
+                'Jowar': 'jowar',
+                'Maize': 'maize'
+            };
             
-            // Example of what real integration would look like:
-            /*
-            const response = await fetch(`https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=YOUR_KEY&format=json&filters[commodity]=${cropName}`);
-            if (response.ok) {
-                const data = await response.json();
-                return {
-                    currentPrice: data.records[0]?.modal_price,
-                    lastUpdated: data.records[0]?.arrival_date
-                };
+            const mappedCropName = cropMapping[cropName] || cropName.toLowerCase();
+            
+            // Try Method 1: Local Backend API (if running)
+            try {
+                const localResponse = await fetch(`http://localhost:5000/api/prices`);
+                if (localResponse.ok) {
+                    const data = await localResponse.json();
+                    if (data[mappedCropName]) {
+                        const priceData = data[mappedCropName].data;
+                        const currentPrice = priceData[priceData.length - 1]; // Get latest price
+                        console.log(`✅ Got price from local API for ${cropName}: ₹${currentPrice}`);
+                        return {
+                            currentPrice: currentPrice / 100, // Convert quintal to kg
+                            lastUpdated: data.lastUpdated || new Date().toISOString(),
+                            source: 'Local API'
+                        };
+                    }
+                }
+            } catch (localError) {
+                console.log('Local API not available, trying alternatives...');
             }
-            */
             
-            return null; // Use fallback data
+            // Try Method 2: Direct prices.json file
+            try {
+                const fileResponse = await fetch('../../backend/prices.json');
+                if (fileResponse.ok) {
+                    const data = await fileResponse.json();
+                    if (data[mappedCropName]) {
+                        const priceData = data[mappedCropName].data;
+                        const currentPrice = priceData[priceData.length - 1];
+                        console.log(`✅ Got price from file for ${cropName}: ₹${currentPrice}`);
+                        return {
+                            currentPrice: currentPrice / 100,
+                            lastUpdated: data.lastUpdated || new Date().toISOString(),
+                            source: 'Cached Data'
+                        };
+                    }
+                }
+            } catch (fileError) {
+                console.log('Price file not accessible');
+            }
+            
+            // Try Method 3: Government Open API (data.gov.in)
+            try {
+                // Using public AGMARKNET data API
+                const apiUrl = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b&format=json&filters[commodity]=${cropName}&filters[state]=Maharashtra&limit=1`;
+                
+                const apiResponse = await fetch(apiUrl);
+                if (apiResponse.ok) {
+                    const data = await apiResponse.json();
+                    if (data.records && data.records.length > 0) {
+                        const record = data.records[0];
+                        const modalPrice = parseFloat(record.modal_price);
+                        if (!isNaN(modalPrice)) {
+                            console.log(`✅ Got price from Gov API for ${cropName}: ₹${modalPrice}`);
+                            return {
+                                currentPrice: modalPrice / 100,
+                                lastUpdated: record.arrival_date || new Date().toISOString(),
+                                source: 'Government API',
+                                market: record.market
+                            };
+                        }
+                    }
+                }
+            } catch (apiError) {
+                console.log('Government API failed:', apiError.message);
+            }
+            
+            // Fallback: Use static estimates
+            console.log(`ℹ️ Using static estimates for ${cropName}`);
+            return null;
+            
         } catch (error) {
             console.log('Market data fetch failed, using estimates:', error);
             return null;

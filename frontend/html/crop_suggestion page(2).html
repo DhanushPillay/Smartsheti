@@ -39,7 +39,7 @@
 <div class="relative">
     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
         <span class="material-icons mr-1">translate</span>
-        <span id="currentLang">EN</span>
+        <span id="currentLang" data-no-translate="true">EN</span>
     </button>
     <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
@@ -150,7 +150,6 @@
 </main>
 
 <script src="../js/translations.js"></script>
-<script src="../js/translation_init.js"></script>
 <script>
 // Page Transition Functions - Sliding Effect
 function showPageTransition() {
@@ -976,6 +975,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (weatherData) {
                 console.log('Weather data received for', locationName, ':', weatherData);
                 
+                // Store weather data globally for crop recommendations
+                window.currentWeatherData = {
+                    temperature: Math.round(weatherData.main.temp),
+                    location: locationName,
+                    timestamp: new Date()
+                };
+                console.log('Stored weather data for recommendations:', window.currentWeatherData);
+                
                 // Use the weather API's location name as primary, fallback to our city name
                 const weatherLocationName = weatherData.name || cityName || locationName;
                 const countryCode = weatherData.sys?.country || 'IN';
@@ -1398,8 +1405,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             console.log('Getting recommendations from engine...');
+            
+            // Get current temperature from weather data if available
+            const currentTemp = window.currentWeatherData?.temperature || null;
+            console.log('Using temperature for recommendations:', currentTemp);
+            
             const recommendations = window.cropRecommendationEngine.getRecommendations(
-                location, soilType, landSize, irrigationType
+                location, soilType, landSize, irrigationType, currentTemp
             );
 
             console.log('Recommendations received:', recommendations);
@@ -1461,9 +1473,20 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <p class="text-sm font-semibold ${profitability.profitability === 'High' ? 'text-green-600' : profitability.profitability === 'Medium' ? 'text-yellow-600' : 'text-red-600'}">
                                         <strong>Profitability:</strong> ${profitability.profitability} (${profitability.profitMargin})
                                     </p>
-                                    <p class="text-xs text-gray-500">
-                                        <strong>Price:</strong> ${profitability.pricePerKg} • <strong>Source:</strong> ${profitability.priceSource}
-                                    </p>
+                                    <div class="flex items-center gap-2 text-xs">
+                                        <span class="text-gray-600"><strong>Price:</strong> ${profitability.pricePerKg}</span>
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold ${
+                                            profitability.priceSource === 'Local API' ? 'bg-green-100 text-green-700' :
+                                            profitability.priceSource === 'Cached Data' ? 'bg-blue-100 text-blue-700' :
+                                            profitability.priceSource === 'Government API' ? 'bg-purple-100 text-purple-700' :
+                                            'bg-gray-100 text-gray-700'
+                                        }">
+                                            ${profitability.priceSource === 'Local API' ? '🟢 Live' : 
+                                              profitability.priceSource === 'Cached Data' ? '🔵 Recent' :
+                                              profitability.priceSource === 'Government API' ? '🟣 Official' :
+                                              '⚪ MSP'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             

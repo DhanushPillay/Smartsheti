@@ -31,7 +31,7 @@
                 <div class="relative">
                     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
                         <span class="material-icons mr-1">translate</span>
-                        <span id="currentLang">EN</span>
+                        <span id="currentLang" data-no-translate="true">EN</span>
                     </button>
                     <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
@@ -282,68 +282,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Translation dropdown toggle
-    const translateBtn = document.getElementById('translateBtn');
-    const languageDropdown = document.getElementById('languageDropdown');
-    
-    if (translateBtn && languageDropdown) {
-        translateBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            languageDropdown.classList.toggle('hidden');
-        });
+    // Setup language functionality using the global translation system
+    if (typeof window.setupLanguageDropdown === 'function') {
+        window.setupLanguageDropdown();
     }
     
-    // Close dropdowns when clicking outside
+    // Apply saved language
+    if (typeof window.translatePage === 'function') {
+        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+        window.translatePage(savedLang);
+    }
+    
+    // Close profile dropdown when clicking outside
     document.addEventListener('click', function() {
         if (profileDropdown) profileDropdown.classList.add('hidden');
-        if (languageDropdown) languageDropdown.classList.add('hidden');
     });
-    
-    // Language selection
-    const languageLinks = document.querySelectorAll('[data-lang]');
-    const currentLangSpan = document.getElementById('currentLang');
-    
-    languageLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const lang = this.getAttribute('data-lang');
-            
-            // Update current language display
-            if (currentLangSpan) {
-                switch(lang) {
-                    case 'hi':
-                        currentLangSpan.textContent = 'हि';
-                        break;
-                    case 'mr':
-                        currentLangSpan.textContent = 'मर';
-                        break;
-                    default:
-                        currentLangSpan.textContent = 'EN';
-                }
-            }
-            
-            // Store language preference
-            localStorage.setItem('selectedLanguage', lang);
-            
-            // Close dropdown
-            if (languageDropdown) languageDropdown.classList.add('hidden');
-        });
-    });
-    
-    // Load saved language on page load
-    const savedLang = localStorage.getItem('selectedLanguage') || 'en';
-    if (currentLangSpan) {
-        switch(savedLang) {
-            case 'hi':
-                currentLangSpan.textContent = 'हि';
-                break;
-            case 'mr':
-                currentLangSpan.textContent = 'मर';
-                break;
-            default:
-                currentLangSpan.textContent = 'EN';
-        }
-    }
 
     // Search functionality
     function initializeSearch() {

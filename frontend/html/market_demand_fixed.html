@@ -28,7 +28,7 @@
 <div class="relative">
     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
         <span class="material-icons mr-1">translate</span>
-        <span id="currentLang">EN</span>
+        <span id="currentLang" data-no-translate="true">EN</span>
     </button>
     <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
@@ -75,7 +75,9 @@
                         <span class="material-icons text-gray-400">search</span>
                     </div>
                     <!-- Suggestions dropdown -->
-                    <div id="cropSuggestions" class="hidden absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
+                    <div id="cropSuggestions" 
+                         class="hidden absolute w-full bg-white border-2 border-green-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-2xl"
+                         style="z-index: 9999; user-select: none;">
                         <!-- Suggestions will be populated here -->
                     </div>
                 </div>
@@ -622,7 +624,7 @@
                 // Delay hiding to allow for click events on suggestions
                 setTimeout(() => {
                     this.hideSuggestions();
-                }, 150);
+                }, 300);  // Increased delay to 300ms
             }
             
             handleFocus(e) {
@@ -632,27 +634,59 @@
             }
             
             showSuggestions(crops, query) {
+                console.log(`Showing ${crops.length} crop suggestions`);  // Debug
+                
                 if (crops.length === 0) {
                     this.suggestions.innerHTML = '<div class="px-4 py-2 text-gray-500 text-sm">No crops found</div>';
                 } else {
                     this.suggestions.innerHTML = crops.map((crop, index) => `
-                        <div class="crop-suggestion-item px-4 py-2 cursor-pointer hover:bg-gray-100 flex justify-between items-center" 
-                             data-value="${crop.value}" data-name="${crop.name}">
-                            <div>
+                        <div class="crop-suggestion-item px-4 py-3 cursor-pointer hover:bg-green-50 active:bg-green-100 flex justify-between items-center transition-colors border-b border-gray-100 last:border-0" 
+                             data-value="${crop.value}" 
+                             data-name="${crop.name}"
+                             data-category="${crop.category}"
+                             style="user-select: none; -webkit-tap-highlight-color: transparent;">
+                            <div class="pointer-events-none">
                                 <div class="font-medium text-gray-800">${this.highlightMatch(crop.name, query)}</div>
                                 <div class="text-xs text-gray-500">${crop.category}</div>
                             </div>
-                            <span class="material-icons text-gray-400 text-sm">agriculture</span>
+                            <span class="material-icons text-gray-400 text-sm pointer-events-none">agriculture</span>
                         </div>
                     `).join('');
                     
-                    // Add click events
-                    this.suggestions.querySelectorAll('.crop-suggestion-item').forEach(item => {
-                        item.addEventListener('click', () => this.selectCrop(item.dataset));
+                    // Add click events with mousedown (fires before blur)
+                    const suggestionItems = this.suggestions.querySelectorAll('.crop-suggestion-item');
+                    console.log(`Added ${suggestionItems.length} suggestion items`);  // Debug
+                    
+                    suggestionItems.forEach((item, index) => {
+                        console.log(`Setting up item ${index}:`, item.dataset.name);  // Debug
+                        
+                        // Use mousedown instead of click to fire before blur event
+                        item.addEventListener('mousedown', (e) => {
+                            console.log('Mousedown on:', item.dataset.name);  // Debug
+                            e.preventDefault();  // Prevent blur from firing
+                            e.stopPropagation();
+                            this.selectCrop(item.dataset);
+                        });
+                        
+                        // Also keep click as backup
+                        item.addEventListener('click', (e) => {
+                            console.log('Click on:', item.dataset.name);  // Debug
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.selectCrop(item.dataset);
+                        });
+                        
+                        // Add touch event for mobile
+                        item.addEventListener('touchstart', (e) => {
+                            console.log('Touch on:', item.dataset.name);  // Debug
+                            e.preventDefault();
+                            this.selectCrop(item.dataset);
+                        });
                     });
                 }
                 
                 this.suggestions.classList.remove('hidden');
+                console.log('Dropdown is now visible');  // Debug
             }
             
             hideSuggestions() {
@@ -671,15 +705,34 @@
             }
             
             selectCrop(data) {
+                console.log('Selecting crop:', data);  // Debug log
+                
                 this.input.value = data.name;
                 this.hiddenInput.value = data.value;
                 this.hideSuggestions();
+                
+                // Visual feedback - briefly highlight input
+                this.input.classList.add('ring-2', 'ring-green-500');
+                setTimeout(() => {
+                    this.input.classList.remove('ring-2', 'ring-green-500');
+                }, 500);
+                
+                // Update the crop name display
+                const cropNameElement = document.getElementById('cropName');
+                if (cropNameElement) {
+                    cropNameElement.textContent = data.name;
+                }
                 
                 // Trigger change event for existing functionality
                 const changeEvent = new Event('change', { bubbles: true });
                 this.hiddenInput.dispatchEvent(changeEvent);
                 
-                debugLog(`Selected crop: ${data.name} (${data.value})`, 'success');
+                debugLog(`✅ Selected crop: ${data.name} (${data.value})`, 'success');
+                
+                // Trigger price update immediately
+                if (window.updatePriceChart) {
+                    window.updatePriceChart(data.value);
+                }
             }
             
             highlightMatch(text, query) {
@@ -719,6 +772,6 @@
     
     <!-- Translation Scripts -->
     <script src="../js/translations.js"></script>
-    <script src="../js/translation_init.js"></script>
+
 </body>
 </html>

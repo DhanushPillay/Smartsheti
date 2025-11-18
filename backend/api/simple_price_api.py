@@ -5,11 +5,12 @@ Serves current market prices with CORS support
 Run: python simple_price_api.py
 """
 
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 import json
 import os
 from datetime import datetime
+import requests
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -51,7 +52,7 @@ def get_all_prices():
         }), 500
 
 @app.route('/api/prices/<crop>', methods=['GET'])
-def get_crop_price(crop):
+def get_crop_price(crop: str):
     """Get price for a specific crop"""
     try:
         data = get_prices_data()
@@ -61,17 +62,23 @@ def get_crop_price(crop):
         
         if crop_lower in data:
             crop_data = data[crop_lower]
-            current_price = crop_data['data'][-1] if crop_data.get('data') else None
-            
-            return jsonify({
-                'crop': crop,
-                'currentPrice': current_price,
-                'unit': crop_data.get('unit', '₹/quintal'),
-                'priceHistory': crop_data.get('data', []),
-                'labels': crop_data.get('labels', []),
-                'state': crop_data.get('state', 'Maharashtra'),
-                'lastUpdated': data.get('lastUpdated', datetime.now().isoformat())
-            })
+            if isinstance(crop_data, dict):
+                price_list = crop_data.get('data', [])
+                current_price = price_list[-1] if price_list else None
+                return jsonify({
+                    'crop': crop,
+                    'currentPrice': current_price,
+                    'unit': crop_data.get('unit', '₹/quintal'),
+                    'priceHistory': price_list,
+                    'labels': crop_data.get('labels', []),
+                    'state': crop_data.get('state', 'Maharashtra'),
+                    'lastUpdated': data.get('lastUpdated', datetime.now().isoformat())
+                })
+            else:
+                return jsonify({
+                    'error': f'Unexpected data format for {crop}',
+                    'received_type': type(crop_data).__name__
+                }), 500
         else:
             return jsonify({
                 'error': f'Price data not available for {crop}',
@@ -92,6 +99,135 @@ def health_check():
         'service': 'SmartSheti Price API',
         'timestamp': datetime.now().isoformat(),
         'pricesFileExists': os.path.exists(PRICES_FILE) or os.path.exists(DATA_PRICES_FILE)
+    })
+
+@app.route('/api/realprice/<crop>', methods=['GET'])
+def real_price_proxy(crop: str):
+    """Proxy to fetch real prices from data.gov.in (avoids CORS in browser)"""
+    api_key = request.args.get('api_key') or '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b'
+    state = request.args.get('state')  # optional
+    limit = request.args.get('limit', '30')
+
+    # Government dataset resource id for agri market prices
+    resource_id = '9ef84268-d588-465a-a308-a864a43d0070'
+
+    # Normalize crop name for query
+    commodity = crop.strip()
+    commodity_title = commodity.title()
+
+    base_url = 'https://api.data.gov.in/resource/' + resource_id
+
+    def build_params(commodity_value: str):
+        params: dict[str, str] = {
+            'api-key': api_key,
+            'format': 'json',
+            'limit': limit,
+            'filters[commodity]': commodity_value
+        }
+        if state:
+            params['filters[state]'] = state
+        return params
+
+    def fetch(params: dict[str, str]):
+        try:
+            r = requests.get(base_url, params=params, timeout=10)
+            return r.status_code, r.json() if r.headers.get('Content-Type','').startswith('application/json') else {'error':'Non-JSON response', 'raw': r.text}
+        except Exception as e:
+            return 599, {'error': str(e)}
+
+    # Try title-cased commodity first
+    status_code, data = fetch(build_params(commodity_title))
+
+    # Fallback: try lower-case commodity if no records
+    if (status_code == 200 and not data.get('records')):
+        status_code, data = fetch(build_params(commodity.lower()))
+
+    # Fallback: try upper-case commodity if still empty
+    if (status_code == 200 and not data.get('records')):
+        status_code, data = fetch(build_params(commodity.upper()))
+
+    if status_code != 200:
+        return jsonify({
+            'success': False,
+            'error': data.get('error', 'Failed to fetch'),
+            'status_code': status_code,
+            'crop': crop,
+            'state': state,
+            'source': 'data.gov.in'
+        }), 502
+
+    records = data.get('records', [])
+    if not records:
+        return jsonify({
+            'success': False,
+            'message': 'No records found',
+            'crop': crop,
+            'state': state,
+            'source': 'data.gov.in'
+        })
+
+    # Extract per-kg prices from modal_price
+    historical_prices = []
+    markets = []
+    for rec in records:
+        modal_raw = rec.get('modal_price')
+        unit = (rec.get('unit') or '').lower()
+        try:
+            modal_val = float(modal_raw)
+        except (TypeError, ValueError):
+            continue
+        # Convert unit to kg
+        if 'quintal' in unit:
+            per_kg = modal_val / 100.0
+        elif 'ton' in unit:
+            per_kg = modal_val / 1000.0
+        else:
+            per_kg = modal_val  # assume already per kg
+        per_kg_rounded = round(per_kg, 2)
+        historical_prices.append(per_kg_rounded)
+        markets.append({
+            'market': rec.get('market'),
+            'district': rec.get('district'),
+            'state': rec.get('state'),
+            'price_per_kg': per_kg_rounded,
+            'arrival_date': rec.get('arrival_date')
+        })
+
+    if not historical_prices:
+        return jsonify({
+            'success': False,
+            'message': 'No valid price entries',
+            'crop': crop,
+            'state': state,
+            'source': 'data.gov.in'
+        })
+
+    current_price = historical_prices[0]
+    # Build a simplified market comparison (top 5 distinct markets)
+    market_comparison = []
+    seen = set()
+    for m in markets:
+        name = m.get('market') or m.get('district') or 'Unknown'
+        if name not in seen:
+            market_comparison.append({'name': name, 'price': m['price_per_kg']})
+            seen.add(name)
+        if len(market_comparison) == 5:
+            break
+    # Ensure exactly 5 entries
+    while len(market_comparison) < 5:
+        market_comparison.append({'name': f'Market {len(market_comparison)+1}', 'price': current_price})
+
+    return jsonify({
+        'success': True,
+        'crop': crop.lower(),
+        'source': 'DATA_GOV_IN',
+        'unit': '₹/kg',
+        'current_price': round(current_price, 2),
+        'historical_prices': historical_prices[:8],  # first 8 recent entries
+        'market_comparison': market_comparison,
+        'record_count': len(records),
+        'state_filter': state,
+        'timestamp': datetime.now().isoformat()
     })
 
 @app.route('/')

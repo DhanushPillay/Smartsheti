@@ -250,6 +250,107 @@ Comprehensive guides available in `docs/` folder:
 - **927 pre-translated terms** in 3 languages
 - **Maharashtra districts** with location-based recommendations
 
+## 🔍 Price Data Accuracy & Disclaimer
+
+SmartSheti shows crop prices using a multi-source fallback chain designed to keep the interface functional even when live feeds are unavailable. However, displayed values (especially for fruits) should be treated as indicative only, not exact trading or procurement prices.
+
+### Data Source Hierarchy (Attempt Order)
+1. **Government Real-Time (data.gov.in)** – Dataset: `9ef84268-d588-465a-a308-a864a43d0070` (modal prices, often per quintal)
+2. **Local Price API (`simple_price_api.py`)** – Historical JSON (simulated / previously scraped)
+3. **Seasonal Fruit Fallback** – Estimated wholesale midpoint ranges (e.g., Mango: ₹55/kg harvest season, ₹95/kg off-season)
+4. **MSP Fallback** – Minimum Support Price converted from ₹/quintal → ₹/kg for eligible crops (cereals, pulses, oilseeds, not fruits)
+
+### Important Differences
+- **MSP ≠ Market Price**: MSP is a government support benchmark, not a guaranteed sale price.
+- **Fruits Have No MSP**: Fruit values shown when no real data are seasonal wholesale approximations (variety, grade, packing, and district can shift actual price widely).
+- **Unit Conversions**: Government data often reports ₹/quintal. We convert to ₹/kg by dividing by 100; errors may occur if unit metadata is inconsistent.
+- **Modal Price Meaning**: Modal price is a central tendency at a market, not minimum nor maximum; extreme trades may differ.
+
+### Accuracy Caveats
+- Prices can vary hourly by arrival volume, quality, and weather.
+- Variety-specific differences (e.g., Alphonso vs. Totapuri mango) are not distinguished.
+- Scraper/API interruptions will trigger fallbacks which may freeze or approximate values.
+- Historical trend synthesis for missing weeks uses a volatility model (purely indicative).
+
+### Usage Guidance
+Do not rely on these displayed prices for contracts, large-scale procurement, or financial planning without cross-checking an official source (local APMC bulletin, e-NAM portal, or verified trader quotes).
+
+If you need higher precision: integrate a dedicated feed or expand the scraper to capture per-market variety-level data.
+
+> **Disclaimer**: All price data are provided “AS IS” without warranty. The project is educational and demonstrative; validate before making economic decisions.
+
+## 🌐 Deploying on Vercel
+
+SmartSheti's frontend is static (HTML/CSS/JS) and the backend uses Flask. Vercel excels at static hosting + serverless; it does not run a long-lived Flask process directly. Use one of these approaches:
+
+### Option A: Frontend on Vercel, Backend on External Host (Recommended)
+1. Host Flask APIs on a service like **Render**, **Railway**, **Fly.io**, or **Azure App Service**.
+2. Set the public backend domain (e.g. `https://smartsheti-api.onrender.com`).
+3. Edit `vercel.json` replacing `YOUR-BACKEND-DOMAIN` with that domain.
+4. Add CORS allow-origin for your Vercel domain in Flask (`translation_api.py` & `simple_price_api.py`).
+5. Redeploy – frontend routes rewrite `/api/*` calls transparently.
+
+### Option B: Convert APIs to Vercel Serverless Functions (Advanced)
+Restructure backend:
+```
+api/
+   prices.py        # Expose a handler(request) returning JSON
+   translate.py     # Wrap existing translate logic
+```
+Replace Flask routing with simple functions; remove `app.run`. Suitable for low request volume, but stateful tasks (threads, long scrapes) should remain off Vercel.
+
+### vercel.json Overview
+Created at project root:
+```json
+{
+   "routes": [
+      {"src": "/", "dest": "frontend/html/Home page.html"},
+      {"src": "/api/prices/(.*)", "dest": "https://YOUR-BACKEND-DOMAIN/api/prices/$1"}
+   ]
+}
+```
+Replace `YOUR-BACKEND-DOMAIN` before deployment.
+
+### Environment Variables
+In Vercel Dashboard → Project → Settings → Environment Variables:
+| Key | Value | Usage |
+|-----|-------|-------|
+| `PRICE_API_BASE` | `https://smartsheti-api.onrender.com` | Frontend fetch base |
+| `TRANSLATION_API_BASE` | same domain or separate | Translation calls |
+| `WEATHER_API_KEY` | your OpenWeather key | Weather page |
+
+Load them in pages via a small config script or inline `<script>` before other JS.
+
+### CORS Configuration (Flask)
+Ensure CORS allows the deployed Vercel origin:
+```python
+from flask_cors import CORS
+CORS(app, resources={r"/api/*": {"origins": ["https://your-vercel-domain.vercel.app"]}})
+```
+
+### Deployment Steps Summary
+1. Push latest code to GitHub.
+2. Create external backend deployment (Render/Railway). Note base URL.
+3. Update `vercel.json` with backend domain and commit.
+4. Import repo into Vercel (Framework preset: Other).
+5. Set environment variables.
+6. Deploy – test `/market-demand` page and translation.
+
+### Troubleshooting
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| 404 on route | Missing rewrite | Check `vercel.json` paths |
+| CORS error | Backend origin not allowed | Update CORS config and redeploy |
+| Prices show fallback only | Backend unreachable | Verify external API health & domain in `vercel.json` |
+| Translation not working | Translation API not deployed | Deploy translation API or rely on static dictionary |
+
+### When to Use Serverless
+- Lightweight, stateless endpoints (simple `/api/prices/<crop>` lookup).
+- Low frequency actions without background threads.
+Avoid for: continuous scrapers, long polling, scheduled updates – keep those on a traditional host.
+
+For help converting a specific endpoint to serverless, open an issue or request a migration snippet.
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -274,15 +375,6 @@ Comprehensive guides available in `docs/` folder:
 - Weather API requires internet connection
 - Price scraper depends on government website availability
 - Some crops may have limited historical price data
-
-## 🔮 Future Enhancements
-
-- [ ] ML-based price prediction
-- [ ] Push notifications for price alerts
-- [ ] Offline mode with cached data
-- [ ] More languages (Gujarati, Kannada, etc.)
-- [ ] Mobile app (React Native/Flutter)
-- [ ] Integration with government schemes database
 
 ## 📄 License
 

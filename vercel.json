@@ -8,7 +8,7 @@
     {"src": "frontend/assets/images/**/*", "use": "@vercel/static"}
   ],
   "routes": [
-    {"src": "/", "dest": "frontend/html/Home page.html"},
+    {"src": "/", "dest": "public/index.html"},
     {"src": "/crop-suggestion", "dest": "frontend/html/crop_suggestion page(2).html"},
     {"src": "/weather", "dest": "frontend/html/Weather_page(3).html"},
     {"src": "/market-demand", "dest": "frontend/html/market_demand_fixed.html"},

@@ -6,7 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<link rel="stylesheet" href="../css/Home page.css"/>
+<link rel="stylesheet" href="../frontend/css/Home page.css"/>
 </head>
 <body class="font-sans page-loading" style="background-color: #EBE4DB !important;">
 <!-- Page Transition Overlay -->
@@ -20,15 +20,15 @@
 <header class="shadow-sm" style="position: relative;">
 <div class="container mx-auto px-6 py-4 flex justify-between items-center">
 <div class="brand-section">
-<img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
+<img src="../frontend/assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
 <span class="text-xl font-bold brand-text">SmartSheti</span>
 </div>
 <nav class="hidden md:flex items-center space-x-4">
 <a class="font-semibold" href="Home page.html">Home</a>
-<a class="text-gray-600 hover:text-green-600" href="crop_suggestion page(2).html">Crop Suggestion</a>
-<a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html">Weather</a>
-                <a class="text-gray-600 hover:text-green-600" href="Marketplace.html">Marketplace</a>
-<a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+<a class="text-gray-600 hover:text-green-600" href="../frontend/html/crop_suggestion page(2).html">Crop Suggestion</a>
+<a class="text-gray-600 hover:text-green-600" href="../frontend/html/Weather_page(3).html">Weather</a>
+                <a class="text-gray-600 hover:text-green-600" href="../frontend/html/Marketplace.html">Marketplace</a>
+<a class="text-gray-600 hover:text-green-600" href="../frontend/html/market_demand_fixed.html">Market Demand</a>
 </nav>
 <div class="flex items-center space-x-2 action-buttons">
 <div class="relative">
@@ -69,7 +69,7 @@
 <div class="relative container mx-auto px-6 py-32 text-center text-white">
 <h1 class="text-5xl font-bold" data-translate="empoweringFarmers">Empowering Farmers with Smart Solutions</h1>
 <p class="mt-4 text-lg max-w-2xl mx-auto" data-translate="smartShetiDescription">SmartSheti provides personalized crop suggestions, real-time weather updates, and a marketplace for agricultural products, all in one place.</p>
-<a href="crop_suggestion page(2).html" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors" data-translate="getStarted">Get Started</a>
+<a href="../frontend/html/crop_suggestion page(2).html" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors" data-translate="getStarted">Get Started</a>
 </div>
 </section>
 <section class="py-20">
@@ -99,7 +99,7 @@
 <div class="container mx-auto px-6 text-center">
 <h2 class="text-3xl font-bold text-gray-800 mb-4" data-translate="discoverMarketplace">Discover the Marketplace</h2>
 <p class="text-gray-600 mb-8" data-translate="marketplaceBrowse">Browse a wide range of agricultural products, from seeds and fertilizers to equipment and tools.</p>
-                <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg" data-translate="exploreMarketplace" href="Marketplace.html">Explore Marketplace</a>
+                <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg" data-translate="exploreMarketplace" href="../frontend/html/Marketplace.html">Explore Marketplace</a>
 </div>
 </section>
 </main>
@@ -185,11 +185,20 @@ function setupSmoothNavigation() {
     });
     
     // Also add transition to "Get Started" button
-    const getStartedBtn = document.querySelector('a[href="crop_suggestion page(2).html"]');
+    const getStartedBtn = document.querySelector('a[href="../frontend/html/crop_suggestion page(2).html"]');
     if (getStartedBtn) {
         getStartedBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            navigateToPage('crop_suggestion page(2).html', 'Crop Suggestions');
+            navigateToPage('../frontend/html/crop_suggestion page(2).html', 'Crop Suggestions');
+        });
+    }
+    
+    // Fix "Explore Marketplace" button
+    const exploreMarketBtn = document.querySelector('a[href="../frontend/html/Marketplace.html"]');
+    if (exploreMarketBtn) {
+        exploreMarketBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateToPage('../frontend/html/Marketplace.html', 'Marketplace');
         });
     }
 }
@@ -222,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="../js/translations.js"></script>
+<script src="../frontend/js/translations.js"></script>
 <script>
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {

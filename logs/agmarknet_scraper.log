@@ -1,0 +1,66 @@
+2025-07-29 10:43:32,977 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 10:43:32,977 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 10:43:34,977 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 10:43:36,978 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 10:43:38,979 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 10:43:40,980 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 10:43:42,983 - INFO - Data exported to market_data.json
+2025-07-29 10:43:43,002 - INFO - Data exported to market_data.csv
+2025-07-29 10:43:43,004 - INFO - Data exported to market_summary.json
+2025-07-29 10:43:43,006 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 10:43:43,006 - INFO - Scraping completed. Total records: 25
+2025-07-29 10:49:41,622 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 10:49:41,622 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 10:49:43,623 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 10:49:45,624 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 10:49:47,624 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 10:49:49,625 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 10:49:51,629 - INFO - Data exported to market_data.json
+2025-07-29 10:49:51,630 - INFO - Data exported to market_data.csv
+2025-07-29 10:49:51,632 - INFO - Data exported to market_summary.json
+2025-07-29 10:49:51,633 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 10:49:51,633 - INFO - Scraping completed. Total records: 25
+2025-07-29 10:50:24,825 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 10:50:24,825 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 10:50:26,826 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 10:50:28,826 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 10:50:30,827 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 10:50:32,828 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 10:50:34,831 - INFO - Data exported to market_data.json
+2025-07-29 10:50:34,832 - INFO - Data exported to market_data.csv
+2025-07-29 10:50:34,834 - INFO - Data exported to market_summary.json
+2025-07-29 10:50:34,836 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 10:50:34,836 - INFO - Scraping completed. Total records: 25
+2025-07-29 10:57:14,347 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 10:57:14,347 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 10:57:16,348 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 10:57:18,349 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 10:57:20,350 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 10:57:22,350 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 10:57:24,352 - INFO - Data exported to market_data.json
+2025-07-29 10:57:24,354 - INFO - Data exported to market_data.csv
+2025-07-29 10:57:24,354 - INFO - Data exported to market_summary.json
+2025-07-29 10:57:24,355 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 10:57:24,355 - INFO - Scraping completed. Total records: 25
+2025-07-29 11:00:58,552 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 11:00:58,553 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 11:01:00,553 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 11:01:02,555 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 11:01:04,556 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 11:01:06,557 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 11:01:08,560 - INFO - Data exported to market_data.json
+2025-07-29 11:01:08,561 - INFO - Data exported to market_data.csv
+2025-07-29 11:01:08,561 - INFO - Data exported to market_summary.json
+2025-07-29 11:01:08,562 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 11:01:08,562 - INFO - Scraping completed. Total records: 25
+2025-07-29 11:09:06,414 - INFO - Starting AGMARKNET data scraping...
+2025-07-29 11:09:06,414 - INFO - Scraping data for Mumbai APMC, Mumbai
+2025-07-29 11:09:08,415 - INFO - Scraping data for Pune APMC, Pune
+2025-07-29 11:09:10,416 - INFO - Scraping data for Nashik APMC, Nashik
+2025-07-29 11:09:12,417 - INFO - Scraping data for Nagpur APMC, Nagpur
+2025-07-29 11:09:14,419 - INFO - Scraping data for Aurangabad APMC, Aurangabad
+2025-07-29 11:09:16,442 - INFO - Data exported to market_data.json
+2025-07-29 11:09:16,444 - INFO - Data exported to market_data.csv
+2025-07-29 11:09:16,445 - INFO - Data exported to market_summary.json
+2025-07-29 11:09:16,446 - INFO - Data exported to wheat_price_trends.json
+2025-07-29 11:09:16,446 - INFO - Scraping completed. Total records: 175

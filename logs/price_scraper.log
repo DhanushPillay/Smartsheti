@@ -1,0 +1,86 @@
+2025-07-29 12:35:19,555 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.159.76.208:5001
+2025-07-29 12:35:19,555 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-29 12:35:19,556 - INFO -  * Restarting with stat
+2025-07-29 12:35:19,993 - WARNING -  * Debugger is active!
+2025-07-29 12:35:19,996 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:35:53,218 - ERROR - Error updating prices: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-07-29 12:35:53,219 - INFO - 127.0.0.1 - - [29/Jul/2025 12:35:53] "[35m[1mPOST /api/update-prices HTTP/1.1[0m" 500 -
+2025-07-29 12:36:19,959 - INFO - 127.0.0.1 - - [29/Jul/2025 12:36:19] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 12:38:28,114 - INFO -  * Detected change in 'D:\\College pbl\\price_update_api.py', reloading
+2025-07-29 12:38:28,141 - INFO -  * Restarting with stat
+2025-07-29 12:38:28,648 - WARNING -  * Debugger is active!
+2025-07-29 12:38:28,652 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:41:14,285 - INFO - 127.0.0.1 - - [29/Jul/2025 12:41:14] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 12:44:32,770 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_agmarknet_scraper.py', reloading
+2025-07-29 12:44:32,800 - INFO -  * Restarting with stat
+2025-07-29 12:44:33,320 - WARNING -  * Debugger is active!
+2025-07-29 12:44:33,324 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:45:51,440 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 12:45:51,467 - INFO -  * Restarting with stat
+2025-07-29 12:45:51,962 - WARNING -  * Debugger is active!
+2025-07-29 12:45:51,965 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:48:28,884 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.159.76.208:5001
+2025-07-29 12:48:28,884 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-29 12:48:28,885 - INFO -  * Restarting with stat
+2025-07-29 12:48:29,445 - WARNING -  * Debugger is active!
+2025-07-29 12:48:29,449 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:48:55,655 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 12:48:55,695 - INFO -  * Restarting with stat
+2025-07-29 12:48:55,894 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 12:48:55,921 - INFO -  * Restarting with stat
+2025-07-29 12:48:56,156 - WARNING -  * Debugger is active!
+2025-07-29 12:48:56,160 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:48:56,446 - WARNING -  * Debugger is active!
+2025-07-29 12:48:56,449 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:50:45,231 - INFO - 127.0.0.1 - - [29/Jul/2025 12:50:45] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 12:51:53,672 - INFO - 127.0.0.1 - - [29/Jul/2025 12:51:53] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 12:53:02,483 - INFO -  * Detected change in 'D:\\College pbl\\demo_dynamic_graphs.py', reloading
+2025-07-29 12:53:02,524 - INFO -  * Detected change in 'D:\\College pbl\\demo_dynamic_graphs.py', reloading
+2025-07-29 12:53:02,526 - INFO -  * Restarting with stat
+2025-07-29 12:53:02,558 - INFO -  * Restarting with stat
+2025-07-29 12:53:03,075 - WARNING -  * Debugger is active!
+2025-07-29 12:53:03,078 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:53:03,140 - WARNING -  * Debugger is active!
+2025-07-29 12:53:03,143 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:54:14,091 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://10.159.76.208:5001
+2025-07-29 12:54:14,091 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-29 12:54:14,093 - INFO -  * Restarting with stat
+2025-07-29 12:54:14,631 - WARNING -  * Debugger is active!
+2025-07-29 12:54:14,635 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 12:54:39,084 - INFO - 127.0.0.1 - - [29/Jul/2025 12:54:39] "GET /api/status HTTP/1.1" 200 -
+2025-07-29 12:55:08,860 - INFO - 127.0.0.1 - - [29/Jul/2025 12:55:08] "GET /api/status HTTP/1.1" 200 -
+2025-07-29 12:56:18,461 - INFO - 127.0.0.1 - - [29/Jul/2025 12:56:18] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 13:16:38,959 - INFO - 127.0.0.1 - - [29/Jul/2025 13:16:38] "POST /api/update-prices HTTP/1.1" 200 -
+2025-07-29 13:18:31,598 - INFO -  * Detected change in 'D:\\College pbl\\demo_dynamic_graphs.py', reloading
+2025-07-29 13:18:31,636 - INFO -  * Restarting with stat
+2025-07-29 13:18:31,672 - INFO -  * Detected change in 'D:\\College pbl\\demo_dynamic_graphs.py', reloading
+2025-07-29 13:18:31,704 - INFO -  * Restarting with stat
+2025-07-29 13:18:31,769 - INFO -  * Detected change in 'D:\\College pbl\\demo_dynamic_graphs.py', reloading
+2025-07-29 13:18:31,805 - INFO -  * Restarting with stat
+2025-07-29 13:18:32,227 - WARNING -  * Debugger is active!
+2025-07-29 13:18:32,231 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 13:18:32,350 - WARNING -  * Debugger is active!
+2025-07-29 13:18:32,354 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 13:18:32,430 - WARNING -  * Debugger is active!
+2025-07-29 13:18:32,434 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 13:18:57,437 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 13:18:57,473 - INFO -  * Restarting with stat
+2025-07-29 13:18:57,923 - WARNING -  * Debugger is active!
+2025-07-29 13:18:57,926 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 13:18:58,666 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 13:18:58,671 - INFO -  * Detected change in 'D:\\College pbl\\enhanced_price_api.py', reloading
+2025-07-29 13:18:58,698 - INFO -  * Restarting with stat
+2025-07-29 13:18:58,721 - INFO -  * Restarting with stat
+2025-07-29 13:18:59,319 - WARNING -  * Debugger is active!
+2025-07-29 13:18:59,322 - INFO -  * Debugger PIN: 965-924-490
+2025-07-29 13:18:59,339 - WARNING -  * Debugger is active!
+2025-07-29 13:18:59,342 - INFO -  * Debugger PIN: 965-924-490

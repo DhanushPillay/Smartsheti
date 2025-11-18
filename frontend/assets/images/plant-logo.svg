@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32">
+  <defs>
+    <linearGradient id="leftLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6DD5A2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="rightLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4DD0E1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#26A69A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00695C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="stem" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2E7D32;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="soil" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#616161;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#424242;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#212121;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Soil base -->
+  <path d="M 50 390 Q 100 380 150 390 Q 200 400 256 395 Q 312 400 362 390 Q 412 380 462 390 L 462 512 L 50 512 Z" fill="url(#soil)"/>
+  
+  <!-- Main stem -->
+  <rect x="248" y="200" width="16" height="195" fill="url(#stem)" rx="8"/>
+  
+  <!-- Left leaf -->
+  <ellipse cx="150" cy="100" rx="130" ry="85" fill="url(#leftLeaf)" transform="rotate(-25 150 100)"/>
+  <path d="M 115 60 Q 150 40 185 60 Q 150 80 115 60" fill="#2E7D32" opacity="0.3"/>
+  
+  <!-- Right leaf -->
+  <ellipse cx="362" cy="100" rx="130" ry="85" fill="url(#rightLeaf)" transform="rotate(25 362 100)"/>
+  <path d="M 327 60 Q 362 40 397 60 Q 362 80 327 60" fill="#00695C" opacity="0.3"/>
+  
+  <!-- Leaf veins -->
+  <path d="M 256 200 Q 200 160 170 130" stroke="url(#stem)" stroke-width="6" fill="none"/>
+  <path d="M 256 200 Q 312 160 342 130" stroke="url(#stem)" stroke-width="6" fill="none"/>
+</svg>

@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Weather Information</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/Weather_page(3).css"/>
+
+</head>
+<body class="font-sans page-loading" style="background-color: #EBE4DB !important;">
+<!-- Page Transition Overlay -->
+<div class="page-transition" id="pageTransition">
+    <div class="loader">
+        <span class="material-icons">wb_sunny</span>
+        <div class="text">Loading Weather...</div>
+    </div>
+</div>
+
+<header class="shadow-sm" style="position: relative;">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="brand-section">
+<img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
+<span class="text-xl font-bold brand-text">SmartSheti</span>
+</div>
+<nav class="hidden md:flex items-center space-x-4">
+<a class="text-gray-600 hover:text-green-600" href="Home page.html">Home</a>
+<a class="font-semibold" href="Weather_page(3).html">Weather</a>
+<a class="text-gray-600 hover:text-green-600" href="Marketplace.html">Marketplace</a>
+<a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+</nav>
+<div class="flex items-center space-x-2 action-buttons">
+<div class="relative">
+    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+        <span class="material-icons mr-1">translate</span>
+        <span id="currentLang">EN</span>
+    </button>
+    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+    </div>
+</div>
+<button class="text-gray-600 hover:text-green-600">
+<span class="material-icons">notifications</span>
+</button>
+<div class="relative">
+<button id="profileBtn" class="text-gray-600 hover:text-green-600">
+<img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+</button>
+<div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="settings">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="dashboard">Dashboard</a>
+<hr class="my-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="logout">Logout</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 py-8 page-content">
+<h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="weather-info">Weather Information</h1>
+<div class="relative mb-8 max-w-2xl mx-auto">
+    <div class="flex">
+        <span class="material-icons absolute left-3 top-3 text-gray-400">search</span>
+        <input id="locationInput" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Search for a location..." type="text" data-translate="search-placeholder"/>
+        <button id="searchBtn" class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700 transition-colors" data-translate="search-btn">Search</button>
+    </div>
+    <div id="locationError" class="text-red-500 text-sm mt-1 hidden" data-translate="location-error">Please enter a location</div>
+</div>
+<div id="currentLocation" class="bg-white rounded-lg shadow p-6 mb-8">
+    <div class="flex justify-between items-start">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800" id="locationName">Search for a location</h2>
+            <p class="text-gray-500" id="currentDate">Loading date...</p>
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <img id="weatherIcon" src="" alt="Weather icon" class="w-16 h-16">
+                    <span id="currentTemp" class="text-4xl font-bold text-gray-800 ml-2">--°C</span>
+                </div>
+                <p id="weatherDescription" class="text-lg text-gray-600 capitalize">--</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-gray-700" data-translate="feels-like-label">Feels like: <span id="feelsLike">--°C</span></p>
+            <p class="text-gray-700" data-translate="humidity-label">Humidity: <span id="humidity">--%</span></p>
+            <p class="text-gray-700" data-translate="wind-label">Wind: <span id="windSpeed">-- km/h</span></p>
+            <p class="text-gray-700" data-translate="pressure-label">Pressure: <span id="pressure">-- hPa</span></p>
+            <p class="text-gray-700" data-translate="sunrise-label">Sunrise: <span id="sunrise">--:--</span> AM</p>
+            <p class="text-gray-700" data-translate="sunset-label">Sunset: <span id="sunset">--:--</span> PM</p>
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    <!-- Weather Alerts -->
+    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <span class="material-icons text-red-500">warning</span>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">Weather Alerts</h3>
+                <div id="weatherAlerts" class="mt-2 text-sm text-red-700">
+                    <p>No active weather alerts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Agricultural Advice -->
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <span class="material-icons text-blue-500">eco</span>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-blue-800">Agricultural Advice</h3>
+                <div id="agriAdvice" class="mt-2 text-sm text-blue-700">
+                    <p>Search for a location to get agricultural advice</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2 class="text-2xl font-bold text-gray-800 mb-4" data-translate="forecast-title">7-Day Forecast</h2>
+<div id="forecastContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 mb-10">
+    <!-- Forecast items will be dynamically inserted here -->
+    <div class="text-center p-4">
+        <p class="text-gray-500">Search for a location to see forecast</p>
+    </div>
+</div>
+<div id="weatherAlertsContainer" class="mb-10 hidden">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Weather Alerts</h2>
+    <div id="weatherAlertsList" class="space-y-4">
+        <!-- Alerts will be dynamically inserted here -->
+    </div>
+</div>
+<div id="pestRiskContainer" class="mt-10">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Pest Risk Analysis</h2>
+    <div id="pestRiskContent" class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r">
+        <p class="text-gray-700">Pest risk information will be displayed here based on current weather conditions.</p>
+    </div>
+</div>
+
+<div class="mt-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Irrigation Advice</h2>
+    <div id="irrigationAdvice" class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r">
+        <p class="text-gray-700">Irrigation advice will be displayed here based on current weather conditions.</p>
+    </div>
+</div>
+</main>
+
+<script src="../js/translations.js"></script>
+<script src="../js/pest_risk_analyzer.js"></script>
+<script src="../js/pest_utils.js"></script>
+<script>
+// Initialize translation when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing weather page...');
+    
+    // Initialize DOM elements
+    initializeDOMElements();
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Setup language functionality using the global translation system (with delay)
+    setTimeout(() => {
+        console.log('Setting up translation system...');
+        if (typeof window.setupLanguageDropdown === 'function') {
+            window.setupLanguageDropdown();
+            console.log('✅ Language dropdown setup complete');
+        } else {
+            console.error('❌ setupLanguageDropdown function not available');
+        }
+        
+        // Apply saved language
+        if (typeof window.translatePage === 'function') {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            window.translatePage(savedLang);
+            console.log(`✅ Translation applied for language: ${savedLang}`);
+        } else {
+            console.error('❌ translatePage function not available');
+        }
+    }, 100);
+    
+    // Test API key and load default weather
+    initializeWeatherData();
+});
+
+// Use translation functions from global system
+function getCurrentLanguage() {
+    return window.getCurrentLanguage ? window.getCurrentLanguage() : 'en';
+}
+
+function getTranslatedPestRisks(risksArray, language) {
+    if (typeof window.getTranslatedPestRisks === 'function') {
+        return window.getTranslatedPestRisks(temperature, humidity);
+    }
+    return risksArray; // Return original risks if translation not available
+}
+
+function getTranslatedIrrigationAdvice(temperature, humidity, rainfall) {
+    if (typeof window.getTranslatedIrrigationAdvice === 'function') {
+        return window.getTranslatedIrrigationAdvice(temperature, humidity, rainfall);
+    }
+    return "Maintain normal irrigation schedule";
+}
+
+// API Configuration
+const API_KEY = 'd32cf5dc3d4bf15c2a7588dad7fad802';
+let currentLocation = {};
+
+// DOM Elements - will be initialized after DOM loads
+let locationInput, searchBtn, locationError;
+let locationName, currentDate, weatherIcon, currentTemp, weatherDescription;
+let feelsLike, humidity, windSpeed, pressure, sunrise, sunset;
+let forecastContainer, weatherAlerts, agriAdvice;
+let profileBtn, profileDropdown;
+
+// Initialize DOM elements
+function initializeDOMElements() {
+    console.log('Initializing DOM elements...');
+    
+    // Search elements
+    locationInput = document.getElementById('locationInput');
+    searchBtn = document.getElementById('searchBtn');
+    locationError = document.getElementById('locationError');
+
+    // Current Weather Elements
+    locationName = document.getElementById('locationName');
+    currentDate = document.getElementById('currentDate');
+    weatherIcon = document.getElementById('weatherIcon');
+    currentTemp = document.getElementById('currentTemp');
+    weatherDescription = document.getElementById('weatherDescription');
+    feelsLike = document.getElementById('feelsLike');
+    humidity = document.getElementById('humidity');
+    windSpeed = document.getElementById('windSpeed');
+    pressure = document.getElementById('pressure');
+    sunrise = document.getElementById('sunrise');
+    sunset = document.getElementById('sunset');
+
+    // Forecast Elements
+    forecastContainer = document.getElementById('forecastContainer');
+    weatherAlerts = document.getElementById('weatherAlerts');
+    agriAdvice = document.getElementById('agriAdvice');
+
+    // Profile dropdown functionality
+    profileBtn = document.getElementById('profileBtn');
+    profileDropdown = document.getElementById('profileDropdown');
+    
+    console.log('DOM elements initialized');
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    console.log('Setting up event listeners...');
+    
+    if (searchBtn && locationInput) {
+        searchBtn.addEventListener('click', handleSearch);
+        
+        locationInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+    }
+
+    // Profile dropdown functionality
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+    
+    console.log('Event listeners set up');
+}
+
+// Initialize weather data
+async function initializeWeatherData() {
+    console.log('Initializing weather data...');
+    
+    // Test API key
+    const isApiValid = await testAPIKey();
+    if (!isApiValid) {
+        console.error('API key test failed. Weather functionality may not work.');
+        showError('Weather API is not accessible. Please check your internet connection.');
+        return;
+    }
+    
+    console.log('API key test passed. Loading default weather...');
+    
+    // Try to get user's location or load default weather for Mumbai
+    const defaultLocation = 'Mumbai';
+    try {
+        await loadWeatherData(defaultLocation);
+    } catch (error) {
+        console.error('Failed to load default weather data:', error);
+        showError('Failed to load weather data. Please try searching for a specific location.');
+    }
+}
+
+// Show error message
+function showError(message) {
+    if (locationName) {
+        locationName.textContent = 'Error Loading Weather';
+    }
+    if (weatherDescription) {
+        weatherDescription.textContent = message;
+    }
+    if (currentTemp) {
+        currentTemp.textContent = '--°C';
+    }
+}
+async function testAPIKey() {
+    try {
+        const testUrl = `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${API_KEY}`;
+        console.log('Testing API with URL:', testUrl);
+        const response = await fetch(testUrl);
+        console.log('API test response status:', response.status);
+        if (response.ok) {
+            const data = await response.json();
+            console.log('API test successful:', data);
+            return true;
+        } else {
+            console.error('API test failed:', response.status, response.statusText);
+            return false;
+        }
+    } catch (error) {
+        console.error('API test error:', error);
+        return false;
+    }
+}
+
+// Initialize date
+function updateCurrentDate() {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    if (currentDate) {
+        currentDate.textContent = new Date().toLocaleDateString('en-US', options);
+    }
+}
+
+// Format time from timestamp
+function formatTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
+// Get weather icon URL
+function getWeatherIconUrl(iconCode) {
+    return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
+// Fetch weather data from OpenWeatherMap API
+async function fetchWeatherData(location) {
+    try {
+        console.log('Fetching weather data for location:', location);
+
+        // Fetch current weather
+        const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&units=metric&appid=${API_KEY}`;
+        console.log('Current weather URL:', currentWeatherUrl);
+        const currentResponse = await fetch(currentWeatherUrl);
+
+        if (!currentResponse.ok) {
+            console.error('Error fetching current weather:', currentResponse.status, currentResponse.statusText);
+            throw new Error('Location not found');
+        }
+
+        const currentData = await currentResponse.json();
+        console.log('Current weather data:', currentData);
+
+        // Fetch forecast
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(location)}&units=metric&appid=${API_KEY}`;
+        console.log('Forecast URL:', forecastUrl);
+        const forecastResponse = await fetch(forecastUrl);
+
+        if (!forecastResponse.ok) {
+            console.error('Error fetching forecast:', forecastResponse.status, forecastResponse.statusText);
+            throw new Error('Forecast data not available');
+        }
+
+        const forecastData = await forecastResponse.json();
+        console.log('Forecast data:', forecastData);
+
+        return { current: currentData, forecast: forecastData };
+    } catch (error) {
+        console.error('Error in fetchWeatherData:', error);
+        throw error;
+    }
+}
+
+// Update UI with weather data
+function updateWeatherUI(data) {
+    console.log('Updating weather UI with data:', data);
+    
+    if (!data) {
+        console.error('No weather data provided to updateWeatherUI');
+        return;
+    }
+    
+    try {
+        // Update location info
+        if (locationName) {
+            locationName.textContent = data.name;
+        }
+        
+        // Update weather icon
+        if (weatherIcon && data.weather && data.weather[0]) {
+            weatherIcon.src = getWeatherIconUrl(data.weather[0].icon);
+            weatherIcon.alt = data.weather[0].description;
+        }
+        
+        // Update temperature
+        if (currentTemp && data.main) {
+            currentTemp.textContent = `${Math.round(data.main.temp)}°C`;
+        }
+        
+        // Update weather description
+        if (weatherDescription && data.weather && data.weather[0]) {
+            weatherDescription.textContent = data.weather[0].description;
+        }
+        
+        // Update additional weather info
+        if (feelsLike && data.main) {
+            feelsLike.textContent = `${Math.round(data.main.feels_like)}°C`;
+        }
+        if (humidity && data.main) {
+            humidity.textContent = `${data.main.humidity}%`;
+        }
+        if (windSpeed && data.wind) {
+            windSpeed.textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+        }
+        if (pressure && data.main) {
+            pressure.textContent = `${data.main.pressure} hPa`;
+        }
+        
+        // Update sunrise/sunset times
+        if (data.sys) {
+            if (sunrise && data.sys.sunrise) {
+                sunrise.textContent = formatTime(data.sys.sunrise);
+            }
+            if (sunset && data.sys.sunset) {
+                sunset.textContent = formatTime(data.sys.sunset);
+            }
+        }
+        
+        // Update date
+        updateCurrentDate();
+        
+        // Update pest risk
+        calculatePestRisk(data);
+        
+        // Update irrigation advice
+        updateAgriculturalAdvice(data);
+        
+        console.log('Weather UI updated successfully');
+    } catch (error) {
+        console.error('Error updating weather UI:', error);
+    }
+}
+
+// Update weather alerts based on API data
+function updateWeatherAlerts(alerts) {
+    const alertsContainer = document.getElementById('weatherAlertsContainer');
+    const alertsList = document.getElementById('weatherAlertsList');
+    
+    // Clear any existing alerts
+    alertsList.innerHTML = '';
+    
+    // If no alerts, hide the container and return
+    if (!alerts || alerts.length === 0) {
+        alertsContainer.classList.add('hidden');
+        return;
+    }
+    
+    // Show the container
+    alertsContainer.classList.remove('hidden');
+    
+    // Add each alert to the list
+    alerts.forEach(alert => {
+        // Determine alert type and corresponding styling
+        let alertType = 'blue';
+        let icon = 'warning';
+        
+        // Map OpenWeather alert event types to our alert types
+        const alertEvent = alert.event.toLowerCase();
+        if (alertEvent.includes('rain') || alertEvent.includes('storm') || alertEvent.includes('thunder')) {
+            alertType = 'red';
+            icon = 'thunderstorm';
+        } else if (alertEvent.includes('flood') || alertEvent.includes('tsunami')) {
+            alertType = 'red';
+            icon = 'flood';
+        } else if (alertEvent.includes('wind') || alertEvent.includes('gale') || alertEvent.includes('storm')) {
+            alertType = 'yellow';
+            icon = 'air';
+        } else if (alertEvent.includes('fog') || alertEvent.includes('mist') || alertEvent.includes('haze')) {
+            alertType = 'blue';
+            icon = 'foggy';
+        } else if (alertEvent.includes('snow') || alertEvent.includes('blizzard') || alertEvent.includes('sleet')) {
+            alertType = 'blue';
+            icon = 'ac_unit';
+        } else if (alertEvent.includes('heat') || alertEvent.includes('hot')) {
+            alertType = 'orange';
+            icon = 'wb_sunny';
+        } else if (alertEvent.includes('cold') || alertEvent.includes('freez') || alertEvent.includes('frost')) {
+            alertType = 'blue';
+            icon = 'ac_unit';
+        }
+        
+        // Format the dates
+        const startDate = new Date(alert.start * 1000).toLocaleString();
+        const endDate = new Date(alert.end * 1000).toLocaleString();
+        
+        // Create alert HTML
+        const alertHTML = `
+            <div class="bg-${alertType}-50 border-l-4 border-${alertType}-500 p-4 rounded-r">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <span class="material-icons text-${alertType}-600">${icon}</span>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-lg font-medium text-${alertType}-800">${alert.event}</h3>
+                        <p class="text-sm text-${alertType}-700">${alert.description}</p>
+                        <div class="mt-2 text-xs text-${alertType}-600">
+                            <p>From: ${startDate}</p>
+                            <p>To: ${endDate}</p>
+                            <p class="mt-1">Source: ${alert.sender_name}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        alertsList.insertAdjacentHTML('beforeend', alertHTML);
+    });
+}
+
+// Update forecast UI
+function updateForecastUI(forecastData) {
+    console.log('Forecast data received:', forecastData);
+    
+    // Group forecast by day
+    const dailyForecast = [];
+    const currentDate = new Date();
+    
+    // First, group all forecast items by day
+    const forecastByDay = {};
+    
+    // Process each forecast item
+    // First, log all forecast timestamps
+    console.log('All forecast timestamps:');
+    forecastData.list.forEach((item, index) => {
+        const date = new Date(item.dt * 1000);
+        console.log(`  [${index}] ${date.toString()} - ${date.toLocaleDateString('en-US', { weekday: 'long' })}`);
+    });
+    
+    forecastData.list.forEach(item => {
+        const date = new Date(item.dt * 1000);
+        const dayKey = date.toDateString(); // Full date string to group by day
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+        console.log(`Processing: ${dayKey} (${dayName})`);
+        
+        if (!forecastByDay[dayKey]) {
+            forecastByDay[dayKey] = {
+                date: date,
+                temp_max: -Infinity,
+                temp_min: Infinity,
+                weather: item.weather[0],
+                dt: item.dt,
+                items: []
+            };
+        }
+        
+        forecastByDay[dayKey].items.push(item);
+        
+        // Update max/min temps
+        if (item.main.temp_max > forecastByDay[dayKey].temp_max) {
+            forecastByDay[dayKey].temp_max = item.main.temp_max;
+        }
+        
+        if (item.main.temp_min < forecastByDay[dayKey].temp_min) {
+            forecastByDay[dayKey].temp_min = item.main.temp_min;
+            forecastByDay[dayKey].weather = item.weather[0];
+        }
+    });
+    
+    // Convert to array and sort by date
+    const sortedForecast = Object.values(forecastByDay).sort((a, b) => a.dt - b.dt);
+    
+    // Debug: Log all forecast days we found
+    console.log('Processed forecast days:');
+    sortedForecast.forEach((forecast, idx) => {
+        const date = new Date(forecast.dt * 1000);
+        console.log(`  [${idx}] ${date.toDateString()} (${date.toLocaleDateString('en-US', { weekday: 'long' })})`);
+    });
+    
+    // Generate forecast HTML for the next 7 days
+    let forecastHTML = '';
+    const today = new Date();
+    
+    // Debug: Log the structure of the first forecast item
+    if (sortedForecast.length > 0) {
+        console.log('First forecast item structure:', JSON.stringify(sortedForecast[0], null, 2));
+    }
+    
+    // Create an array of the next 7 days
+    const next7Days = Array.from({ length: 7 }, (_, i) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() + i);
+        return date;
+    });
+    
+    // Debug: Log the next 7 days we want to show
+    console.log('Next 7 days to show:');
+    next7Days.forEach((d, i) => {
+        console.log(`  [${i}] ${d.toDateString()} (${d.toLocaleDateString('en-US', { weekday: 'long' })})`);
+    });
+    
+    // For each of the next 7 days, calculate max/min temp from all 3-hour entries for that day
+    next7Days.forEach((date, index) => {
+        const dateString = date.toDateString();
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const isToday = index === 0;
+        const borderClass = isToday ? 'border-2 border-green-500' : 'border border-gray-200';
+        
+        // Find all forecast entries for this day
+        const dayEntries = forecastData.list.filter(item => {
+            const itemDate = new Date(item.dt * 1000);
+            return itemDate.toDateString() === dateString;
+        });
+        
+        let tempMax = null;
+        let tempMin = null;
+        let icon = '01d';
+        let desc = 'N/A';
+        
+        if (dayEntries.length > 0) {
+            tempMax = Math.max(...dayEntries.map(e => e.main.temp_max));
+            tempMin = Math.min(...dayEntries.map(e => e.main.temp_min));
+            // Use the icon/desc from the midday entry if possible
+            const midday = dayEntries[Math.floor(dayEntries.length/2)];
+            icon = midday.weather[0].icon;
+            desc = midday.weather[0].description;
+        }
+        if (dayEntries.length > 0) {
+            tempMax = Math.max(...dayEntries.map(e => e.main.temp_max));
+            tempMin = Math.min(...dayEntries.map(e => e.main.temp_min));
+            // Use the icon/desc from the midday entry if possible
+            const midday = dayEntries[Math.floor(dayEntries.length/2)];
+            icon = midday.weather[0].icon;
+            desc = midday.weather[0].description;
+        }
+        
+        const displayMax = tempMax !== null ? Math.round(tempMax) : 'N/A';
+        const displayMin = tempMin !== null ? Math.round(tempMin) : 'N/A';
+        
+        // Ensure we have valid data for attributes, use fallback values if null
+        const safeTempMax = tempMax !== null && !isNaN(tempMax) ? tempMax : 25;
+        const safeTempMin = tempMin !== null && !isNaN(tempMin) ? tempMin : 20;
+        const safeHumidity = dayEntries.length > 0 ? Math.round(dayEntries.reduce((sum, e) => sum + e.main.humidity, 0) / dayEntries.length) : 50;
+        const safeRain = dayEntries.length > 0 ? (dayEntries.reduce((sum, e) => sum + (e.rain?.['3h'] || 0), 0) / 3) : 0;
+        const safeClouds = dayEntries.length > 0 ? Math.round(dayEntries.reduce((sum, e) => sum + e.clouds.all, 0) / dayEntries.length) : 30;
+        const safeWind = dayEntries.length > 0 ? Math.round(dayEntries.reduce((sum, e) => sum + e.wind.speed, 0) / dayEntries.length) : 5;
+        
+        forecastHTML += `
+            <div class="bg-white rounded-lg p-4 text-center hover:shadow-lg transition-all cursor-pointer forecast-day" 
+                 id="day-${index}"
+                 data-date="${dateString}" 
+                 data-temp-max="${safeTempMax}" 
+                 data-temp-min="${safeTempMin}" 
+                 data-humidity="${safeHumidity}"
+                 data-rain="${safeRain}"
+                 data-clouds="${safeClouds}"
+                 data-wind="${safeWind}"
+                 data-day-name="${dayName}"
+                 onclick="selectDay(this, ${index})">
+                <p class="font-semibold text-gray-800">${isToday ? 'Today' : dayName}</p>
+                <img src="${getWeatherIconUrl(icon)}" alt="${desc}" class="w-16 h-16 mx-auto my-2">
+                <p class="text-sm text-gray-600">Max: ${displayMax}°C</p>
+                <p class="text-sm text-gray-600">Min: ${displayMin}°C</p>
+                <p class="text-sm text-gray-600 capitalize">${desc}</p>
+                <p class="text-xs text-blue-600 mt-2">Click to analyze</p>
+            </div>
+        `;
+    });
+    
+    forecastContainer.innerHTML = forecastHTML || '<p class="text-gray-600">No forecast data available</p>';
+}
+
+// Update pest risk based on weather conditions
+function calculatePestRisk(weatherData) {
+    console.log('Calculating pest risk with data:', weatherData);
+    
+    // Use the new pest analysis system if available
+    if (typeof updatePestRiskUI === 'function') {
+        updatePestRiskUI('pestRiskContent', weatherData, getCurrentLanguage());
+        return;
+    }
+    
+    // Fallback to original system if new system not available
+    console.log('Using fallback pest risk analysis');
+    
+    // Default values if data is missing
+    const temp = weatherData.main?.temp || 25;
+    const humidity = weatherData.main?.humidity || 50;
+    const rain_mm = weatherData.rain?.['1h'] || 0; // rain in last hour in mm
+    const cloud_cover = weatherData.clouds?.all || 0; // cloud cover percentage
+    const wind_speed = weatherData.wind?.speed || 0; // wind speed in m/s
+
+    console.log(`Weather conditions: temp=${temp}, humidity=${humidity}, rain=${rain_mm}, clouds=${cloud_cover}, wind=${wind_speed}`);
+
+    const risks = [];
+
+    // More relaxed conditions for testing
+    // Aphids (High humidity + warm + cloudy)
+    if (temp >= 18 && temp <= 35 && humidity > 50 && cloud_cover > 30) {
+        risks.push("🐛 Aphid risk - Warm + Humid + Cloudy");
+    }
+
+    // Whiteflies (Moderate humidity, warm)
+    if (temp >= 20 && temp <= 32 && humidity >= 35) {
+        risks.push("☁️ Whitefly risk - Ideal growth range");
+    }
+
+    // Red Spider Mites (Hot + Dry)
+    if (temp > 25 && humidity < 60) {
+        risks.push("🕷️ Red Spider Mite risk - Hot & Dry");
+    }
+
+    // Stem Borers (Warm + calm wind + cloudy)
+    if (temp > 20 && wind_speed < 8 && cloud_cover > 40) {
+        risks.push("🌾 Stem Borer risk - Still & cloudy");
+    }
+
+    // Fungal Infections (Rainy + Humid)
+    if (rain_mm > 0.5 && humidity > 70) {
+        risks.push("🍄 Fungal risk - Wet leaf conditions");
+    }
+
+    // Thrips (Hot + Dry + Windy)
+    if (temp > 24 && humidity < 65 && wind_speed > 5) {
+        risks.push("🌬️ Thrips risk - Hot + dry + windy");
+    }
+
+    // Leafhoppers (Moderate temps + rain)
+    if (temp >= 22 && temp <= 35 && rain_mm > 0.1) {
+        risks.push("🍃 Leafhopper risk - Moderate temps with rain");
+    }
+
+    // Shoot Flies (Dry + Moderate rain)
+    if (temp >= 24 && temp <= 40 && rain_mm >= 0.1 && rain_mm <= 8 && humidity < 70) {
+        risks.push("🐞 Shoot fly risk - Moderate rainfall");
+    }
+
+    // Bollworms (Warm nights + humidity)
+    if (temp > 20 && humidity > 45) {
+        risks.push("🧨 Bollworm risk - Night warmth + moisture");
+    }
+
+    // Armyworms (High humidity + rainfall + moderate temp)
+    if (humidity > 60 && rain_mm > 0.1 && temp >= 18 && temp <= 35) {
+        risks.push("🪖 Armyworm risk - Stormy weather pest");
+    }
+
+    console.log('Detected risks:', risks);
+
+    // Update the UI with the pest risk information
+    const pestRiskContent = document.getElementById('pestRiskContent');
+    
+    if (risks.length > 0) {
+        const currentLang = getCurrentLanguage();
+        const translatedRisks = translatePestRisks(risks, currentLang);
+        
+        console.log('Translated risks:', translatedRisks);
+        
+        pestRiskContent.innerHTML = `
+            <div class="space-y-2">
+                <p class="font-semibold text-red-600">🚨 Potential Pest Risks Detected:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    ${translatedRisks.map(risk => `<li>${risk}</li>`).join('')}
+                </ul>
+                <p class="text-sm text-gray-600 mt-2">Please monitor your fields and take preventive measures if necessary.</p>
+            </div>
+        `;
+        pestRiskContent.className = 'bg-red-50 border-l-4 border-red-500 p-4 rounded-r';
+    } else {
+        console.log('No risks detected, showing low risk message');
+        pestRiskContent.innerHTML = `
+            <div class="flex items-center">
+                <span class="text-green-600 mr-2">✅</span>
+                <p class="text-gray-700">No significant pest risks detected for current weather conditions.</p>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Weather conditions: ${temp}°C, ${humidity}% humidity, ${rain_mm}mm rain. Continue with regular monitoring of your crops.</p>
+        `;
+        pestRiskContent.className = 'bg-green-50 border-l-4 border-green-500 p-4 rounded-r';
+    }
+}
+
+// Get irrigation advice based on weather conditions and crop type
+function getIrrigationAdvice(weatherData, cropType = "general") {
+    const temp = weatherData.main?.temp || 25;
+    const humidity = weatherData.main?.humidity || 50;
+    const rain_mm = weatherData.rain?.['1h'] || 0; // rain in last hour in mm
+    const wind_speed = (weatherData.wind?.speed || 0) * 3.6; // convert m/s to km/h
+    const cloud_cover = weatherData.clouds?.all || 0; // cloud cover percentage
+    
+    // Rainfall based advice
+    if (rain_mm > 10) {
+        return {
+            icon: "🌧️",
+            advice: "Heavy rainfall detected. Skip irrigation today to prevent overwatering."
+        };
+    } else if (rain_mm >= 3 && rain_mm <= 10) {
+        return {
+            icon: "☁️",
+            advice: "Light rainfall recorded. Irrigation can be skipped or reduced depending on soil moisture."
+        };
+    }
+
+    // Hot and dry
+    if (temp > 32 && humidity < 40) {
+        return {
+            icon: "🔥",
+            advice: "High heat and low humidity. Increase irrigation frequency. Water early morning or late evening."
+        };
+    }
+
+    // Fungal disease weather
+    if (humidity > 80 && cloud_cover > 60 && wind_speed < 5) {
+        return {
+            icon: "🍄",
+            advice: "Very humid and cloudy. Avoid unnecessary watering to prevent fungal infections."
+        };
+    }
+
+    // Windy weather
+    if (wind_speed > 15) {
+        return {
+            icon: "💨",
+            advice: "Windy conditions detected. Water more deeply but less frequently, as surface moisture will evaporate quickly."
+        };
+    }
+
+    // Cool and dry
+    if (temp < 18 && rain_mm === 0) {
+        return {
+            icon: "🌥️",
+            advice: "Cool weather and no rain. Reduce irrigation — plant growth is slow and water need is low."
+        };
+    }
+
+    // Crop-specific advice
+    const cropAdvice = {
+        "rice": "🌾 Rice needs frequent irrigation. If no rainfall, maintain standing water in fields.",
+        "wheat": "🌾 Wheat requires irrigation every 8–10 days in winter. Adjust based on soil dryness.",
+        "sugarcane": "🍬 Sugarcane prefers irrigation every 6–7 days in hot weather.",
+        "vegetables": "🥬 Most vegetables need water every 2–3 days. Avoid wetting leaves in evening.",
+        "cotton": "🧵 Cotton prefers deep irrigation every 6–8 days. Don't flood the field.",
+        "general": "✅ Weather is normal. Follow your standard irrigation schedule based on crop and soil."
+    };
+
+    // Get the appropriate advice based on crop type
+    const advice = cropAdvice[cropType.toLowerCase()] || cropAdvice.general;
+    
+    return {
+        icon: cropType === "general" ? "✅" : advice.match(/^[^a-zA-Z0-9]*/)[0],
+        advice: cropType === "general" ? advice : advice.replace(/^[^a-zA-Z0-9]*/, '')
+    };
+}
+
+// Update agricultural advice based on weather
+function updateAgriculturalAdvice(weatherData) {
+    // Get irrigation advice (default to general advice)
+    const { icon, advice } = getIrrigationAdvice(weatherData, "general");
+    
+    // Update the UI
+    const irrigationAdviceElement = document.getElementById('irrigationAdvice') || document.querySelector('.irrigation-advice');
+    if (irrigationAdviceElement) {
+        irrigationAdviceElement.innerHTML = `
+            <div class="flex items-start">
+                <span class="text-2xl mr-3 mt-1">${icon}</span>
+                <div>
+                    <h3 class="font-semibold text-gray-800">Irrigation Advice</h3>
+                    <p class="text-gray-600">${advice}</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Select a day and update pest risk and irrigation advice
+function selectDay(dayElement, dayIndex) {
+    console.log('selectDay called with:', dayElement, dayIndex);
+    
+    // Remove highlight from all days
+    document.querySelectorAll('.forecast-day').forEach(day => {
+        day.classList.remove('border-4', 'border-blue-500', 'bg-blue-50');
+        day.classList.add('bg-white');
+    });
+    
+    // Highlight selected day
+    dayElement.classList.add('border-4', 'border-blue-500', 'bg-blue-50');
+    dayElement.classList.remove('bg-white');
+    
+    const date = dayElement.getAttribute('data-date');
+    const tempMax = parseFloat(dayElement.getAttribute('data-temp-max'));
+    const tempMin = parseFloat(dayElement.getAttribute('data-temp-min'));
+    const humidity = parseInt(dayElement.getAttribute('data-humidity'));
+    const rain = parseFloat(dayElement.getAttribute('data-rain'));
+    const clouds = parseInt(dayElement.getAttribute('data-clouds'));
+    const windSpeed = parseFloat(dayElement.getAttribute('data-wind'));
+    const dayName = dayElement.getAttribute('data-day-name');
+    
+    console.log('Day data:', { date, tempMax, tempMin, humidity, rain, clouds, windSpeed, dayName });
+    
+    // Average temperature for calculations
+    const avgTemp = (tempMax + tempMin) / 2;
+    
+    // Create weather data object for this day
+    const dayWeatherData = {
+        main: {
+            temp: avgTemp,
+            temp_max: tempMax,
+            temp_min: tempMin,
+            humidity: humidity
+        },
+        rain: {
+            '1h': rain
+        },
+        clouds: {
+            all: clouds
+        },
+        wind: {
+            speed: windSpeed
+        }
+    };
+    
+    console.log('Created weather data for day:', dayWeatherData);
+    
+    try {
+        // Update pest risk section
+        console.log('Updating pest risk for day...');
+        updatePestRiskForDay(dayWeatherData, dayName, date);
+        
+        // Update irrigation advice section
+        console.log('Updating irrigation advice for day...');
+        updateIrrigationAdviceForDay(dayWeatherData, dayName, date);
+        
+        console.log('Day analysis complete');
+    } catch (error) {
+        console.error('Error in selectDay:', error);
+    }
+}
+
+// Update pest risk section for selected day
+function updatePestRiskForDay(weatherData, dayName, date) {
+    console.log('updatePestRiskForDay called with:', weatherData, dayName, date);
+    
+    const pestRiskContent = document.getElementById('pestRiskContent');
+    if (!pestRiskContent) {
+        console.error('pestRiskContent element not found!');
+        return;
+    }
+    
+    const risks = calculateDayPestRisk(weatherData);
+    console.log('Calculated risks:', risks);
+    
+    const dateObj = new Date(date);
+    const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    
+    // Update pest risk container title
+    const pestRiskTitle = document.querySelector('#pestRiskContainer h2');
+    if (pestRiskTitle) {
+        pestRiskTitle.textContent = `Pest Risk Analysis - ${formattedDate}`;
+    }
+    
+    if (risks.length > 0) {
+        pestRiskContent.innerHTML = `
+            <div class="space-y-2">
+                <div class="flex items-center mb-3">
+                    <span class="material-icons text-red-500 mr-2">warning</span>
+                    <p class="font-semibold text-red-600">🚨 Potential Pest Risks Detected</p>
+                </div>
+                <ul class="list-disc list-inside space-y-1">
+                    ${risks.map(risk => `<li class="text-gray-700">${risk}</li>`).join('')}
+                </ul>
+                <div class="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r">
+                    <p class="text-sm text-yellow-800 font-medium mb-3">Recommendations</p>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li>Monitor crops regularly for early detection</li>
+                        <li>Maintain proper field hygiene</li>
+                        <li>Use integrated pest management approaches</li>
+                        <li>Consult local agricultural extension services if needed</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        pestRiskContent.className = 'bg-red-50 border-l-4 border-red-500 p-4 rounded-r';
+    } else {
+        pestRiskContent.innerHTML = `
+            <div class="flex items-center">
+                <span class="material-icons text-green-600 mr-2">check_circle</span>
+                <div>
+                    <p class="text-gray-700 font-medium">✅ Low pest risk detected</p>
+                    <p class="text-sm text-gray-600 mt-1">Weather conditions: ${Math.round(weatherData.main.temp)}°C, ${weatherData.main.humidity}% humidity</p>
+                </div>
+            </div>
+        `;
+        pestRiskContent.className = 'bg-green-50 border-l-4 border-green-500 p-4 rounded-r';
+    }
+    
+    console.log('Pest risk content updated for', dayName);
+}
+
+// Simple pest risk translation function
+function translatePestRisks(risks, language) {
+    console.log('Translating risks:', risks, 'to language:', language);
+    
+    if (!window.translations || !window.translations[language]) {
+        console.log('No translations found, returning original risks');
+        return risks; // Return original if no translations
+    }
+    
+    const t = window.translations[language];
+    const riskMappings = {
+        "Aphid risk": t.aphidRisk || "Aphid risk detected",
+        "Whitefly risk": t.whiteflyRisk || "Whitefly risk detected", 
+        "Red Spider Mite risk": t.spiderMiteRisk || "Spider mite risk detected",
+        "Stem Borer risk": t.stemBorerRisk || "Stem borer risk detected",
+        "Fungal risk": t.fungalRisk || "Fungal disease risk detected",
+        "Thrips risk": t.thripsRisk || "Thrips risk detected",
+        "Leafhopper risk": t.leafhopperRisk || "Leafhopper risk detected",
+        "Shoot fly risk": t.shootFlyRisk || "Shoot fly risk detected",
+        "Bollworm risk": t.bollwormRisk || "Bollworm risk detected",
+        "Armyworm risk": t.armywormRisk || "Armyworm risk detected"
+    };
+    
+    const translatedRisks = risks.map(risk => {
+        // Extract the pest type from the risk string
+        for (const [key, value] of Object.entries(riskMappings)) {
+            if (risk.includes(key.split(' ')[0])) {
+                console.log(`Translated "${risk}" to "${value}"`);
+                return value;
+            }
+        }
+        console.log(`No translation found for "${risk}", returning original`);
+        return risk; // Return original if no mapping found
+    });
+    
+    console.log('Final translated risks:', translatedRisks);
+    return translatedRisks;
+}
+
+// Generate pest-specific recommendations based on detected risks
+function generatePestSpecificRecommendations(risks, language = 'en') {
+    console.log('generatePestSpecificRecommendations called with:', risks, language);
+    
+    // Check if translations are available
+    if (!window.translations) {
+        console.warn('No translations available, returning basic recommendations');
+        return `<ul class="list-disc list-inside space-y-1 text-sm">
+            <li>Monitor crops regularly for early detection</li>
+            <li>Maintain proper field hygiene</li>
+            <li>Use appropriate control measures if needed</li>
+            <li>Consult local agricultural extension services</li>
+        </ul>`;
+    }
+    
+    const t = window.translations[language] || window.translations['en'] || {};
+    const recommendations = new Set(); // Use Set to avoid duplicates
+    
+    risks.forEach(risk => {
+        if (risk.includes('Aphid')) {
+            recommendations.add(`🔍 <strong>Check undersides of leaves for aphid colonies</strong>`);
+            recommendations.add(`🌿 Encourage beneficial insects like ladybirds and lacewings`);
+            recommendations.add(`💧 Avoid excessive nitrogen fertilization`);
+            recommendations.add(`🚿 Use water spray to dislodge aphids`);
+        }
+        
+        if (risk.includes('Whitefly')) {
+            recommendations.add(`🟡 <strong>Use yellow sticky traps</strong>`);
+            recommendations.add(`🍃 Apply reflective mulch around plants`);
+            recommendations.add(`🌱 Plant marigold as companion crop`);
+            recommendations.add(`🧴 Use neem oil or insecticidal soap`);
+        }
+        
+        if (risk.includes('Spider Mite')) {
+            recommendations.add(`💨 <strong>Increase humidity with misting</strong>`);
+            recommendations.add(`🔬 Check for fine webbing on leaves`);
+            recommendations.add(`🌿 Release predatory mites`);
+            recommendations.add(`🧽 Wash leaves with water regularly`);
+            recommendations.add(`🚫 Remove heavily infested plant parts`);
+        }
+        
+        if (risk.includes('Stem Borer')) {
+            recommendations.add(`🌾 <strong>Remove and destroy affected plant parts</strong>`);
+            recommendations.add(`🪤 Use pheromone traps for monitoring`);
+            recommendations.add(`🦋 Release egg parasitoid wasps`);
+            recommendations.add(`💊 Apply Bt (Bacillus thuringiensis) spray`);
+            recommendations.add(`🌱 Practice crop rotation`);
+        }
+        
+        if (risk.includes('Fungal')) {
+            recommendations.add(`🍄 <strong>Improve air circulation around plants</strong>`);
+            recommendations.add(`☀️ Ensure adequate sunlight exposure`);
+            recommendations.add(`💧 Water at soil level, avoid wetting leaves`);
+            recommendations.add(`🧪 Apply preventive fungicide spray`);
+            recommendations.add(`🗑️ Remove and destroy infected plant debris`);
+        }
+        
+        if (risk.includes('Thrips')) {
+            recommendations.add(`🔵 <strong>Use blue sticky traps</strong>`);
+            recommendations.add(`🌿 Apply diatomaceous earth around plants`);
+            recommendations.add(`🕷️ Encourage predatory mites and minute pirate bugs`);
+            recommendations.add(`🌱 Maintain adequate soil moisture`);
+            recommendations.add(`🧴 Apply neem oil spray`);
+        }
+        
+        if (risk.includes('Leafhopper')) {
+            recommendations.add(`🍃 <strong>Use row covers during peak activity</strong>`);
+            recommendations.add(`🌾 Remove weeds that harbor leafhoppers`);
+            recommendations.add(`🕸️ Apply kaolin clay to confuse pests`);
+            recommendations.add(`🦗 Encourage beneficial predators`);
+            recommendations.add(`⚡ Use reflective tape around plants`);
+        }
+        
+        if (risk.includes('Shoot fly')) {
+            recommendations.add(`🐞 <strong>Sow early to avoid peak infestation</strong>`);
+            recommendations.add(`🌱 Use resistant varieties`);
+            recommendations.add(`💧 Apply carbofuran granules if severe`);
+            recommendations.add(`🪤 Use yellow sticky traps`);
+            recommendations.add(`🌾 Practice deep summer plowing`);
+        }
+        
+        if (risk.includes('Bollworm')) {
+            recommendations.add(`🧨 <strong>Monitor for egg masses on leaves</strong>`);
+            recommendations.add(`🌙 Use light traps during night hours`);
+            recommendations.add(`🦋 Release Trichogramma wasps`);
+            recommendations.add(`🧪 Apply Bt spray during larval stage`);
+            recommendations.add(`🌻 Plant trap crops like marigold`);
+        }
+        
+        if (risk.includes('Armyworm')) {
+            recommendations.add(`🪖 <strong>Dig trenches around fields</strong>`);
+            recommendations.add(`🌙 Use light traps to catch adults`);
+            recommendations.add(`🔥 Burn egg masses and larvae`);
+            recommendations.add(`🦅 Encourage insectivorous birds`);
+            recommendations.add(`💊 Apply NPV (Nuclear Polyhedrosis Virus)`);
+            recommendations.add(`⚠️ Act quickly - armyworms spread rapidly`);
+        }
+    });
+    
+    // Add general recommendations if specific pests detected
+    if (recommendations.size > 0) {
+        recommendations.add(`📅 <strong>Schedule regular crop monitoring</strong>`);
+        recommendations.add(`📊 Keep records of pest occurrences and treatments`);
+        recommendations.add(`☎️ Contact local agricultural extension officer if needed`);
+        recommendations.add(`🌡️ Monitor weather conditions for pest management`);
+    }
+    
+    // Convert to array and create HTML
+    const recommendationArray = Array.from(recommendations);
+    
+    if (recommendationArray.length === 0) {
+        return `<p class="text-sm text-yellow-700">Continue regular crop inspection and monitoring</p>`;
+    }
+    
+    return `
+        <div class="space-y-2">
+            ${recommendationArray.map(rec => `
+                <div class="text-sm text-yellow-700 p-2 bg-yellow-100 rounded border-l-2 border-yellow-500">
+                    ${rec}
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+// Get translated pest risks based on current language
+function getTranslatedPestRisks(englishRisks, language) {
+    // This function is not currently used, but keeping for compatibility
+    if (!window.translations || !window.translations[language]) {
+        return englishRisks; // Return original if no translations
+    }
+    
+    const t = window.translations[language];
+    
+    const riskMappings = {
+        "🐛 Aphid risk - Warm + Humid + Cloudy conditions favor aphid reproduction": t.aphidRisk || "Aphid risk detected",
+        "☁️ Whitefly risk - Ideal temperature and humidity range for whitefly development": t.whiteflyRisk || "Whitefly risk detected",
+        "🕷️ Red Spider Mite risk - Hot and dry conditions promote spider mite infestation": t.spiderMiteRisk || "Spider mite risk detected",
+        "🌾 Stem Borer risk - Still and cloudy weather increases stem borer activity": t.stemBorerRisk || "Stem borer risk detected",
+        "🍄 Fungal disease risk - Wet and humid conditions promote fungal growth": t.fungalRisk || "Fungal disease risk detected",
+        "🌬️ Thrips risk - Hot, dry and windy conditions favor thrips infestation": t.thripsRisk || "Thrips risk detected",
+        "🍃 Leafhopper risk - Moderate temperature with rainfall increases leafhopper activity": t.leafhopperRisk || "Leafhopper risk detected",
+        "🐞 Shoot fly risk - Moderate rainfall with dry conditions favor shoot fly breeding": t.shootFlyRisk || "Shoot fly risk detected",
+        "🧨 Bollworm risk - Warm temperature with high humidity increases bollworm activity": t.bollwormRisk || "Bollworm risk detected",
+        "🪖 Armyworm risk - Humid and rainy conditions with moderate temperature favor armyworm outbreaks": t.armywormRisk || "Armyworm risk detected"
+    };
+
+    return englishRisks.map(risk => riskMappings[risk] || risk);
+}
+
+// Update irrigation advice section for selected day
+function updateIrrigationAdviceForDay(weatherData, dayName, date) {
+    console.log('updateIrrigationAdviceForDay called with:', weatherData, dayName, date);
+    
+    const irrigationAdviceElement = document.getElementById('irrigationAdvice');
+    if (!irrigationAdviceElement) {
+        console.error('irrigationAdvice element not found!');
+        return;
+    }
+    
+    const dateObj = new Date(date);
+    const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    
+    // Update irrigation advice container title
+    const irrigationTitle = document.querySelector('#irrigationAdvice').parentElement.querySelector('h2');
+    if (irrigationTitle) {
+        irrigationTitle.textContent = `Irrigation Advice - ${formattedDate}`;
+    }
+    
+    // Get basic irrigation advice based on weather
+    const temp = weatherData.main.temp;
+    const humidity = weatherData.main.humidity;
+    const rain = weatherData.rain?.['1h'] || 0;
+    
+    let advice = "Follow standard irrigation schedule based on crop and soil.";
+    let icon = "💧";
+    
+    if (rain > 5) {
+        advice = "Heavy rainfall detected. Skip irrigation today to prevent overwatering.";
+        icon = "🌧️";
+    } else if (rain > 1) {
+        advice = "Light rainfall recorded. Reduce irrigation or skip depending on soil moisture.";
+        icon = "🌦️";
+    } else if (temp > 30 && humidity < 50) {
+        advice = "High heat and low humidity. Increase irrigation frequency. Water early morning or late evening.";
+        icon = "🔥";
+    } else if (humidity > 80) {
+        advice = "Very humid conditions. Avoid unnecessary watering to prevent fungal infections.";
+        icon = "💨";
+    } else if (temp < 15) {
+        advice = "Cool weather. Reduce irrigation as plant growth is slow and water need is low.";
+        icon = "❄️";
+    }
+    
+    irrigationAdviceElement.innerHTML = `
+        <div class="flex items-start">
+            <span class="text-2xl mr-3 mt-1">${icon}</span>
+            <div>
+                <h3 class="font-semibold text-gray-800">Irrigation Recommendation</h3>
+                <p class="text-gray-600 mt-1">${advice}</p>
+                <div class="mt-3 text-sm text-gray-500">
+                    <p><strong>Weather Conditions:</strong> ${Math.round(temp)}°C, ${humidity}% humidity</p>
+                    ${rain > 0 ? `<p><strong>Rainfall:</strong> ${rain.toFixed(1)}mm</p>` : ''}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    console.log('Irrigation advice content updated for', dayName);
+}
+
+// Calculate pest risk for a specific day
+function calculateDayPestRisk(weatherData) {
+    console.log('calculateDayPestRisk called with:', weatherData);
+    
+    const temp = weatherData.main?.temp || 25;
+    const humidity = weatherData.main?.humidity || 50;
+    const rain_mm = weatherData.rain?.['1h'] || 0;
+    const cloud_cover = weatherData.clouds?.all || 30;
+    const wind_speed = weatherData.wind?.speed || 5;
+
+    console.log(`Weather conditions: temp=${temp}°C, humidity=${humidity}%, rain=${rain_mm}mm, clouds=${cloud_cover}%, wind=${wind_speed}m/s`);
+
+    const risks = [];
+
+    // More lenient conditions for testing - Aphids
+    if (temp >= 18 && temp <= 32 && humidity > 45) {
+        risks.push("🐛 Aphid risk - Favorable temperature and humidity conditions");
+    }
+
+    // Whiteflies (broader range for testing)
+    if (temp >= 20 && temp <= 30 && humidity >= 35) {
+        risks.push("☁️ Whitefly risk - Suitable temperature and humidity range");
+    }
+
+    // Red Spider Mites (hot and dry conditions)
+    if (temp > 25 && humidity < 60) {
+        risks.push("🕷️ Red Spider Mite risk - Hot and relatively dry conditions");
+    }
+
+    // Stem Borers (warm and still conditions)
+    if (temp > 22 && wind_speed < 8) {
+        risks.push("🌾 Stem Borer risk - Warm temperature with calm winds");
+    }
+
+    // Fungal Infections (humid conditions)
+    if (humidity > 70 || rain_mm > 1) {
+        risks.push("🍄 Fungal disease risk - High humidity or rainfall conditions");
+    }
+
+    // Thrips (warm and windy)
+    if (temp > 24 && wind_speed > 3) {
+        risks.push("🌬️ Thrips risk - Warm and breezy conditions");
+    }
+
+    // Leafhoppers (moderate temps)
+    if (temp >= 22 && temp <= 30) {
+        risks.push("🍃 Leafhopper risk - Moderate temperature range");
+    }
+
+    // Bollworms (warm conditions)
+    if (temp > 23 && humidity > 40) {
+        risks.push("🧨 Bollworm risk - Warm conditions with adequate humidity");
+    }
+
+    console.log('Detected risks:', risks);
+    return risks;
+}
+
+// Load weather data for a location
+async function loadWeatherData(location) {
+    console.log('Loading weather data for:', location);
+    
+    try {
+        const weatherData = await fetchWeatherData(location);
+        console.log('Weather data received:', weatherData);
+        
+        currentLocation = weatherData.current;
+        updateWeatherUI(weatherData.current);
+        updateForecastUI(weatherData.forecast);
+        
+        return weatherData;
+    } catch (error) {
+        console.error('Error loading weather data:', error);
+        throw error;
+    }
+}
+
+// Handle search
+async function handleSearch() {
+    if (!locationInput) {
+        console.error('Location input not found');
+        return;
+    }
+    
+    const location = locationInput.value.trim();
+    
+    if (!location) {
+        if (locationError) {
+            locationError.classList.remove('hidden');
+        }
+        return;
+    }
+    
+    if (locationError) {
+        locationError.classList.add('hidden');
+    }
+    
+    try {
+        // Show loading state
+        if (locationName) {
+            locationName.textContent = 'Loading...';
+        }
+        if (currentTemp) {
+            currentTemp.textContent = '--°C';
+        }
+        if (weatherDescription) {
+            weatherDescription.textContent = 'Fetching weather data...';
+        }
+
+        await loadWeatherData(location);
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        
+        const errorMessage = error.message || 'Could not fetch weather data. Please check the location and try again.';
+        alert(`Error: ${errorMessage}`);
+        
+        // Reset to default state
+        if (locationName) {
+            locationName.textContent = 'Search for a location';
+        }
+        if (currentTemp) {
+            currentTemp.textContent = '--°C';
+        }
+        if (weatherDescription) {
+            weatherDescription.textContent = 'Enter a location to see weather';
+        }
+    }
+}
+
+// Language handling is now managed by the global translation system
+
+// Page Transition Functions - Sliding Effect
+function showPageTransition() {
+    const transition = document.getElementById('pageTransition');
+    document.body.classList.add('page-loading');
+    
+    // Start exit animation for current page
+    document.body.classList.add('page-exiting');
+    
+    // Show transition overlay after a brief delay
+    setTimeout(() => {
+        transition.classList.add('active');
+    }, 100);
+}
+
+function hidePageTransition() {
+    console.log('hidePageTransition called');
+    const transition = document.getElementById('pageTransition');
+    const header = document.querySelector('header');
+    const content = document.querySelector('.page-content');
+    
+    console.log('Elements found:', { transition: !!transition, header: !!header, content: !!content });
+    
+    // Remove loading and exiting classes
+    document.body.classList.remove('page-loading', 'page-exiting');
+    
+    // Start slide-in animations
+    setTimeout(() => {
+        if (header) {
+            header.classList.add('loaded');
+            console.log('Header loaded class added');
+        }
+        if (content) {
+            content.classList.add('loaded');
+            console.log('Content loaded class added');
+        }
+        
+        // Hide transition overlay after content starts sliding in
+        setTimeout(() => {
+            if (transition) {
+                transition.classList.remove('active');
+                console.log('Transition hidden');
+            }
+        }, 300);
+    }, 100);
+}
+
+// Enhanced navigation with smooth slide transitions
+function navigateToPage(url, pageName) {
+    showPageTransition();
+    
+    // Update loader text
+    const loaderText = document.querySelector('.page-transition .text');
+    loaderText.textContent = `Loading ${pageName}...`;
+    
+    // Navigate after transition animation starts
+    setTimeout(() => {
+        window.location.href = url;
+    }, 600); // Wait for slide animation to complete
+}
+
+// Add smooth transition to navigation links
+function setupSmoothNavigation() {
+    const navLinks = document.querySelectorAll('nav a, .page-nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            const pageName = this.textContent.trim();
+            
+            // Don't transition for hash links or external links
+            if (href.startsWith('#') || href.startsWith('http') || href === window.location.pathname) {
+                return;
+            }
+            
+            navigateToPage(href, pageName);
+        });
+    });
+}
+
+// Setup smooth navigation
+setupSmoothNavigation();
+
+// Hide page transition and show content when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure transition is hidden and content shows
+    setTimeout(() => {
+        hidePageTransition();
+    }, 100);
+});
+
+</script>
+</body></html>

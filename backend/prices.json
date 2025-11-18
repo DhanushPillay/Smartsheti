@@ -1,0 +1,229 @@
+{
+  "lastUpdated": "2025-08-06T12:59:21.222056",
+  "source": "AGMARKNET Dynamic Scraper",
+  "wheat": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2307.23,
+      2311.79,
+      2363.74,
+      2376.16,
+      2432.72,
+      2525.48,
+      2447.58,
+      2500
+    ],
+    "color": "#FFA500",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "rice": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2812.92,
+      2838.61,
+      2944.07,
+      2892.14,
+      2965.08,
+      3223.3,
+      3284.31,
+      3200
+    ],
+    "color": "#4169E1",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "cotton": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      5997.31,
+      6315.31,
+      6104.25,
+      5532.42,
+      6460.83,
+      6086.31,
+      6202.62,
+      5800
+    ],
+    "color": "#32CD32",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "sugarcane": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      260.72,
+      262.84,
+      269.06,
+      281.59,
+      282.9,
+      270.86,
+      287.9,
+      280
+    ],
+    "color": "#9370DB",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "tomato": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2278.79,
+      2272.07,
+      2787.59,
+      2240.0,
+      2445.61,
+      3205.89,
+      2946.07,
+      2800
+    ],
+    "color": "#FF4500",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "onion": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2022.74,
+      1991.64,
+      2160.0,
+      1896.17,
+      2093.31,
+      1798.85,
+      1969.07,
+      1800
+    ],
+    "color": "#8B4513",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "potato": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      1148.16,
+      1248.55,
+      1176.56,
+      1097.94,
+      1171.55,
+      1177.88,
+      1118.66,
+      1200
+    ],
+    "color": "#DAA520",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "soyabean": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      3483.09,
+      3831.01,
+      3909.44,
+      4183.62,
+      3952.49,
+      4419.73,
+      3907.76,
+      4200
+    ],
+    "color": "#FF6347",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  },
+  "Wheat": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2604.5,
+      2604.5,
+      2604.5,
+      2604.5,
+      2604.5,
+      2604.5,
+      2604.5,
+      2604.5
+    ],
+    "color": "#10B981",
+    "state": "Maharashtra",
+    "unit": "₹/quintal"
+  }
+}

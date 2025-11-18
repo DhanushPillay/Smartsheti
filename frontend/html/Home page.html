@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SmartSheti</title>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link rel="stylesheet" href="../css/Home page.css"/>
+</head>
+<body class="font-sans page-loading" style="background-color: #EBE4DB !important;">
+<!-- Page Transition Overlay -->
+<div class="page-transition" id="pageTransition">
+    <div class="loader">
+        <span class="material-icons">home</span>
+        <div class="text">Loading SmartSheti...</div>
+    </div>
+</div>
+
+<header class="shadow-sm" style="position: relative;">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="brand-section">
+<img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
+<span class="text-xl font-bold brand-text">SmartSheti</span>
+</div>
+<nav class="hidden md:flex items-center space-x-4">
+<a class="font-semibold" href="Home page.html">Home</a>
+<a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html">Weather</a>
+                <a class="text-gray-600 hover:text-green-600" href="Marketplace.html">Marketplace</a>
+<a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+</nav>
+<div class="flex items-center space-x-2 action-buttons">
+<div class="relative">
+    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+        <span class="material-icons mr-1">translate</span>
+        <span id="currentLang">EN</span>
+    </button>
+    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+    </div>
+</div>
+<button class="text-gray-600 hover:text-green-600">
+<span class="material-icons">notifications</span>
+</button>
+<div class="relative">
+<button id="profileBtn" class="text-gray-600 hover:text-green-600">
+<img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+</button>
+<div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+<hr class="my-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="page-content">
+<section class="relative">
+<div class="absolute inset-0">
+<img alt="Lush green wheat field" class="w-full h-full object-cover rounded-lg" src="https://c4.wallpaperflare.com/wallpaper/878/61/227/landscape-nature-rice-paddy-terraces-wallpaper-preview.jpg"/>
+<div class="absolute inset-0 bg-black opacity-30 rounded-lg"></div>
+</div>
+<div class="relative container mx-auto px-6 py-32 text-center text-white">
+<h1 class="text-5xl font-bold" data-translate="empoweringFarmers">Empowering Farmers with Smart Solutions</h1>
+<p class="mt-4 text-lg max-w-2xl mx-auto" data-translate="smartShetiDescription">SmartSheti provides personalized crop suggestions, real-time weather updates, and a marketplace for agricultural products, all in one place.</p>
+<a href="crop_suggestion page(2).html" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors" data-translate="getStarted">Get Started</a>
+</div>
+</section>
+<section class="py-20">
+<div class="container mx-auto px-6">
+<h2 class="text-3xl font-bold text-center text-gray-800 mb-4" data-translate="keyFeatures">Key Features</h2>
+<p class="text-center text-gray-600 mb-12" data-translate="featuresDescription">Explore the core functionalities of SmartSheti designed to enhance your farming experience.</p>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+<span class="material-icons text-green-500 text-3xl mb-4">grass</span>
+<h3 class="text-xl font-bold text-gray-800 mb-2" data-translate="cropSuggestions">Personalized Crop Suggestions</h3>
+<p class="text-gray-600" data-translate="cropSuggestionsDescription">Receive tailored crop recommendations based on your location, soil type, and climatic conditions.</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+<span class="material-icons text-yellow-500 text-3xl mb-4">wb_sunny</span>
+<h3 class="text-xl font-bold text-gray-800 mb-2" data-translate="weatherInformation">Real-Time Weather Information</h3>
+<p class="text-gray-600" data-translate="weatherDescription">Stay informed with up-to-date weather forecasts and alerts to optimize your farming activities.</p>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+<span class="material-icons text-blue-500 text-3xl mb-4">storefront</span>
+<h3 class="text-xl font-bold text-gray-800 mb-2" data-translate="marketplace">Agricultural Marketplace</h3>
+<p class="text-gray-600" data-translate="marketplaceDescription">Buy and sell agricultural products directly with other farmers and suppliers in a trusted marketplace.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-white">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-3xl font-bold text-gray-800 mb-4" data-translate="discoverMarketplace">Discover the Marketplace</h2>
+<p class="text-gray-600 mb-8" data-translate="marketplaceBrowse">Browse a wide range of agricultural products, from seeds and fertilizers to equipment and tools.</p>
+                <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg" data-translate="exploreMarketplace" href="Marketplace.html">Explore Marketplace</a>
+</div>
+</section>
+</main>
+<footer class="py-12" style="background-color: #EBE4DB !important;">
+<div class="container mx-auto px-6">
+<div class="flex justify-center items-center">
+<div class="text-center">
+<a class="text-gray-600 hover:text-green-600 mx-4" href="#" data-translate="aboutUs">About Us</a>
+</div>
+</div>
+<div class="text-center text-gray-500 mt-8">
+<p data-translate="copyright">&copy; 2024 SmartSheti. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<script>
+// Page Transition Functions - Sliding Effect
+function showPageTransition() {
+    const transition = document.getElementById('pageTransition');
+    document.body.classList.add('page-loading');
+    
+    // Start exit animation for current page
+    document.body.classList.add('page-exiting');
+    
+    // Show transition overlay after a brief delay
+    setTimeout(() => {
+        transition.classList.add('active');
+    }, 100);
+}
+
+function hidePageTransition() {
+    const transition = document.getElementById('pageTransition');
+    const header = document.querySelector('header');
+    const content = document.querySelector('.page-content');
+    
+    // Remove loading and exiting classes
+    document.body.classList.remove('page-loading', 'page-exiting');
+    
+    // Start slide-in animations
+    setTimeout(() => {
+        header.classList.add('loaded');
+        content.classList.add('loaded');
+        
+        // Hide transition overlay after content starts sliding in
+        setTimeout(() => {
+            transition.classList.remove('active');
+        }, 300);
+    }, 100);
+}
+
+// Enhanced navigation with smooth slide transitions
+function navigateToPage(url, pageName) {
+    showPageTransition();
+    
+    // Update loader text
+    const loaderText = document.querySelector('.page-transition .text');
+    loaderText.textContent = `Loading ${pageName}...`;
+    
+    // Navigate after transition animation starts
+    setTimeout(() => {
+        window.location.href = url;
+    }, 600); // Wait for slide animation to complete
+}
+
+// Add smooth transition to navigation links
+function setupSmoothNavigation() {
+    const navLinks = document.querySelectorAll('nav a, .page-nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            const pageName = this.textContent.trim();
+            
+            // Don't transition for hash links or external links
+            if (href.startsWith('#') || href.startsWith('http') || href === window.location.pathname) {
+                return;
+            }
+            
+            navigateToPage(href, pageName);
+        });
+    });
+    
+    // Also add transition to "Get Started" button
+    const getStartedBtn = document.querySelector('a[href="crop_suggestion page(2).html"]');
+    if (getStartedBtn) {
+        getStartedBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigateToPage('crop_suggestion page(2).html', 'Crop Suggestions');
+        });
+    }
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup smooth navigation
+    setupSmoothNavigation();
+    
+    // Hide page transition and show content
+    hidePageTransition();
+    
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+});
+</script>
+
+<script src="../js/translations.js"></script>
+<script>
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup language functionality using the global translation system
+    if (typeof window.setupLanguageDropdown === 'function') {
+        window.setupLanguageDropdown();
+    }
+    
+    // Apply saved language
+    if (typeof window.translatePage === 'function') {
+        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+        window.translatePage(savedLang);
+    }
+    
+    // Profile dropdown functionality
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+});
+</script>
+</body></html>

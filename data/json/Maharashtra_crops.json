@@ -1,0 +1,566 @@
+{
+  "state": "Maharashtra",
+  "description": "Comprehensive crop database for Maharashtra with agroclimatic zones and soil requirements",
+  "crops": [
+    {
+      "name": "Rice",
+      "varieties": ["Basmati", "IR-64", "Swarna", "Sona Masuri", "Kolam"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 22, "max": 32 },
+      "rainfall_requirement_mm": [1500, 3000],
+      "best_soil_types": ["Deep alluvial soil with good water retention", "Clayey loam with pH 5.5-7.0", "Well-drained paddy fields"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat", "High Rainfall Vidarbha"],
+      "cultivation_tips": "Requires standing water during growing season"
+    },
+    {
+      "name": "Jowar (Sorghum)",
+      "varieties": ["CSH-16", "Parbhani Moti", "M-35-1", "CSV-15", "SPH-1635"],
+      "season": "Kharif/Rabi",
+      "ideal_temperature_c": { "min": 27, "max": 32 },
+      "rainfall_requirement_mm": [500, 900],
+      "best_soil_types": ["Medium to deep black cotton soil", "Red lateritic soil with good drainage", "Sandy loam with pH 6.0-8.5"],
+      "agroclimatic_zones": ["Scarcity Zone", "Vidarbha", "Transition Zones"],
+      "cultivation_tips": "Drought tolerant crop suitable for rainfed conditions"
+    },
+    {
+      "name": "Soybean",
+      "varieties": ["JS-335", "MACS-450", "MACS-1407", "Pusa-16", "JS-9305"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [600, 900],
+      "best_soil_types": ["Deep black cotton soil with good organic matter", "Well-drained loamy soil with pH 6.0-7.5", "Medium textured soil with adequate calcium"],
+      "agroclimatic_zones": ["Assured Rainfall Zone", "Scarcity Zone", "Central Vidarbha"],
+      "cultivation_tips": "Nitrogen fixing legume, benefits from rhizobium inoculation"
+    },
+    {
+      "name": "Cotton",
+      "varieties": ["Bt Cotton", "PKV-081", "AKH-081", "Suraj", "MECH-162"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 21, "max": 35 },
+      "rainfall_requirement_mm": [500, 1000],
+      "best_soil_types": ["Deep black cotton soil with good water holding capacity", "Well-drained alluvial soil", "Medium to heavy textured soil with pH 6.0-8.0"],
+      "agroclimatic_zones": ["Central Vidarbha", "Marathwada", "Scarcity Zone"],
+      "cultivation_tips": "Requires long frost-free period and adequate moisture"
+    },
+    {
+      "name": "Wheat",
+      "varieties": ["HD-2967", "Lok-1", "MACS-6222", "NIAW-301", "Trimbak"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [300, 800],
+      "best_soil_types": ["Well-drained loamy soil with good fertility", "Alluvial soil with pH 6.0-7.5", "Deep clay loam with adequate nitrogen"],
+      "agroclimatic_zones": ["Marathwada", "Western Maharashtra"],
+      "cultivation_tips": "Requires cool weather during grain filling stage"
+    },
+    {
+      "name": "Sugarcane",
+      "varieties": ["Co-86032", "CoM-0265", "Co-7704", "MS-71/68", "Co-94012"],
+      "season": "Annual (12-18 months)",
+      "ideal_temperature_c": { "min": 20, "max": 38 },
+      "rainfall_requirement_mm": [1000, 2500],
+      "best_soil_types": ["Deep alluvial soil with high organic matter", "Well-drained heavy loam", "Fertile soil with pH 6.0-7.5 and good water retention"],
+      "agroclimatic_zones": ["Western Maharashtra", "Konkan"],
+      "cultivation_tips": "Requires abundant water and long growing season"
+    },
+    {
+      "name": "Onion",
+      "varieties": ["Bhima Super", "N-53", "Agrifound Dark Red", "Pusa Red", "Bhima Kiran"],
+      "season": "Rabi/Kharif",
+      "ideal_temperature_c": { "min": 15, "max": 30 },
+      "rainfall_requirement_mm": [400, 700],
+      "best_soil_types": ["Well-drained sandy loam with good organic matter", "Fertile alluvial soil with pH 6.0-7.5", "Medium textured soil with adequate phosphorus"],
+      "agroclimatic_zones": ["Western Maharashtra", "Marathwada"],
+      "cultivation_tips": "Requires well-drained soil to prevent bulb rot"
+    },
+    {
+      "name": "Tomato",
+      "varieties": ["Pusa Ruby", "Arka Vikas", "MTECH-1061", "Himsona", "Abhilash"],
+      "season": "All Seasons",
+      "ideal_temperature_c": { "min": 18, "max": 30 },
+      "rainfall_requirement_mm": [600, 1200],
+      "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Sandy loam with pH 6.0-7.0", "Deep fertile soil with good water retention"],
+      "agroclimatic_zones": ["Konkan", "Marathwada", "Western Ghats"],
+      "cultivation_tips": "Sensitive to waterlogging and extreme temperatures"
+    },
+    {
+      "name": "Grapes",
+      "varieties": ["Thompson Seedless", "Sharad Seedless", "Manik Chaman", "Sonaka", "Beauty Seedless"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 35 },
+      "rainfall_requirement_mm": [500, 700],
+      "best_soil_types": ["Well-drained deep loamy soil", "Sandy loam with good drainage and pH 6.5-7.5", "Alluvial soil with adequate calcium and potassium"],
+      "agroclimatic_zones": ["Nashik Region", "Deccan Plateau"],
+      "cultivation_tips": "Requires precise irrigation and pruning management"
+    },
+    {
+      "name": "Banana",
+      "varieties": ["Grand Naine", "Robusta", "Poovan", "Red Banana", "Dwarf Cavendish"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [1200, 2000],
+      "best_soil_types": ["Deep alluvial soil with high organic content", "Well-drained loamy soil with pH 6.0-7.5", "Fertile soil with good water holding capacity"],
+      "agroclimatic_zones": ["Jalgaon Region", "Western Maharashtra"],
+      "cultivation_tips": "Requires consistent moisture and wind protection"
+    },
+    {
+      "name": "Orange",
+      "varieties": ["Nagpur Orange", "Mosambi", "Blood Orange", "Valencia", "Kinnow"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 32 },
+      "rainfall_requirement_mm": [750, 1000],
+      "best_soil_types": ["Well-drained sandy loam with good depth", "Alluvial soil with pH 6.0-7.5", "Deep soil with adequate drainage and organic matter"],
+      "agroclimatic_zones": ["Nagpur Region", "Eastern Vidarbha"],
+      "cultivation_tips": "Requires good drainage to prevent root rot"
+    },
+    {
+      "name": "Pomegranate",
+      "varieties": ["Bhagwa", "Ganesh", "Ruby", "Arakta", "Mridula"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained sandy loam soil", "Deep alluvial soil with pH 6.5-7.5", "Medium textured soil with good organic content"],
+      "agroclimatic_zones": ["Solapur", "Ahmednagar", "Marathwada"],
+      "cultivation_tips": "Drought tolerant but needs irrigation during fruit development"
+    },
+    {
+      "name": "Maize",
+      "varieties": ["Ganga-5", "Deccan-103", "HQPM-1", "African Tall", "Composite-4"],
+      "season": "Kharif/Rabi",
+      "ideal_temperature_c": { "min": 20, "max": 32 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained loamy soil with good fertility", "Deep alluvial soil with pH 6.0-7.5", "Sandy loam with adequate organic matter"],
+      "agroclimatic_zones": ["Transition Zone I", "Central Maharashtra Plateau"],
+      "cultivation_tips": "Requires adequate drainage and balanced nutrition"
+    },
+    {
+      "name": "Groundnut",
+      "varieties": ["TAG-24", "TG-37A", "JL-24", "TPG-41", "GG-20"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [500, 1000],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light textured soil with pH 6.0-7.0", "Red sandy soil with good calcium content"],
+      "agroclimatic_zones": ["Scarcity Zone", "Western Maharashtra"],
+      "cultivation_tips": "Requires loose soil for proper peg penetration"
+    },
+    {
+      "name": "Tur (Pigeon Pea)",
+      "varieties": ["BSMR-736", "Maruti", "Vipula", "ICPL-87119", "BDN-711"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 18, "max": 35 },
+      "rainfall_requirement_mm": [600, 1000],
+      "best_soil_types": ["Medium to deep black cotton soil", "Well-drained loamy soil with pH 6.5-7.5", "Red lateritic soil with good organic matter"],
+      "agroclimatic_zones": ["Central Vidarbha", "Transition Zone II"],
+      "cultivation_tips": "Drought tolerant legume that improves soil fertility"
+    },
+    {
+      "name": "Chilli",
+      "varieties": ["Pusa Jwala", "Arka Lohit", "Byadgi", "Teja", "Wonder Hot"],
+      "season": "Kharif/Rabi",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [600, 1000],
+      "best_soil_types": ["Well-drained sandy loam with high organic matter", "Deep black soil with good drainage", "Fertile alluvial soil with pH 6.0-7.0"],
+      "agroclimatic_zones": ["Marathwada", "Central Vidarbha"],
+      "cultivation_tips": "Sensitive to waterlogging and requires good drainage"
+    },
+    {
+      "name": "Turmeric",
+      "varieties": ["Salem", "Erode Local", "Rajendra Sonia", "Roma", "Suroma"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 20, "max": 35 },
+      "rainfall_requirement_mm": [1000, 2000],
+      "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Deep alluvial soil with pH 6.0-7.5", "Sandy loam with good water retention"],
+      "agroclimatic_zones": ["Sangli", "Kolhapur", "Western Ghats"],
+      "cultivation_tips": "Requires shade and high organic matter content"
+    },
+    {
+      "name": "Garlic",
+      "varieties": ["G-1", "G-50", "Godavari", "Bhima Purple", "G-282"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 12, "max": 25 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile alluvial soil with pH 6.0-7.0", "Light textured soil with good organic content"],
+      "agroclimatic_zones": ["Western Maharashtra", "Transition Zone I"],
+      "cultivation_tips": "Requires well-drained soil and cool weather for bulb formation"
+    },
+    {
+      "name": "Cabbage",
+      "varieties": ["Golden Acre", "Pride of India", "Pusa Mukta", "Copenhagen Market", "Pusa Drum Head"],
+      "season": "Winter",
+      "ideal_temperature_c": { "min": 12, "max": 25 },
+      "rainfall_requirement_mm": [500, 1000],
+      "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Deep fertile soil with pH 6.0-7.0", "Sandy loam with adequate nitrogen"],
+      "agroclimatic_zones": ["Pune", "Nashik", "Western Ghats"],
+      "cultivation_tips": "Requires cool weather and consistent moisture"
+    },
+    {
+      "name": "Cauliflower",
+      "varieties": ["Pusa Snowball K-1", "Improved Japanese", "Pant Gobhi-3", "HISSAR-1", "Pusa Synthetic"],
+      "season": "Rabi/Winter",
+      "ideal_temperature_c": { "min": 15, "max": 25 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained fertile loamy soil", "Deep soil with high organic matter and pH 6.0-7.0", "Sandy loam with good water retention"],
+      "agroclimatic_zones": ["Pune Division", "Konkan"],
+      "cultivation_tips": "Sensitive to temperature fluctuations during curd formation"
+    },
+    {
+      "name": "Brinjal (Eggplant)",
+      "varieties": ["Pusa Purple Long", "Arka Nidhi", "MEBH-99", "Manjari Gota", "Phule Santosh"],
+      "season": "Kharif/Rabi",
+      "ideal_temperature_c": { "min": 20, "max": 35 },
+      "rainfall_requirement_mm": [600, 1200],
+      "best_soil_types": ["Well-drained loamy soil with good organic content", "Deep fertile soil with pH 6.5-7.5", "Sandy loam with adequate phosphorus"],
+      "agroclimatic_zones": ["Konkan", "Marathwada", "Desh Region"],
+      "cultivation_tips": "Requires warm weather and well-drained soil"
+    },
+    {
+      "name": "Okra (Lady Finger)",
+      "varieties": ["Pusa A-4", "Arka Anamika", "Parbhani Kranti", "VRO-6", "Hisar Unnat"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 20, "max": 35 },
+      "rainfall_requirement_mm": [600, 1000],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile soil with pH 6.0-7.5", "Light textured soil with good organic matter"],
+      "agroclimatic_zones": ["Western Maharashtra", "Vidarbha"],
+      "cultivation_tips": "Thrives in hot weather and requires good drainage"
+    },
+    {
+      "name": "Watermelon",
+      "varieties": ["Sugar Baby", "Charleston Grey", "Crimson Sweet", "Pusa Bedana", "Arka Manik"],
+      "season": "Summer",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light textured soil with pH 6.0-7.0", "Alluvial soil with good organic content"],
+      "agroclimatic_zones": ["Marathwada", "Vidarbha", "Scarcity Zone"],
+      "cultivation_tips": "Requires hot weather and excellent drainage"
+    },
+    {
+      "name": "Muskmelon",
+      "varieties": ["Pusa Sharbati", "Hara Madhu", "Punjab Sunehri", "Arka Jeet", "Durgapura Madhu"],
+      "season": "Summer",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light soil with pH 6.0-7.5", "Alluvial soil with good drainage"],
+      "agroclimatic_zones": ["Scarcity Zone", "Western Maharashtra"],
+      "cultivation_tips": "Requires warm weather and protection from excess moisture"
+    },
+    {
+      "name": "Cucumber",
+      "varieties": ["Poinsett", "Straight Eight", "Japanese Long Green", "Pusa Sanyog", "Pant Khira-1"],
+      "season": "Summer/Kharif",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained sandy loam with high organic matter", "Fertile soil with pH 6.0-7.0", "Light textured soil with good water retention"],
+      "agroclimatic_zones": ["Western Maharashtra", "Konkan"],
+      "cultivation_tips": "Requires consistent moisture and good drainage"
+    },
+    {
+      "name": "Bottle Gourd",
+      "varieties": ["Pusa Summer Prolific Long", "Arka Bahar", "PDKG-87", "Pusa Naveen", "CO-1"],
+      "season": "Summer/Kharif",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [600, 800],
+      "best_soil_types": ["Well-drained loamy soil with organic matter", "Sandy loam with pH 6.0-7.5", "Fertile alluvial soil"],
+      "agroclimatic_zones": ["Western Maharashtra", "Scarcity Zone"],
+      "cultivation_tips": "Requires warm weather and adequate support for vines"
+    },
+    {
+      "name": "Ridge Gourd",
+      "varieties": ["Pusa Nasdar", "Arka Sumeet", "CO-1", "Satputia", "Punjab Sadabahar"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [500, 700],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile soil with pH 6.0-7.0", "Light textured soil with good organic content"],
+      "agroclimatic_zones": ["Pune Division", "Marathwada"],
+      "cultivation_tips": "Requires support for climbing and good drainage"
+    },
+    {
+      "name": "Bitter Gourd",
+      "varieties": ["Pusa Do Mausami", "Coimbatore Long", "MDU-1", "Arka Harit", "VRBTG-2"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 24, "max": 30 },
+      "rainfall_requirement_mm": [500, 700],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile soil with pH 6.0-7.0", "Light soil with high organic matter"],
+      "agroclimatic_zones": ["Scarcity Zone", "Western Maharashtra"],
+      "cultivation_tips": "Requires warm humid conditions and good drainage"
+    },
+    {
+      "name": "Snake Gourd",
+      "varieties": ["CO-2", "PLR-1", "TA-19", "Kerala Local", "Pusa Chikni"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [600, 900],
+      "best_soil_types": ["Well-drained loamy soil", "Sandy loam with pH 6.0-7.5", "Fertile soil with good organic content"],
+      "agroclimatic_zones": ["Konkan", "Western Maharashtra"],
+      "cultivation_tips": "Requires support structure and consistent moisture"
+    },
+    {
+      "name": "Pumpkin",
+      "varieties": ["Connecticut Field", "Ambili", "Arka Chandan", "CO-1", "Arka Suryamukhi"],
+      "season": "Kharif/Summer",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [500, 1000],
+      "best_soil_types": ["Well-drained sandy loam with organic matter", "Fertile alluvial soil with pH 6.0-7.0", "Deep soil with good water retention"],
+      "agroclimatic_zones": ["Western Maharashtra", "Vidarbha"],
+      "cultivation_tips": "Requires space for vine spread and consistent moisture"
+    },
+    {
+      "name": "Ash Gourd",
+      "varieties": ["CO-1", "Arka Ujjwal", "COAH-1", "Punjab Safed", "Pusa Ujas"],
+      "season": "Summer/Kharif",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [600, 1000],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile soil with pH 6.0-7.5", "Light textured soil with organic matter"],
+      "agroclimatic_zones": ["Pune Division", "Western Maharashtra"],
+      "cultivation_tips": "Long storage life and requires good drainage"
+    },
+    {
+      "name": "Spinach",
+      "varieties": ["All Green", "Pusa Jyoti", "Pusa Harit", "Banerjee Giant", "Nobel"],
+      "season": "Winter",
+      "ideal_temperature_c": { "min": 15, "max": 25 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained loamy soil rich in nitrogen", "Fertile sandy loam with pH 6.0-7.0", "Organic-rich soil with good water retention"],
+      "agroclimatic_zones": ["Pune", "Western Maharashtra"],
+      "cultivation_tips": "Cool season crop requiring nitrogen-rich soil"
+    },
+    {
+      "name": "Fenugreek",
+      "varieties": ["Pusa Early Bunching", "Gujarat Methi-2", "Rajendra Krant", "Hisar Sonali", "Lam Selection-1"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [300, 500],
+      "best_soil_types": ["Well-drained loamy soil", "Sandy soil with pH 6.0-7.0", "Light textured soil with moderate fertility"],
+      "agroclimatic_zones": ["Marathwada", "Western Maharashtra"],
+      "cultivation_tips": "Drought tolerant crop suitable for dry conditions"
+    },
+    {
+      "name": "Coriander",
+      "varieties": ["Gujarat Coriander-1", "Rajendra Swati", "Pant Haritima", "CS-6", "Hisar Anand"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained sandy loam soil", "Fertile soil with pH 6.5-7.5", "Light textured soil with good organic content"],
+      "agroclimatic_zones": ["Western Maharashtra", "Marathwada"],
+      "cultivation_tips": "Cool season crop requiring well-drained soil"
+    },
+    {
+      "name": "Carrot",
+      "varieties": ["Pusa Kesar", "Nantes", "Chantenay", "Pusa Yamdagni", "Selection-223"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [600, 800],
+      "best_soil_types": ["Well-drained sandy loam soil", "Deep loose soil with pH 6.0-7.0", "Light textured soil free from stones"],
+      "agroclimatic_zones": ["Pune Division", "Western Maharashtra"],
+      "cultivation_tips": "Requires deep, loose soil for proper root development"
+    },
+    {
+      "name": "Radish",
+      "varieties": ["Pusa Chetki", "Japanese White", "Arka Nishanth", "Pusa Reshmi", "Chinese Pink"],
+      "season": "Rabi/Winter",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light soil with pH 6.0-7.0", "Loose textured soil with good organic matter"],
+      "agroclimatic_zones": ["Pune Division", "Western Maharashtra"],
+      "cultivation_tips": "Fast growing crop requiring loose, well-drained soil"
+    },
+    {
+      "name": "Beetroot",
+      "varieties": ["Detroit Dark Red", "Crimson Globe", "Early Wonder", "Ruby Queen", "Arka Kanti"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 25 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained sandy loam soil", "Deep fertile soil with pH 6.0-7.5", "Light textured soil with good organic content"],
+      "agroclimatic_zones": ["Pune", "Nashik"],
+      "cultivation_tips": "Cool season root crop requiring well-drained soil"
+    },
+    {
+      "name": "Turnip",
+      "varieties": ["Purple Top White Globe", "Pusa Chandrima", "Pusa Kanchan", "L-1", "PTWG"],
+      "season": "Rabi",
+      "ideal_temperature_c": { "min": 10, "max": 20 },
+      "rainfall_requirement_mm": [400, 600],
+      "best_soil_types": ["Well-drained loamy soil", "Sandy soil with pH 6.0-7.0", "Light textured soil with good fertility"],
+      "agroclimatic_zones": ["Marathwada", "Transition Zone I"],
+      "cultivation_tips": "Cool season crop preferring loose, fertile soil"
+    },
+    {
+      "name": "Sweet Potato",
+      "varieties": ["Pusa Safed", "Pusa Lal", "ST-14", "Kalmegh", "Sree Bhadra"],
+      "season": "Kharif/Rabi",
+      "ideal_temperature_c": { "min": 21, "max": 29 },
+      "rainfall_requirement_mm": [750, 1200],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light textured soil with pH 5.8-6.2", "Loose soil with good organic matter"],
+      "agroclimatic_zones": ["Eastern Vidarbha", "Konkan"],
+      "cultivation_tips": "Requires loose, well-drained soil for tuber development"
+    },
+    {
+      "name": "Ginger",
+      "varieties": ["Rio-de-Janeiro", "Maran", "Suruchi", "Suprabha", "Himgiri"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 24, "max": 30 },
+      "rainfall_requirement_mm": [1500, 3000],
+      "best_soil_types": ["Well-drained sandy loam with high organic matter", "Deep fertile soil with pH 6.0-6.5", "Loose textured soil with good drainage"],
+      "agroclimatic_zones": ["Konkan", "Western Maharashtra"],
+      "cultivation_tips": "Requires shade, high organic matter, and good drainage"
+    },
+    {
+      "name": "Cashew",
+      "varieties": ["Vengurla-4", "Vengurla-7", "Ullal-3", "VRI-3", "Bhaskara"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 24, "max": 30 },
+      "rainfall_requirement_mm": [1000, 2000],
+      "best_soil_types": ["Well-drained lateritic soil", "Sandy loam with pH 5.0-6.5", "Red coastal soil with good drainage"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat"],
+      "cultivation_tips": "Requires well-drained acidic soil and coastal climate"
+    },
+    {
+      "name": "Mango",
+      "varieties": ["Alphonso", "Kesar", "Banganapalli", "Dasheri", "Langra"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 24, "max": 35 },
+      "rainfall_requirement_mm": [750, 1500],
+      "best_soil_types": ["Well-drained deep alluvial soil", "Sandy loam with pH 6.0-7.5", "Red lateritic soil with good depth"],
+      "agroclimatic_zones": ["Konkan", "Western Maharashtra", "Vidarbha"],
+      "cultivation_tips": "Requires deep, well-drained soil and dry period for flowering"
+    },
+    {
+      "name": "Guava",
+      "varieties": ["Sardar", "Allahabad Safeda", "Apple Guava", "Chittidar", "Arka Mridula"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 23, "max": 28 },
+      "rainfall_requirement_mm": [1000, 1200],
+      "best_soil_types": ["Well-drained sandy loam soil", "Alluvial soil with pH 6.0-7.5", "Deep fertile soil with good organic content"],
+      "agroclimatic_zones": ["Konkan", "Pune Division"],
+      "cultivation_tips": "Adaptable to various soils but prefers well-drained conditions"
+    },
+    {
+      "name": "Sapota",
+      "varieties": ["Kalipatti", "Cricket Ball", "Oval", "CO-1", "CO-2"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 32 },
+      "rainfall_requirement_mm": [1250, 2500],
+      "best_soil_types": ["Well-drained sandy loam soil", "Red coastal soil with pH 6.0-8.0", "Deep alluvial soil with good drainage"],
+      "agroclimatic_zones": ["Konkan", "Scarcity Zone"],
+      "cultivation_tips": "Salt tolerant and adaptable to various soil conditions"
+    },
+    {
+      "name": "Custard Apple",
+      "varieties": ["Balanagar", "Red Sitaphal", "Washington", "Mammoth", "Arka Sahan"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [500, 800],
+      "best_soil_types": ["Well-drained sandy loam soil", "Red lateritic soil with pH 6.5-7.5", "Light textured soil with good drainage"],
+      "agroclimatic_zones": ["Scarcity Zone", "Transition Zone II"],
+      "cultivation_tips": "Drought tolerant but requires well-drained soil"
+    },
+    {
+      "name": "Jackfruit",
+      "varieties": ["Gulabi", "Hazari", "Rudrakshi", "Singapore", "Ceylon"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 32 },
+      "rainfall_requirement_mm": [1500, 2500],
+      "best_soil_types": ["Deep well-drained alluvial soil", "Lateritic soil with pH 6.0-7.5", "Rich loamy soil with good organic content"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat"],
+      "cultivation_tips": "Requires deep soil and high humidity"
+    },
+    {
+      "name": "Papaya",
+      "varieties": ["Solo", "Coorg Honey Dew", "Pusa Majesty", "Pusa Giant", "Taiwan"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 21, "max": 33 },
+      "rainfall_requirement_mm": [1000, 2000],
+      "best_soil_types": ["Well-drained deep loamy soil", "Sandy loam with pH 6.0-7.0", "Fertile soil with good organic matter"],
+      "agroclimatic_zones": ["Western Maharashtra", "Vidarbha"],
+      "cultivation_tips": "Sensitive to waterlogging and requires good drainage"
+    },
+    {
+      "name": "Drumstick",
+      "varieties": ["PKM-1", "PKM-2", "Bhagya", "Rohit-1", "ODC-3"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 25, "max": 35 },
+      "rainfall_requirement_mm": [500, 1000],
+      "best_soil_types": ["Well-drained sandy loam soil", "Red lateritic soil with pH 6.3-7.0", "Light textured soil with good drainage"],
+      "agroclimatic_zones": ["Transition Zone II", "Western Maharashtra"],
+      "cultivation_tips": "Drought tolerant and grows well in marginal soils"
+    },
+    {
+      "name": "Coconut",
+      "varieties": ["West Coast Tall", "Malayan Dwarf", "Chandra Kalpa", "Kera Ganga", "Benaulim"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 32 },
+      "rainfall_requirement_mm": [1000, 2500],
+      "best_soil_types": ["Well-drained sandy loam soil", "Coastal alluvial soil with pH 5.5-8.0", "Deep soil with good water retention"],
+      "agroclimatic_zones": ["Konkan", "Coastal regions"],
+      "cultivation_tips": "Requires high water table and coastal climate"
+    },
+    {
+      "name": "Arecanut",
+      "varieties": ["Mangala", "Mohitnagar", "Sumangala", "Sreemangala", "Local varieties"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 35 },
+      "rainfall_requirement_mm": [1000, 3000],
+      "best_soil_types": ["Well-drained lateritic soil", "Deep loamy soil with pH 6.0-7.5", "Rich alluvial soil with high organic content"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat"],
+      "cultivation_tips": "Requires shade and high humidity"
+    },
+    {
+      "name": "Black Pepper",
+      "varieties": ["Panniyur-1", "Karimunda", "Balankotta", "Sreekara", "Subhakara"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [1500, 3000],
+      "best_soil_types": ["Well-drained red lateritic soil", "Forest loam with pH 6.0-7.5", "Rich organic soil with good drainage"],
+      "agroclimatic_zones": ["Western Ghat", "Konkan"],
+      "cultivation_tips": "Requires support trees and high humidity"
+    },
+    {
+      "name": "Cardamom",
+      "varieties": ["Malabar", "Mysore", "Vazhukka", "CCS-1", "IISR Avinash"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 15, "max": 25 },
+      "rainfall_requirement_mm": [1500, 4000],
+      "best_soil_types": ["Well-drained forest loam soil", "Rich organic soil with pH 6.0-6.8", "Deep humus-rich soil under shade"],
+      "agroclimatic_zones": ["Western Ghat"],
+      "cultivation_tips": "Requires shade, high altitude, and rich organic soil"
+    },
+    {
+      "name": "Vanilla",
+      "varieties": ["Vanilla planifolia", "Local climbing variety"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [1500, 2500],
+      "best_soil_types": ["Well-drained organic-rich soil", "Forest loam with pH 6.0-7.0", "Sandy loam with high organic content"],
+      "agroclimatic_zones": ["Western Ghat", "Konkan"],
+      "cultivation_tips": "Requires support trees, shade, and manual pollination"
+    },
+    {
+      "name": "Nutmeg",
+      "varieties": ["Local varieties", "Konkan selection"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [1500, 2500],
+      "best_soil_types": ["Well-drained deep loamy soil", "Red lateritic soil with pH 6.0-7.5", "Rich organic soil with good drainage"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat"],
+      "cultivation_tips": "Requires shade when young and well-drained soil"
+    },
+    {
+      "name": "Clove",
+      "varieties": ["Local varieties", "Konkan selection"],
+      "season": "Perennial",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [1500, 2500],
+      "best_soil_types": ["Well-drained red lateritic soil", "Deep loamy soil with pH 6.0-7.0", "Rich organic soil with good water retention"],
+      "agroclimatic_zones": ["Konkan", "Western Ghat"],
+      "cultivation_tips": "Requires humid climate and well-drained soil"
+    },
+    {
+      "name": "Tapioca (Cassava)",
+      "varieties": ["H-165", "Sree Vijaya", "M-4", "Sree Prakash", "Sree Athulya"],
+      "season": "Kharif",
+      "ideal_temperature_c": { "min": 20, "max": 30 },
+      "rainfall_requirement_mm": [1000, 2000],
+      "best_soil_types": ["Well-drained sandy loam soil", "Light textured soil with pH 5.5-6.5", "Fertile alluvial soil with good drainage"],
+      "agroclimatic_zones": ["Konkan", "Scarcity Zone"],
+      "cultivation_tips": "Requires well-drained soil and consistent moisture"
+    }
+  ]
+}

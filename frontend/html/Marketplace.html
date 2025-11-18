@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSheti - Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Home page.css"/>
+    <script src="../js/translations.js"></script>
+</head>
+<body class="font-sans" 
+      style="background-color: #EBE4DB;"
+      data-page-name="marketplace">
+    
+    <!-- Header copied exactly from Home page -->
+    <header class="shadow-sm loaded" style="position: relative;">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="brand-section">
+                <img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
+                <span class="text-xl font-bold brand-text">SmartSheti</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-4">
+                <a class="text-gray-600 hover:text-green-600" href="Home page.html">Home</a>
+                <a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html">Weather</a>
+                <a class="font-semibold" href="Marketplace.html">Marketplace</a>
+                <a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+            </nav>
+            <div class="flex items-center space-x-2 action-buttons">
+                <div class="relative">
+                    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+                        <span class="material-icons mr-1">translate</span>
+                        <span id="currentLang">EN</span>
+                    </button>
+                    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+                    </div>
+                </div>
+                <button class="text-gray-600 hover:text-green-600">
+                    <span class="material-icons">notifications</span>
+                </button>
+                <div class="relative">
+                    <button id="profileBtn" class="text-gray-600 hover:text-green-600">
+                        <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+                    </button>
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                        <hr class="my-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="min-h-screen px-6 py-12" style="background-color: #EBE4DB;">
+        <div class="container mx-auto max-w-7xl">
+            <h1 class="text-4xl font-bold text-gray-800">Marketplace</h1>
+            <p class="text-gray-600 mt-2">Browse premium quality vegetable seeds from BigHaat - India's trusted agricultural platform.</p>
+            
+            <div class="mt-8 relative max-w-2xl">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-4">
+                    <span class="material-icons text-gray-400">search</span>
+                </div>
+                <input id="marketplaceSearchInput" class="w-full bg-white pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Search for seeds, vegetables, crops..." type="text"/>
+            </div>
+            
+            <div class="mt-8 flex space-x-8 border-b border-gray-300">
+                <button id="filterAll" class="category-filter py-2 px-1 text-gray-900 font-semibold border-b-2 border-gray-900" data-category="all">All Products</button>
+                <button id="filterSeeds" class="category-filter py-2 px-1 text-gray-600 hover:text-gray-900" data-category="seeds">Seeds</button>
+                <button id="filterFertilizers" class="category-filter py-2 px-1 text-gray-600 hover:text-gray-900" data-category="fertilizers">Fertilizers</button>
+                <button id="filterEquipment" class="category-filter py-2 px-1 text-gray-600 hover:text-gray-900" data-category="equipment">Equipment</button>
+                <button id="filterTools" class="category-filter py-2 px-1 text-gray-600 hover:text-gray-900" data-category="tools">Tools</button>
+            </div>
+            
+            <div id="productsGrid" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- CFL 1522 Cauliflower Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="CFL 1522 Cauliflower Seeds" data-category="seeds" data-crop="cauliflower">
+                    <img alt="CFL 1522 Cauliflower Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://images.unsplash.com/photo-1568584711271-055f9b1bb7b6?w=800&h=600&fit=crop&q=90"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">CFL 1522 Cauliflower Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">Premium Syngenta cauliflower seeds with excellent head formation. Early maturity variety with 4.8★ rating.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹350/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹420/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/1522-cauliflower?pf=seedsOnline', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tomato Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="NS 526 F1 Hybrid Tomato Seeds" data-category="seeds" data-crop="tomato">
+                    <img alt="Hybrid Tomato Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://images.unsplash.com/photo-1546470427-e75b7e8b9f23?w=800&h=600&fit=crop&q=90"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">NS 526 F1 Hybrid Tomato Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">High yield hybrid tomato seeds with disease resistance. Perfect for greenhouse and open field cultivation.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹280/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹340/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/namdhari-tomato-ns-526-gs?pf=search', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chilli Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="F1 Hybrid Chilli Seeds" data-category="seeds" data-crop="chilli">
+                    <img alt="Red Chilli Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVSuonPCBtefmJMs8RCve9zUpwrHDVEASY4w&s"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">F1 Hybrid Chilli Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">Premium quality chilli seeds with high pungency and yield. Suitable for commercial cultivation.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹320/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹380/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/vnr-109?pf=search', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Okra Bhendi Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="Premium Okra Seeds" data-category="seeds" data-crop="okra">
+                    <img alt="Okra Bhendi Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://5.imimg.com/data5/SELLER/Default/2022/5/QR/OW/ZO/149463686/f1-hybrid-bhindi.jpeg"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Radhika Bhendi Okra Hybrid Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">High quality okra (bhendi) seeds with tender pods and excellent taste. Fast growing variety.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹180/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹220/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/radhika-bhendi-okra?pf=bestQualityOkraSeeds', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cabbage Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="Hybrid Cabbage Seeds" data-category="seeds" data-crop="cabbage">
+                    <img alt="Cabbage Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://images.unsplash.com/photo-1553978297-833d09932d31?w=800&h=600&fit=crop&q=90"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Hybrid Cabbage Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">Compact head cabbage seeds with good storage quality. Ideal for cool season cultivation.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹300/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹360/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/collections/cabbage', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carrot Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="Orange Carrot Seeds" data-category="seeds" data-crop="carrot">
+                    <img alt="Carrot Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://images.unsplash.com/photo-1508424757105-b6d5ad9329d0?w=800&h=600&fit=crop&q=90"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Orange Carrot Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">Sweet orange carrot seeds with good root formation. Rich in beta-carotene and nutrients.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹150/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹185/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/collections/carrot', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Onion Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="Red Onion Seeds" data-category="seeds" data-crop="onion">
+                    <img alt="Onion Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://5.imimg.com/data5/SELLER/Default/2022/6/LD/NW/JT/13394433/onion-seeds.jpeg"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Red Onion Seeds</h3>
+                        <p class="text-gray-600 text-sm mb-3">High quality red onion seeds with good storage life. Early variety with excellent bulb formation.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹200/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹240/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/collections/onion', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Coriander Seeds -->
+<div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="Surabhi Coriander Seeds" data-category="seeds" data-crop="coriander">
+    <img alt="Surabhi Coriander Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://cdn.shopify.com/s/files/1/0722/2059/files/surabhi-coriander-seeds-file-20001_7433f428-3960-4a50-a64a-bc9e2b358b03.jpg?v=1747131414"/>
+    <div class="p-4">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Surabhi Coriander Seeds</h3>
+        <p class="text-gray-600 text-sm mb-3">Aromatic, high-yield coriander seeds from Namdhari—multi-cut, perfect for kitchen gardens or commercial plots.</p>
+        <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl font-bold text-green-600">₹159/pack</span>
+            <span class="text-sm text-gray-500 line-through">₹250/pack</span>
+        </div>
+        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/coriander-namdhari?pf=seedsOnline', '_blank')">
+            Buy Now
+        </button>
+    </div>
+</div>
+
+
+<!-- Brinjal Seeds -->
+<div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="212 F1 Hybrid Brinjal Seeds" data-category="seeds" data-crop="brinjal">
+    <img alt="212 F1 Hybrid Brinjal Seeds" class="w-full h-48 object-contain bg-gray-50" src="https://rukminim2.flixcart.com/image/850/1000/xif0q/plant-seed/q/d/s/400-f1-hybrid-212-brinjal-seeds-vnr-original-imags6zxvez3xap7.jpeg?q=90&crop=false"/>
+    <div class="p-4">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">212 F1 Hybrid Brinjal Seeds</h3>
+        <p class="text-gray-600 text-sm mb-3">High-yield, disease-resistant brinjal seeds. Perfect for greenhouse and open-field farming with uniform fruit size.</p>
+        <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl font-bold text-green-600">₹159/pack</span>
+            <span class="text-sm text-gray-500 line-through">₹224/pack</span>
+        </div>
+        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/vnr-212-brinjal?pf=seedsOnline', '_blank')">
+            Buy Now
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Mustard Seeds -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="RUDRAKSH HYBRID MUSTARD F1" data-category="seeds" data-crop="mustard">
+                    <img alt="RUDRAKSH HYBRID MUSTARD" class="w-full h-48 object-contain bg-gray-50" 
+src="https://www.kushaspices.com/wp-content/uploads/2021/01/Mustard-e1616057582117.png
+"/>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">RUDRAKSH HYBRID MUSTARD F1</h3>
+                        <p class="text-gray-600 text-sm mb-3">High yield hybrid mustard seeds with disease resistance. Perfect for greenhouse and open field cultivation.</p>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹400/pack</span>
+                            <span class="text-sm text-gray-500 line-through">₹600/pack</span>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/rudraksh-hybrid-mustard-rs-1046?pf=search', '_blank')">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+
+
+                <!-- Cucumber Seeds -->
+<div class="product-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300" data-name="NS 404 F1 Hybrid Cucumber Seeds" data-category="seeds" data-crop="cucumber">
+    <img alt="NS 404 F1 Hybrid Cucumber Seeds – High Yield & Quality Fruits" class="w-full h-48 object-contain bg-gray-50" src="https://cdn.shopify.com/s/files/1/0722/2059/files/ns-404-file-1319.jpg?v=1737435853"/>
+    <div class="p-4">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">NS 404 F1 Hybrid Cucumber Seeds – High Yield & Quality Fruits</h3>
+        <p class="text-gray-600 text-sm mb-3">Premium hybrid cucumber seeds for high yield and uniform fruits. Ideal for both open field and greenhouse cultivation.</p>
+        <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl font-bold text-green-600">₹199/pack</span>
+            <span class="text-sm text-gray-500 line-through">₹300/pack</span>
+        </div>
+        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200" onclick="window.open('https://www.bighaat.com/products/ns-404?pf=seedsOnline', '_blank')">
+            Buy Now
+        </button>
+    </div>
+</div>
+
+
+
+
+            </div>
+        </div>
+    </main><script>
+// Translation and Dropdown functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile dropdown toggle
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    // Translation dropdown toggle
+    const translateBtn = document.getElementById('translateBtn');
+    const languageDropdown = document.getElementById('languageDropdown');
+    
+    if (translateBtn && languageDropdown) {
+        translateBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function() {
+        if (profileDropdown) profileDropdown.classList.add('hidden');
+        if (languageDropdown) languageDropdown.classList.add('hidden');
+    });
+    
+    // Language selection
+    const languageLinks = document.querySelectorAll('[data-lang]');
+    const currentLangSpan = document.getElementById('currentLang');
+    
+    languageLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const lang = this.getAttribute('data-lang');
+            
+            // Update current language display
+            if (currentLangSpan) {
+                switch(lang) {
+                    case 'hi':
+                        currentLangSpan.textContent = 'हि';
+                        break;
+                    case 'mr':
+                        currentLangSpan.textContent = 'मर';
+                        break;
+                    default:
+                        currentLangSpan.textContent = 'EN';
+                }
+            }
+            
+            // Store language preference
+            localStorage.setItem('selectedLanguage', lang);
+            
+            // Close dropdown
+            if (languageDropdown) languageDropdown.classList.add('hidden');
+        });
+    });
+    
+    // Load saved language on page load
+    const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+    if (currentLangSpan) {
+        switch(savedLang) {
+            case 'hi':
+                currentLangSpan.textContent = 'हि';
+                break;
+            case 'mr':
+                currentLangSpan.textContent = 'मर';
+                break;
+            default:
+                currentLangSpan.textContent = 'EN';
+        }
+    }
+
+    // Search functionality
+    function initializeSearch() {
+        const searchInput = document.getElementById('marketplaceSearchInput');
+        const productsGrid = document.getElementById('productsGrid');
+        const allProducts = document.querySelectorAll('.product-card');
+        
+        if (!searchInput) return;
+
+        // Add real-time search functionality
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            // If search is empty, show all products
+            if (searchTerm === '') {
+                allProducts.forEach(product => {
+                    product.style.display = 'block';
+                });
+                updateSearchResultsCount(allProducts.length);
+                return;
+            }
+
+            let visibleCount = 0;
+            
+            // Filter products based on search term
+            allProducts.forEach(product => {
+                const productName = product.getAttribute('data-name').toLowerCase();
+                const productCrop = product.getAttribute('data-crop').toLowerCase();
+                
+                // Check if search term matches product name or crop type only
+                const isMatch = productName.includes(searchTerm) ||
+                              productCrop.includes(searchTerm);
+                
+                if (isMatch) {
+                    product.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+            
+            updateSearchResultsCount(visibleCount);
+        });
+
+        // Add search suggestions on focus
+        searchInput.addEventListener('focus', showSearchSuggestions);
+        
+        // Handle search suggestions
+        function showSearchSuggestions() {
+            // Get unique crop names from products
+            const suggestions = [...new Set(Array.from(allProducts).map(product => 
+                product.getAttribute('data-crop')
+            ))].sort();
+            
+            console.log('Available crops for search:', suggestions);
+        }
+    }
+    
+    // Update search results count
+    function updateSearchResultsCount(count) {
+        // Remove existing result counter if any
+        const existingCounter = document.getElementById('searchResultsCounter');
+        if (existingCounter) {
+            existingCounter.remove();
+        }
+        
+        // Remove existing no results message
+        const existingNoResults = document.getElementById('noResultsMessage');
+        if (existingNoResults) {
+            existingNoResults.remove();
+        }
+        
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+        
+        if (count === 0) {
+            // Show no results message
+            const noResultsDiv = document.createElement('div');
+            noResultsDiv.id = 'noResultsMessage';
+            noResultsDiv.className = 'col-span-full text-center py-12';
+            noResultsDiv.innerHTML = `
+                <div class="text-gray-400">
+                    <span class="material-icons text-6xl mb-4 block">search_off</span>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+                    <p class="text-gray-500">Try searching with different keywords or browse all categories</p>
+                </div>
+            `;
+            productsGrid.appendChild(noResultsDiv);
+        } else {
+            // Add result counter
+            const counter = document.createElement('div');
+            counter.id = 'searchResultsCounter';
+            counter.className = 'text-gray-600 text-sm mb-4 col-span-full';
+            counter.textContent = count === 1 ? '1 product found' : `${count} products found`;
+            
+            productsGrid.insertBefore(counter, productsGrid.firstChild);
+        }
+    }
+
+    // Initialize search when page loads
+    initializeSearch();
+    
+    // Category filtering functionality
+    function initializeCategoryFilters() {
+        const categoryButtons = document.querySelectorAll('.category-filter');
+        const allProducts = document.querySelectorAll('.product-card');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const selectedCategory = this.getAttribute('data-category');
+                
+                // Update button styles
+                categoryButtons.forEach(btn => {
+                    btn.className = 'category-filter py-2 px-1 text-gray-600 hover:text-gray-900';
+                });
+                this.className = 'category-filter py-2 px-1 text-gray-900 font-semibold border-b-2 border-gray-900';
+                
+                // Clear search input
+                const searchInput = document.getElementById('marketplaceSearchInput');
+                if (searchInput) searchInput.value = '';
+                
+                // Filter products
+                let visibleCount = 0;
+                allProducts.forEach(product => {
+                    const productCategory = product.getAttribute('data-category');
+                    
+                    if (selectedCategory === 'all' || productCategory === selectedCategory) {
+                        product.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+                
+                updateSearchResultsCount(visibleCount);
+            });
+        });
+    }
+    
+    // Initialize category filters
+    initializeCategoryFilters();
+});
+</script>
+
+</body></html>

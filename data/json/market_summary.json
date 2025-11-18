@@ -1,0 +1,195 @@
+{
+  "total_commodities": 35,
+  "markets_covered": 5,
+  "average_prices": {
+    "wheat": 2590.0,
+    "wheat (durum)": 2797.2,
+    "rice": 3470.4,
+    "rice (basmati)": 5024.4,
+    "maize": 2072.0,
+    "cotton": 6216.0,
+    "sugarcane": 310.8,
+    "tomato": 1036.0,
+    "tomato (hybrid)": 1450.4,
+    "onion": 1761.2,
+    "onion (white)": 1864.8,
+    "potato": 1139.6,
+    "cauliflower": 828.8,
+    "cabbage": 621.6,
+    "carrot": 1450.4,
+    "beetroot": 1036.0,
+    "green chilli": 2590.0,
+    "brinjal": 1139.6,
+    "okra": 1916.4,
+    "spinach": 828.8,
+    "mango": 5180.0,
+    "mango (kesar)": 4402.8,
+    "banana": 1554.0,
+    "banana (grand naine)": 1916.4,
+    "apple": 10360.0,
+    "orange": 2590.0,
+    "grapes": 3884.8,
+    "pomegranate": 5180.0,
+    "papaya": 1139.6,
+    "watermelon": 621.6,
+    "guava": 1916.4,
+    "chickpea": 5024.4,
+    "pigeon pea": 5594.4,
+    "black gram": 6734.0,
+    "green gram": 6216.0
+  },
+  "high_demand_items": [
+    {
+      "commodity": "wheat",
+      "average_price": 2590.0,
+      "trend": "+5%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "wheat (durum)",
+      "average_price": 2797.2,
+      "trend": "+6%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "rice (basmati)",
+      "average_price": 5024.4,
+      "trend": "+8%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "cotton",
+      "average_price": 6216.0,
+      "trend": "+7%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "tomato",
+      "average_price": 1036.0,
+      "trend": "+8%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "tomato (hybrid)",
+      "average_price": 1450.4,
+      "trend": "+12%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "onion",
+      "average_price": 1761.2,
+      "trend": "+5%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "onion (white)",
+      "average_price": 1864.8,
+      "trend": "+7%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "carrot",
+      "average_price": 1450.4,
+      "trend": "+6%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "green chilli",
+      "average_price": 2590.0,
+      "trend": "+15%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "brinjal",
+      "average_price": 1139.6,
+      "trend": "+8%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "okra",
+      "average_price": 1916.4,
+      "trend": "+10%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "mango",
+      "average_price": 5180.0,
+      "trend": "+20%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "mango (kesar)",
+      "average_price": 4402.8,
+      "trend": "+18%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "banana",
+      "average_price": 1554.0,
+      "trend": "+6%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "banana (grand naine)",
+      "average_price": 1916.4,
+      "trend": "+8%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "apple",
+      "average_price": 10360.0,
+      "trend": "+12%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "orange",
+      "average_price": 2590.0,
+      "trend": "+7%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "grapes",
+      "average_price": 3884.8,
+      "trend": "+10%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "pomegranate",
+      "average_price": 5180.0,
+      "trend": "+14%",
+      "demand_level": "Very High"
+    },
+    {
+      "commodity": "guava",
+      "average_price": 1916.4,
+      "trend": "+8%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "chickpea",
+      "average_price": 5024.4,
+      "trend": "+4%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "pigeon pea",
+      "average_price": 5594.4,
+      "trend": "+6%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "black gram",
+      "average_price": 6734.0,
+      "trend": "+5%",
+      "demand_level": "High"
+    },
+    {
+      "commodity": "green gram",
+      "average_price": 6216.0,
+      "trend": "+7%",
+      "demand_level": "High"
+    }
+  ],
+  "price_trends": {},
+  "last_updated": "2025-07-29 11:09:16"
+}

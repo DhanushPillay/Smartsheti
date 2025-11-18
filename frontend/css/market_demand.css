@@ -1,0 +1,169 @@
+body {
+            background-color: #EBE4DB;
+            font-family: 'Roboto', sans-serif;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .page-transition {
+            transform: translateX(100%);
+            animation: slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced Header Styling - Same as Home Page */
+        header {
+            background: linear-gradient(135deg, #EBE4DB 0%, #D4C5B8 50%, #EBE4DB 100%) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(79, 150, 79, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #4F964F 0%, #6BA56B 50%, #4F964F 100%);
+            opacity: 0.8;
+        }
+        
+        header .container {
+            position: relative;
+        }
+        
+        /* Logo and brand styling */
+        header .brand-section {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        header .brand-section:hover {
+            transform: translateY(-1px);
+        }
+        
+        header .brand-section img {
+            filter: drop-shadow(0 2px 4px rgba(79, 150, 79, 0.2));
+            transition: filter 0.3s ease;
+        }
+        
+        header .brand-section:hover img {
+            filter: drop-shadow(0 4px 8px rgba(79, 150, 79, 0.3));
+        }
+        
+        header .brand-text {
+            background: linear-gradient(135deg, #2d3436 0%, #4F964F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Navigation styling */
+        header nav a {
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        header nav a:hover {
+            background: rgba(79, 150, 79, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        header nav a.font-semibold {
+            background: linear-gradient(135deg, #4F964F 0%, #6BA56B 100%);
+            color: white !important;
+            box-shadow: 0 2px 8px rgba(79, 150, 79, 0.3);
+        }
+        
+        /* Action buttons styling */
+        header .action-buttons button {
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        header .action-buttons button:hover {
+            background: rgba(79, 150, 79, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Profile image enhancement */
+        header .profile-img {
+            border: 2px solid rgba(79, 150, 79, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        header .profile-img:hover {
+            border-color: #4F964F;
+            box-shadow: 0 4px 12px rgba(79, 150, 79, 0.3);
+            transform: scale(1.05);
+        }
+        
+        /* Dropdown z-index fixes */
+        #languageDropdown {
+            z-index: 99999 !important;
+            position: absolute !important;
+            background: white !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        #profileDropdown {
+            z-index: 99999 !important;
+            position: absolute !important;
+            background: white !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        /* Ensure header has proper stacking context */
+        header {
+            position: relative !important;
+            z-index: 10000 !important;
+        }
+        
+        /* Make sure dropdown container has proper positioning */
+        .action-buttons .relative {
+            position: relative !important;
+            z-index: 10001 !important;
+        }
+
+        .market-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .market-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .demand-card {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            border: 1px solid #10B981;
+        }
+
+        .price-chart {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+        }

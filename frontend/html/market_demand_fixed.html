@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSheti - Market Demand & Price Insights</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/Home page.css"/>
+    <link rel="stylesheet" href="../css/market_demand_fixed.css"/>
+</head>
+<body class="font-sans" style="background-color: #EBE4DB !important;">
+<header class="shadow-sm loaded" style="position: relative;">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<div class="brand-section">
+<img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-8 h-8 mr-2"/>
+<span class="text-xl font-bold brand-text">SmartSheti</span>
+</div>
+<nav class="hidden md:flex items-center space-x-4">
+<a class="text-gray-600 hover:text-green-600" href="Home page.html" data-translate="home">Home</a>
+<a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html" data-translate="weather">Weather</a>
+<a class="text-gray-600 hover:text-green-600" href="Marketplace.html" data-translate="marketplace">Marketplace</a>
+<a class="font-semibold" href="market_demand_fixed.html" data-translate="marketDemand">Market Demand</a>
+</nav>
+<div class="flex items-center space-x-2 action-buttons">
+<div class="relative">
+    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+        <span class="material-icons mr-1">translate</span>
+        <span id="currentLang">EN</span>
+    </button>
+    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+    </div>
+</div>
+<button class="text-gray-600 hover:text-green-600">
+<span class="material-icons">notifications</span>
+</button>
+<div class="relative">
+<button id="profileBtn" class="text-gray-600 hover:text-green-600">
+<img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+</button>
+<div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="settings">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="dashboard">Dashboard</a>
+<hr class="my-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="logout">Logout</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="marketDemandTitle">Market Demand & Price Insights</h1>
+        
+        <!-- Filter Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="searchCrop">Search Crop</label>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="cropInput" 
+                        class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4 pr-10" 
+                        placeholder="Type crop name (e.g., wheat, rice, tomato...)"
+                        data-translate-placeholder="searchCropPlaceholder"
+                        autocomplete="off"
+                        value="Wheat"
+                    />
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span class="material-icons text-gray-400">search</span>
+                    </div>
+                    <!-- Suggestions dropdown -->
+                    <div id="cropSuggestions" class="hidden absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
+                        <!-- Suggestions will be populated here -->
+                    </div>
+                </div>
+                <input type="hidden" id="cropSelect" value="wheat" />
+            </div>
+            <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="state">State</label>
+                <select id="stateSelect" class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4">
+                    <option value="Maharashtra" selected>Maharashtra</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Punjab">Punjab</option>
+                </select>
+            </div>
+            <div class="relative">
+                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="market">Market</label>
+                <select id="marketSelect" class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4">
+                    <option value="Mumbai APMC">Mumbai APMC</option>
+                    <option value="Pune APMC" selected>Pune APMC</option>
+                    <option value="Nashik APMC">Nashik APMC</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Price Trend Card -->
+        <div class="market-card price-chart border border-green-200 p-6 mb-8">
+            <div class="text-center mb-6">
+                <p class="text-gray-600 mb-1" data-translate="priceTrendFor">Price Trend for</p>
+                <span id="cropName" class="text-gray-800 font-semibold text-lg">Wheat</span>
+            </div>
+            <div class="text-center mb-6">
+                <div class="flex items-baseline justify-center space-x-2 mb-2">
+                    <span id="currentPrice" class="text-4xl font-bold text-gray-800">₹25/kg</span>
+                    <span id="priceChange" class="text-sm text-green-600 font-semibold">+5%</span>
+                </div>
+                <p class="text-sm text-gray-500">Last 60 Days</p>
+            </div>
+            
+            <!-- Line Graph Container -->
+            <div id="priceChart" class="relative h-40 mb-4">
+                <!-- Y-axis labels -->
+                <div class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-500 pr-2">
+                    <span id="maxPrice">₹2,700</span>
+                    <span id="highPrice">₹2,600</span>
+                    <span id="midPrice">₹2,500</span>
+                    <span id="lowPrice">₹2,400</span>
+                    <span id="minPrice">₹2,300</span>
+                </div>
+                
+                <!-- Graph area -->
+                <div class="ml-12 relative h-full">
+                    <!-- Grid lines -->
+                    <div class="absolute inset-0">
+                        <div class="h-full flex flex-col justify-between">
+                            <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
+                            <div class="border-t border-gray-200"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- SVG Line Graph -->
+                    <svg id="chartSvg" class="w-full h-full" viewBox="0 0 400 160">
+                        <polyline id="priceLine" fill="none" stroke="#10B981" stroke-width="3" points=""/>
+                        <g id="dataPoints"></g>
+                    </svg>
+                    
+                    <!-- Tooltips -->
+                    <div id="lowestTooltip" class="absolute hidden">
+                        <div class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded shadow-lg">
+                            <div class="font-semibold" id="lowestPrice">₹2,320</div>
+                            <div class="text-xs">Lowest</div>
+                        </div>
+                    </div>
+                    
+                    <div id="highestTooltip" class="absolute hidden">
+                        <div class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded shadow-lg">
+                            <div class="font-semibold" id="highestPrice">₹2,680</div>
+                            <div class="text-xs">Highest</div>
+                        </div>
+                    </div>
+                    
+                    <div id="currentTooltip" class="absolute hidden">
+                        <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded shadow-lg">
+                            <div class="font-semibold" id="currentPriceTooltip">₹2,500</div>
+                            <div class="text-xs">Current</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading indicator -->
+            <div id="chartLoading" class="hidden text-center py-4">
+                <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
+                <p class="mt-2 text-sm text-gray-500">Updating price data...</p>
+            </div>
+            
+            <!-- X-axis labels -->
+            <div class="flex justify-between text-xs text-gray-500 ml-12">
+                <span>7W ago</span>
+                <span>6W ago</span>
+                <span>5W ago</span>
+                <span>4W ago</span>
+                <span>3W ago</span>
+                <span>2W ago</span>
+                <span>1W ago</span>
+                <span class="font-semibold text-blue-600">Now</span>
+            </div>
+            
+            <!-- Legend -->
+            <div class="flex justify-center items-center space-x-6 mt-4 text-xs">
+                <div class="flex items-center space-x-1">
+                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span class="text-gray-600">Lowest Price</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <span class="text-gray-600">Highest Price</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <span class="text-gray-600">Current Price</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mandi Comparison -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-4" data-translate="mandiComparison">Mandi Comparison</h2>
+        <div class="market-card p-6 mb-8">
+            <div class="grid grid-cols-3 text-sm font-semibold text-gray-500 mb-4 px-4">
+                <span data-translate="market">Market</span>
+                <span class="text-center" data-translate="currentPrice">Current Price</span>
+                <span class="text-right" data-translate="changeLastWeek">Change (Last Week)</span>
+            </div>
+            <div id="marketComparison" class="space-y-2">
+                <!-- Market rows will be populated by JavaScript -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Debug logging function (console only)
+        function debugLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+            console.log(`[${timestamp}] ${prefix} ${message}`);
+        }
+
+        // Enhanced Python-inspired Price Generator
+        class PythonStylePriceGenerator {
+            constructor() {
+                // Base prices for different crops (in INR per kg)
+                this.basePrices = {
+                    'wheat': 25, 'rice': 32, 'cotton': 58, 
+                    'sugarcane': 2.8, 'tomato': 28, 'onion': 18, 
+                    'potato': 12, 'mango': 45, 'banana': 15, 'apple': 80,
+                    'maize': 22, 'soybean': 35, 'groundnut': 50, 
+                    'sunflower': 42, 'mustard': 38, 'chili': 120, 
+                    'turmeric': 85, 'garlic': 80, 'ginger': 90, 'cabbage': 12
+                };
+
+                // Market multipliers for different APMCs
+                this.marketMultipliers = {
+                    'Mumbai APMC': 1.1,    // Higher prices in Mumbai
+                    'Pune APMC': 1.0,      // Base price
+                    'Nashik APMC': 0.95,   // Slightly lower
+                    'Nagpur APMC': 1.05,   // Moderate
+                    'Aurangabad APMC': 1.08 // Higher
+                };
+
+                // Crop volatility factors
+                this.volatilityMap = {
+                    'tomato': 0.25, 'onion': 0.20, 'potato': 0.15, 
+                    'rice': 0.10, 'wheat': 0.08, 'cotton': 0.12,
+                    'sugarcane': 0.06, 'mango': 0.18, 'banana': 0.12, 'apple': 0.14
+                };
+
+                // Trend factors
+                this.trendMap = {
+                    'tomato': 0.05, 'onion': -0.03, 'potato': 0.02, 
+                    'rice': 0.04, 'wheat': 0.06, 'cotton': -0.02,
+                    'sugarcane': 0.03, 'mango': 0.08, 'banana': 0.01, 'apple': 0.025
+                };
+
+                debugLog('Python-style price generator initialized', 'success');
+            }
+
+            // Generate realistic price data
+            generatePriceData(crop, state, market) {
+                debugLog(`Generating price data for ${crop} in ${state}, ${market}`, 'info');
+                
+                try {
+                    // Calculate base price
+                    const basePrice = this.basePrices[crop.toLowerCase()] || 2500;
+                    const marketMultiplier = this.marketMultipliers[market] || 1.0;
+                    const volatility = this.volatilityMap[crop.toLowerCase()] || 0.12;
+                    const trend = this.trendMap[crop.toLowerCase()] || 0.02;
+
+                    // Add realistic market variation based on crop index
+                    const cropIndex = Object.keys(this.basePrices).indexOf(crop.toLowerCase());
+                    const variation = ((cropIndex * 0.1) % 0.2 - 0.1) * volatility * 2;
+                    const currentPrice = Math.round(basePrice * marketMultiplier * (1 + variation));
+
+                    // Generate 8 weeks of historical data
+                    const historicalPrices = this.generateHistoricalPrices(currentPrice, volatility, trend, 8);
+
+                    // Calculate change percentage
+                    const previousPrice = historicalPrices[historicalPrices.length - 2];
+                    const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+                    const changeStr = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`;
+
+                    // Generate market comparison
+                    const marketComparison = this.generateMarketComparison(crop, state, basePrice);
+
+                    const result = {
+                        success: true,
+                        crop: crop,
+                        state: state,
+                        market: market,
+                        current_price: currentPrice,
+                        change_percentage: changeStr,
+                        historical_prices: historicalPrices,
+                        market_comparison: marketComparison,
+                        timestamp: new Date().toISOString(),
+                        source: 'PYTHON_SIMULATION'
+                    };
+
+                    debugLog(`Generated data: ₹${currentPrice} (${changeStr})`, 'success');
+                    return result;
+
+                } catch (error) {
+                    debugLog(`Error generating price data: ${error.message}`, 'error');
+                    throw error;
+                }
+            }
+
+            // Generate historical prices using Python-style algorithm
+            generateHistoricalPrices(currentPrice, volatility, trend, weeks) {
+                const prices = [];
+                
+                for (let i = weeks - 1; i >= 0; i--) {
+                    if (i === 0) {
+                        prices.push(currentPrice);
+                    } else {
+                        // Apply reverse trend
+                        const trendEffect = trend * i * currentPrice;
+                        
+                        // Use deterministic variation based on week index
+                        const randomNormal = Math.sin(i * 0.7) * Math.cos(i * 0.3); // Deterministic "random"
+                        const volatilityEffect = randomNormal * volatility * currentPrice * 0.5;
+                        
+                        // Seasonal patterns
+                        const seasonalEffect = Math.sin(i * 0.5) * (volatility * 0.3 * currentPrice);
+                        
+                        let historicalPrice = currentPrice - trendEffect + volatilityEffect + seasonalEffect;
+                        
+                        // Ensure reasonable bounds
+                        const minBound = currentPrice * 0.6;
+                        const maxBound = currentPrice * 1.4;
+                        historicalPrice = Math.max(minBound, Math.min(maxBound, historicalPrice));
+                        
+                        prices.push(Math.round(historicalPrice));
+                    }
+                }
+                
+                return prices;
+            }
+
+            // Generate market comparison data
+            generateMarketComparison(crop, state, basePrice) {
+                const markets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
+                return markets.map((market, index) => {
+                    const multiplier = this.marketMultipliers[market] || 1.0;
+                    const variation = ((index * 0.05) % 0.1 - 0.05) * 0.1; // Deterministic variation
+                    const price = Math.round(basePrice * multiplier * (1 + variation));
+                    
+                    const changePercent = (index * 2 - 4); // Deterministic change: -4%, -2%, 0%, 2%, 4%
+                    const changeStr = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(0)}%`;
+                    
+                    return {
+                        market: market,
+                        price: price,
+                        change: changeStr
+                    };
+                });
+            }
+        }
+
+        // Chart renderer
+        class ChartRenderer {
+            constructor() {
+                this.chartContainer = document.getElementById('priceChart');
+                this.priceLine = document.getElementById('priceLine');
+                this.dataPoints = document.getElementById('dataPoints');
+                this.loading = document.getElementById('chartLoading');
+                debugLog('Chart renderer initialized', 'success');
+            }
+
+            renderChart(priceData) {
+                try {
+                    debugLog('Rendering chart with new data', 'info');
+                    
+                    const prices = priceData.historical_prices;
+                    const minPrice = Math.min(...prices);
+                    const maxPrice = Math.max(...prices);
+                    const range = maxPrice - minPrice;
+                    const padding = range * 0.1;
+                    
+                    const chartMin = Math.floor(minPrice - padding);
+                    const chartMax = Math.ceil(maxPrice + padding);
+                    const chartRange = chartMax - chartMin;
+
+                    // Update Y-axis labels
+                    document.getElementById('maxPrice').textContent = `₹${chartMax.toLocaleString()}`;
+                    document.getElementById('highPrice').textContent = `₹${Math.round(chartMax - chartRange * 0.25).toLocaleString()}`;
+                    document.getElementById('midPrice').textContent = `₹${Math.round(chartMax - chartRange * 0.5).toLocaleString()}`;
+                    document.getElementById('lowPrice').textContent = `₹${Math.round(chartMax - chartRange * 0.75).toLocaleString()}`;
+                    document.getElementById('minPrice').textContent = `₹${chartMin.toLocaleString()}`;
+
+                    // Generate SVG points
+                    const svgPoints = prices.map((price, index) => {
+                        const x = (index / (prices.length - 1)) * 400;
+                        const y = 160 - ((price - chartMin) / chartRange) * 160;
+                        return `${x},${y}`;
+                    }).join(' ');
+
+                    // Update price line
+                    this.priceLine.setAttribute('points', svgPoints);
+
+                    // Clear and regenerate data points
+                    this.dataPoints.innerHTML = '';
+                    
+                    prices.forEach((price, index) => {
+                        const x = (index / (prices.length - 1)) * 400;
+                        const y = 160 - ((price - chartMin) / chartRange) * 160;
+                        
+                        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        circle.setAttribute('cx', x);
+                        circle.setAttribute('cy', y);
+                        circle.setAttribute('stroke', 'white');
+                        circle.setAttribute('stroke-width', '2');
+                        
+                        if (price === minPrice) {
+                            circle.setAttribute('r', '4');
+                            circle.setAttribute('fill', '#EF4444');
+                        } else if (price === maxPrice) {
+                            circle.setAttribute('r', '4');
+                            circle.setAttribute('fill', '#F59E0B');
+                        } else if (index === prices.length - 1) {
+                            circle.setAttribute('r', '5');
+                            circle.setAttribute('fill', '#3B82F6');
+                            circle.setAttribute('stroke-width', '3');
+                        } else {
+                            circle.setAttribute('r', '3');
+                            circle.setAttribute('fill', '#10B981');
+                        }
+                        
+                        this.dataPoints.appendChild(circle);
+                    });
+
+                    // Update tooltips
+                    document.getElementById('lowestPrice').textContent = `₹${minPrice.toLocaleString()}`;
+                    document.getElementById('highestPrice').textContent = `₹${maxPrice.toLocaleString()}`;
+                    document.getElementById('currentPriceTooltip').textContent = `₹${prices[prices.length - 1].toLocaleString()}`;
+
+                    // Show tooltips
+                    document.getElementById('lowestTooltip').classList.remove('hidden');
+                    document.getElementById('highestTooltip').classList.remove('hidden');
+                    document.getElementById('currentTooltip').classList.remove('hidden');
+
+                    debugLog('Chart rendered successfully', 'success');
+                    
+                } catch (error) {
+                    debugLog(`Error rendering chart: ${error.message}`, 'error');
+                }
+            }
+
+            updateMainPriceDisplay(price, change) {
+                document.getElementById('currentPrice').textContent = `₹${price.toLocaleString()}/kg`;
+                const changeElement = document.getElementById('priceChange');
+                const isPositive = change.includes('+');
+                changeElement.className = `text-sm font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`;
+                changeElement.textContent = change;
+            }
+
+            updateMarketComparison(marketData) {
+                const container = document.getElementById('marketComparison');
+                container.innerHTML = '';
+                
+                marketData.forEach(market => {
+                    const row = document.createElement('div');
+                    row.className = 'grid grid-cols-3 items-center bg-gray-50 rounded-lg p-4';
+                    
+                    const isPositive = market.change.includes('+');
+                    row.innerHTML = `
+                        <span class="text-gray-800">${market.market}</span>
+                        <span class="text-center text-gray-800">₹${market.price.toLocaleString()}/kg</span>
+                        <span class="text-right font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}">${market.change}</span>
+                    `;
+                    
+                    container.appendChild(row);
+                });
+            }
+
+            showLoading() {
+                this.loading.classList.remove('hidden');
+                this.chartContainer.style.opacity = '0.5';
+            }
+
+            hideLoading() {
+                this.loading.classList.add('hidden');
+                this.chartContainer.style.opacity = '1';
+            }
+        }
+
+        // Initialize application
+        let priceGenerator;
+        let chartRenderer;
+
+        function updateChart() {
+            const crop = document.getElementById('cropSelect').value;
+            const state = document.getElementById('stateSelect').value;
+            const market = document.getElementById('marketSelect').value;
+            
+            debugLog(`Updating chart for ${crop} in ${state}, ${market}`, 'info');
+            
+            try {
+                chartRenderer.showLoading();
+                
+                // Update crop name
+                document.getElementById('cropName').textContent = crop.charAt(0).toUpperCase() + crop.slice(1);
+                
+                // Generate price data
+                const priceData = priceGenerator.generatePriceData(crop, state, market);
+                
+                // Update displays
+                chartRenderer.updateMainPriceDisplay(priceData.current_price, priceData.change_percentage);
+                chartRenderer.renderChart(priceData);
+                chartRenderer.updateMarketComparison(priceData.market_comparison);
+                
+                setTimeout(() => chartRenderer.hideLoading(), 500);
+                
+            } catch (error) {
+                debugLog(`Error updating chart: ${error.message}`, 'error');
+                chartRenderer.hideLoading();
+            }
+        }
+
+        // Initialize on page load
+        // Crop Autocomplete Functionality
+        class CropAutocomplete {
+            constructor() {
+                this.crops = [
+                    { value: 'wheat', name: 'Wheat', category: 'Cereal' },
+                    { value: 'rice', name: 'Rice', category: 'Cereal' },
+                    { value: 'cotton', name: 'Cotton', category: 'Fiber' },
+                    { value: 'tomato', name: 'Tomato', category: 'Vegetable' },
+                    { value: 'onion', name: 'Onion', category: 'Vegetable' },
+                    { value: 'potato', name: 'Potato', category: 'Vegetable' },
+                    { value: 'sugarcane', name: 'Sugarcane', category: 'Cash Crop' },
+                    { value: 'mango', name: 'Mango', category: 'Fruit' },
+                    { value: 'banana', name: 'Banana', category: 'Fruit' },
+                    { value: 'apple', name: 'Apple', category: 'Fruit' },
+                    { value: 'maize', name: 'Maize (Corn)', category: 'Cereal' },
+                    { value: 'soybean', name: 'Soybean', category: 'Legume' },
+                    { value: 'groundnut', name: 'Groundnut (Peanut)', category: 'Oilseed' },
+                    { value: 'sunflower', name: 'Sunflower', category: 'Oilseed' },
+                    { value: 'mustard', name: 'Mustard', category: 'Oilseed' },
+                    { value: 'chili', name: 'Chili Pepper', category: 'Spice' },
+                    { value: 'turmeric', name: 'Turmeric', category: 'Spice' },
+                    { value: 'garlic', name: 'Garlic', category: 'Vegetable' },
+                    { value: 'ginger', name: 'Ginger', category: 'Spice' },
+                    { value: 'cabbage', name: 'Cabbage', category: 'Vegetable' }
+                ];
+                
+                this.input = null;
+                this.hiddenInput = null;
+                this.suggestions = null;
+                this.selectedIndex = -1;
+                
+                this.init();
+            }
+            
+            init() {
+                this.input = document.getElementById('cropInput');
+                this.hiddenInput = document.getElementById('cropSelect');
+                this.suggestions = document.getElementById('cropSuggestions');
+                
+                if (this.input) {
+                    this.input.addEventListener('input', (e) => this.handleInput(e));
+                    this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+                    this.input.addEventListener('blur', (e) => this.handleBlur(e));
+                    this.input.addEventListener('focus', (e) => this.handleFocus(e));
+                }
+            }
+            
+            handleInput(e) {
+                const query = e.target.value.toLowerCase().trim();
+                this.selectedIndex = -1;
+                
+                if (query.length === 0) {
+                    this.hideSuggestions();
+                    return;
+                }
+                
+                const filtered = this.crops.filter(crop => 
+                    crop.name.toLowerCase().includes(query) || 
+                    crop.value.toLowerCase().includes(query) ||
+                    crop.category.toLowerCase().includes(query)
+                );
+                
+                this.showSuggestions(filtered, query);
+            }
+            
+            handleKeydown(e) {
+                const suggestionItems = this.suggestions.querySelectorAll('.crop-suggestion-item');
+                
+                switch(e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        this.selectedIndex = Math.min(this.selectedIndex + 1, suggestionItems.length - 1);
+                        this.updateSelection(suggestionItems);
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
+                        this.updateSelection(suggestionItems);
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (this.selectedIndex >= 0 && suggestionItems[this.selectedIndex]) {
+                            this.selectCrop(suggestionItems[this.selectedIndex].dataset);
+                        }
+                        break;
+                    case 'Escape':
+                        this.hideSuggestions();
+                        this.input.blur();
+                        break;
+                }
+            }
+            
+            handleBlur(e) {
+                // Delay hiding to allow for click events on suggestions
+                setTimeout(() => {
+                    this.hideSuggestions();
+                }, 150);
+            }
+            
+            handleFocus(e) {
+                if (e.target.value.trim()) {
+                    this.handleInput(e);
+                }
+            }
+            
+            showSuggestions(crops, query) {
+                if (crops.length === 0) {
+                    this.suggestions.innerHTML = '<div class="px-4 py-2 text-gray-500 text-sm">No crops found</div>';
+                } else {
+                    this.suggestions.innerHTML = crops.map((crop, index) => `
+                        <div class="crop-suggestion-item px-4 py-2 cursor-pointer hover:bg-gray-100 flex justify-between items-center" 
+                             data-value="${crop.value}" data-name="${crop.name}">
+                            <div>
+                                <div class="font-medium text-gray-800">${this.highlightMatch(crop.name, query)}</div>
+                                <div class="text-xs text-gray-500">${crop.category}</div>
+                            </div>
+                            <span class="material-icons text-gray-400 text-sm">agriculture</span>
+                        </div>
+                    `).join('');
+                    
+                    // Add click events
+                    this.suggestions.querySelectorAll('.crop-suggestion-item').forEach(item => {
+                        item.addEventListener('click', () => this.selectCrop(item.dataset));
+                    });
+                }
+                
+                this.suggestions.classList.remove('hidden');
+            }
+            
+            hideSuggestions() {
+                this.suggestions.classList.add('hidden');
+                this.selectedIndex = -1;
+            }
+            
+            updateSelection(items) {
+                items.forEach((item, index) => {
+                    if (index === this.selectedIndex) {
+                        item.classList.add('bg-green-100');
+                    } else {
+                        item.classList.remove('bg-green-100');
+                    }
+                });
+            }
+            
+            selectCrop(data) {
+                this.input.value = data.name;
+                this.hiddenInput.value = data.value;
+                this.hideSuggestions();
+                
+                // Trigger change event for existing functionality
+                const changeEvent = new Event('change', { bubbles: true });
+                this.hiddenInput.dispatchEvent(changeEvent);
+                
+                debugLog(`Selected crop: ${data.name} (${data.value})`, 'success');
+            }
+            
+            highlightMatch(text, query) {
+                if (!query) return text;
+                const regex = new RegExp(`(${query})`, 'gi');
+                return text.replace(regex, '<strong class="text-green-600">$1</strong>');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('Initializing SmartSheti Market Demand page', 'info');
+            
+            try {
+                // Initialize components
+                priceGenerator = new PythonStylePriceGenerator();
+                chartRenderer = new ChartRenderer();
+                
+                // Initialize crop autocomplete
+                const cropAutocomplete = new CropAutocomplete();
+                debugLog('Crop autocomplete initialized', 'success');
+                
+                // Set up event listeners
+                document.getElementById('cropSelect').addEventListener('change', updateChart);
+                document.getElementById('stateSelect').addEventListener('change', updateChart);
+                document.getElementById('marketSelect').addEventListener('change', updateChart);
+                
+                // Initial chart load
+                updateChart();
+                
+                debugLog('Application initialized successfully', 'success');
+                
+            } catch (error) {
+                debugLog(`Initialization error: ${error.message}`, 'error');
+            }
+        });
+    </script>
+    
+    <!-- Translation Scripts -->
+    <script src="../js/translations.js"></script>
+    <script src="../js/translation_init.js"></script>
+</body>
+</html>

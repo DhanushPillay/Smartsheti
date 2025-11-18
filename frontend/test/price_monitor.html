@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSheti - Dynamic Price Monitor</title>
+    
+    <link rel="stylesheet" href="../css/price_monitor.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌾 SmartSheti Dynamic Price Monitor</h1>
+            <p>Real-time Agricultural Market Intelligence</p>
+        </div>
+
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>📊 Current Wheat Price</h3>
+                <div id="wheatPrice" class="price-display">Loading...</div>
+                <div id="wheatChange" class="price-change">Calculating...</div>
+                <p><strong>Source:</strong> <span id="dataSource">AGMARKNET</span></p>
+                <p><strong>Last Updated:</strong> <span id="lastUpdated">Loading...</span></p>
+            </div>
+
+            <div class="status-card">
+                <h3>🌾 Market Status</h3>
+                <div id="marketStatus">Checking...</div>
+                <p><strong>API Status:</strong> <span id="apiStatus">Connecting...</span></p>
+                <p><strong>Auto-Update:</strong> <span id="autoUpdate">Checking...</span></p>
+            </div>
+
+            <div class="status-card">
+                <h3>📈 Recent Changes</h3>
+                <div id="recentChanges">Loading data...</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-success" onclick="updatePrices()">🔄 Update Prices Now</button>
+            <button class="btn" onclick="openMainGraph()">📊 Open Main Graph</button>
+            <button class="btn" onclick="toggleAutoRefresh()">⚡ Toggle Auto-Refresh</button>
+        </div>
+
+        <div class="log">
+            <h3>📝 Activity Log</h3>
+            <div id="activityLog"></div>
+        </div>
+    </div>
+
+    <script>
+        let previousPrices = {};
+        let autoRefreshInterval = null;
+        let autoRefreshEnabled = false;
+
+        // Activity logging
+        function addLogEntry(message) {
+            const log = document.getElementById('activityLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 20 entries
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // Check API status
+        async function checkAPIStatus() {
+            try {
+                const response = await fetch('http://localhost:5001/api/status');
+                const data = await response.json();
+                
+                document.getElementById('apiStatus').textContent = 'Connected ✅';
+                document.getElementById('autoUpdate').textContent = data.auto_update_running ? 'Running ✅' : 'Stopped ⏸️';
+                
+                addLogEntry('✅ API connection successful');
+                return true;
+            } catch (error) {
+                document.getElementById('apiStatus').textContent = 'Disconnected ❌';
+                document.getElementById('autoUpdate').textContent = 'Unknown ❓';
+                addLogEntry('❌ API connection failed');
+                return false;
+            }
+        }
+
+        // Load current prices
+        async function loadPrices() {
+            try {
+                const response = await fetch('prices.json');
+                const data = await response.json();
+                
+                const wheat = data.wheat;
+                const currentPrice = wheat.data[wheat.data.length - 1];
+                const previousPrice = wheat.data[wheat.data.length - 2] || currentPrice;
+                
+                // Update wheat price display
+                document.getElementById('wheatPrice').textContent = `₹${currentPrice.toFixed(2)}`;
+                document.getElementById('dataSource').textContent = data.source || 'AGMARKNET';
+                document.getElementById('lastUpdated').textContent = new Date(data.lastUpdated).toLocaleString();
+                
+                // Calculate and display price change
+                const change = currentPrice - previousPrice;
+                const changePercent = ((change / previousPrice) * 100).toFixed(2);
+                const changeElement = document.getElementById('wheatChange');
+                
+                if (change > 0) {
+                    changeElement.className = 'price-change price-up';
+                    changeElement.textContent = `↗️ +₹${change.toFixed(2)} (+${changePercent}%)`;
+                } else if (change < 0) {
+                    changeElement.className = 'price-change price-down';
+                    changeElement.textContent = `↘️ ₹${change.toFixed(2)} (${changePercent}%)`;
+                } else {
+                    changeElement.className = 'price-change price-stable';
+                    changeElement.textContent = `➡️ No change (${changePercent}%)`;
+                }
+
+                // Check if price actually changed
+                if (previousPrices.wheat && previousPrices.wheat !== currentPrice) {
+                    addLogEntry(`📈 Wheat price updated: ₹${previousPrices.wheat.toFixed(2)} → ₹${currentPrice.toFixed(2)}`);
+                    
+                    // Flash the price to show it changed
+                    document.getElementById('wheatPrice').classList.add('updating');
+                    setTimeout(() => {
+                        document.getElementById('wheatPrice').classList.remove('updating');
+                    }, 2000);
+                }
+                
+                previousPrices.wheat = currentPrice;
+                
+                // Update market status
+                document.getElementById('marketStatus').innerHTML = `
+                    <p>📊 ${Object.keys(data).length - 3} crops tracked</p>
+                    <p>🕒 Updates every minute</p>
+                    <p>📡 AGMARKNET integration active</p>
+                `;
+                
+                // Show recent changes for all crops
+                let recentChangesHtml = '';
+                for (const [crop, info] of Object.entries(data)) {
+                    if (typeof info === 'object' && info.data) {
+                        const current = info.data[info.data.length - 1];
+                        const previous = info.data[info.data.length - 2] || current;
+                        const change = current - previous;
+                        const symbol = change > 0 ? '📈' : change < 0 ? '📉' : '➡️';
+                        recentChangesHtml += `<p>${symbol} ${crop}: ₹${current.toFixed(2)}</p>`;
+                    }
+                }
+                document.getElementById('recentChanges').innerHTML = recentChangesHtml;
+                
+            } catch (error) {
+                addLogEntry('❌ Failed to load price data');
+                console.error('Error loading prices:', error);
+            }
+        }
+
+        // Update prices via API
+        async function updatePrices() {
+            addLogEntry('🔄 Triggering price update...');
+            document.getElementById('wheatPrice').classList.add('updating');
+            
+            try {
+                const response = await fetch('http://localhost:5001/api/update-prices', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({})
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    addLogEntry('✅ Price update successful');
+                    setTimeout(() => loadPrices(), 1000); // Wait a bit then reload
+                } else {
+                    addLogEntry('❌ Price update failed');
+                }
+            } catch (error) {
+                addLogEntry('❌ Price update error');
+            }
+            
+            setTimeout(() => {
+                document.getElementById('wheatPrice').classList.remove('updating');
+            }, 2000);
+        }
+
+        // Open main graph
+        function openMainGraph() {
+            window.open('crop_price_trends.html', '_blank');
+            addLogEntry('📊 Opened main graph interface');
+        }
+
+        // Toggle auto-refresh
+        function toggleAutoRefresh() {
+            if (autoRefreshEnabled) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshEnabled = false;
+                addLogEntry('⏸️ Auto-refresh disabled');
+            } else {
+                autoRefreshInterval = setInterval(loadPrices, 10000); // Every 10 seconds for demo
+                autoRefreshEnabled = true;
+                addLogEntry('▶️ Auto-refresh enabled (10s intervals)');
+            }
+        }
+
+        // Initialize
+        async function initialize() {
+            addLogEntry('🚀 Initializing SmartSheti Price Monitor...');
+            
+            await checkAPIStatus();
+            await loadPrices();
+            
+            // Start auto-refresh by default
+            toggleAutoRefresh();
+            
+            addLogEntry('✅ Initialization complete');
+        }
+
+        // Start the application
+        initialize();
+    </script>
+</body>
+</html>

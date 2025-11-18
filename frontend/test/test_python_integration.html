@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSheti Python Integration Test</title>
+    
+    <script src="python_bridge.js"></script>
+    <link rel="stylesheet" href="../css/test_python_integration.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>🐍 SmartSheti Python Integration Test</h1>
+        
+        <div id="status" class="status info">
+            Ready to test Python integration...
+        </div>
+        
+        <div>
+            <button onclick="testBackendHealth()">Test Backend Health</button>
+            <button onclick="testPriceData()">Test Price Data</button>
+            <button onclick="testMultipleCrops()">Test Multiple Crops</button>
+            <button onclick="clearResults()">Clear Results</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let pythonBridge;
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            pythonBridge = new PythonPriceChartBridge();
+            updateStatus('✅ Python bridge initialized', 'success');
+        });
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        function addResult(title, data, type = 'info') {
+            const resultsDiv = document.getElementById('results');
+            const resultElement = document.createElement('div');
+            resultElement.innerHTML = `
+                <h3>${title}</h3>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            resultElement.className = `status ${type}`;
+            resultsDiv.appendChild(resultElement);
+        }
+        
+        async function testBackendHealth() {
+            updateStatus('🔍 Testing backend health...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateStatus('✅ Backend health check passed', 'success');
+                    addResult('Backend Health Check', data, 'success');
+                } else {
+                    updateStatus('⚠️ Backend health check failed', 'warning');
+                    addResult('Backend Health Check Failed', data, 'warning');
+                }
+            } catch (error) {
+                updateStatus('❌ Backend not available', 'error');
+                addResult('Backend Health Error', { error: error.message }, 'error');
+            }
+        }
+        
+        async function testPriceData() {
+            updateStatus('🌾 Testing price data retrieval...', 'info');
+            
+            try {
+                const data = await pythonBridge.fetchPriceData('wheat', 'Maharashtra', 'Pune APMC');
+                updateStatus('✅ Price data retrieved successfully', 'success');
+                addResult('Price Data for Wheat', data, 'success');
+            } catch (error) {
+                updateStatus('❌ Failed to retrieve price data', 'error');
+                addResult('Price Data Error', { error: error.message }, 'error');
+            }
+        }
+        
+        async function testMultipleCrops() {
+            updateStatus('🌽 Testing multiple crops...', 'info');
+            
+            const crops = ['wheat', 'rice', 'tomato', 'onion'];
+            
+            for (const crop of crops) {
+                try {
+                    const data = await pythonBridge.fetchPriceData(crop, 'Maharashtra', 'Pune APMC');
+                    addResult(`Price Data for ${crop.toUpperCase()}`, data, 'success');
+                } catch (error) {
+                    addResult(`Price Data Error for ${crop.toUpperCase()}`, { error: error.message }, 'error');
+                }
+                
+                // Small delay between requests
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            
+            updateStatus('✅ Multiple crop test completed', 'success');
+        }
+        
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            updateStatus('🧹 Results cleared', 'info');
+        }
+    </script>
+</body>
+</html>

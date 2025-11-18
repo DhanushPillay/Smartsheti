@@ -1,0 +1,44 @@
+[
+  {
+    "date": "2025-07-23",
+    "price": 2450,
+    "commodity": "wheat",
+    "week": "1W"
+  },
+  {
+    "date": "2025-07-24",
+    "price": 2470,
+    "commodity": "wheat",
+    "week": "2W"
+  },
+  {
+    "date": "2025-07-25",
+    "price": 2490,
+    "commodity": "wheat",
+    "week": "3W"
+  },
+  {
+    "date": "2025-07-26",
+    "price": 2510,
+    "commodity": "wheat",
+    "week": "4W"
+  },
+  {
+    "date": "2025-07-27",
+    "price": 2550,
+    "commodity": "wheat",
+    "week": "5W"
+  },
+  {
+    "date": "2025-07-28",
+    "price": 2535,
+    "commodity": "wheat",
+    "week": "6W"
+  },
+  {
+    "date": "2025-07-29",
+    "price": 2520,
+    "commodity": "wheat",
+    "week": "7W"
+  }
+]

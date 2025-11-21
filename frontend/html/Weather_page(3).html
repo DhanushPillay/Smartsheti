@@ -34,7 +34,7 @@
 <a class="text-gray-600 hover:text-green-600" href="Marketplace.html">Marketplace</a>
 <a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
 </nav>
-<div class="flex items-center space-x-2 action-buttons">
+<div class="hidden md:flex items-center space-x-2 action-buttons">
 <div class="relative">
     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
         <span class="material-icons mr-1">translate</span>
@@ -62,6 +62,32 @@
 </div>
 </div>
 </div>
+<button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-green-600">
+<span class="material-icons">menu</span>
+</button>
+</div>
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+<nav class="container mx-auto px-6 py-4 flex flex-col space-y-3">
+<a class="text-gray-600 hover:text-green-600" href="../../index.html">Home</a>
+<a class="text-gray-600 hover:text-green-600" href="crop_suggestion page(2).html">Crop Suggestion</a>
+<a class="font-semibold text-gray-800" href="Weather_page(3).html">Weather</a>
+<a class="text-gray-600 hover:text-green-600" href="Marketplace.html">Marketplace</a>
+<a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+<hr class="my-2">
+<div class="flex items-center space-x-4">
+<button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+    <span class="material-icons mr-1">translate</span>
+    <span id="currentLangMobile" data-no-translate="true">EN</span>
+</button>
+<button class="text-gray-600 hover:text-green-600">
+    <span class="material-icons">notifications</span>
+</button>
+<button id="profileBtnMobile" class="text-gray-600 hover:text-green-600">
+    <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+</button>
+</div>
+</nav>
 </div>
 </header>
 <main class="container mx-auto px-4 py-8 page-content">
@@ -269,6 +295,17 @@ function setupEventListeners() {
             if (e.key === 'Enter') {
                 handleSearch();
             }
+        });
+    }
+
+    // Mobile menu functionality
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
         });
     }
 

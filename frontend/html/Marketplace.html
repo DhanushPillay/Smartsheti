@@ -11,12 +11,20 @@
     <link rel="stylesheet" href="../css/Home page.css"/>
     <script src="../js/translations.js"></script>
 </head>
-<body class="font-sans" 
+<body class="font-sans page-loading" 
       style="background-color: #EBE4DB;"
       data-page-name="marketplace">
     
+<!-- Page Transition Overlay -->
+<div class="page-transition" id="pageTransition">
+    <div class="loader">
+        <span class="material-icons">storefront</span>
+        <div class="text">Loading Marketplace...</div>
+    </div>
+</div>
+
     <!-- Header copied exactly from Home page -->
-    <header class="shadow-sm loaded" style="position: relative;">
+    <header class="shadow-sm" style="position: relative;">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="../../index.html" class="brand-section" style="text-decoration: none;">
                 <img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-12 h-12 mr-1.5"/>
@@ -29,7 +37,7 @@
                 <a class="font-semibold" href="Marketplace.html">Marketplace</a>
                 <a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
             </nav>
-            <div class="flex items-center space-x-2 action-buttons">
+            <div class="hidden md:flex items-center space-x-2 action-buttons">
                 <div class="relative">
                     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
                         <span class="material-icons mr-1">translate</span>
@@ -57,6 +65,32 @@
                     </div>
                 </div>
             </div>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-green-600">
+                <span class="material-icons">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <nav class="container mx-auto px-6 py-4 flex flex-col space-y-3">
+                <a class="text-gray-600 hover:text-green-600" href="../../index.html">Home</a>
+                <a class="text-gray-600 hover:text-green-600" href="crop_suggestion page(2).html">Crop Suggestion</a>
+                <a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html">Weather</a>
+                <a class="font-semibold text-gray-800" href="Marketplace.html">Marketplace</a>
+                <a class="text-gray-600 hover:text-green-600" href="market_demand_fixed.html">Market Demand</a>
+                <hr class="my-2">
+                <div class="flex items-center space-x-4">
+                    <button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+                        <span class="material-icons mr-1">translate</span>
+                        <span id="currentLangMobile" data-no-translate="true">EN</span>
+                    </button>
+                    <button class="text-gray-600 hover:text-green-600">
+                        <span class="material-icons">notifications</span>
+                    </button>
+                    <button id="profileBtnMobile" class="text-gray-600 hover:text-green-600">
+                        <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+                    </button>
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -271,8 +305,84 @@ src="https://www.kushaspices.com/wp-content/uploads/2021/01/Mustard-e16160575821
             </div>
         </div>
     </main><script>
+// Page Transition Functions
+function showPageTransition() {
+    const transition = document.getElementById('pageTransition');
+    document.body.classList.add('page-loading');
+    
+    document.body.classList.add('page-exiting');
+    
+    setTimeout(() => {
+        transition.classList.add('active');
+    }, 100);
+}
+
+function hidePageTransition() {
+    const transition = document.getElementById('pageTransition');
+    const header = document.querySelector('header');
+    
+    document.body.classList.remove('page-loading', 'page-exiting');
+    
+    setTimeout(() => {
+        if (header) {
+            header.classList.add('loaded');
+        }
+        
+        setTimeout(() => {
+            if (transition) {
+                transition.classList.remove('active');
+            }
+        }, 300);
+    }, 100);
+}
+
+function navigateToPage(url, pageName) {
+    showPageTransition();
+    
+    const loaderText = document.querySelector('.page-transition .text');
+    if (loaderText) {
+        loaderText.textContent = `Loading ${pageName}...`;
+    }
+    
+    setTimeout(() => {
+        window.location.href = url;
+    }, 600);
+}
+
+function setupSmoothNavigation() {
+    const navLinks = document.querySelectorAll('nav a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            const pageName = this.textContent.trim();
+            
+            if (href.startsWith('#') || href.startsWith('http') || href === window.location.pathname) {
+                return;
+            }
+            
+            navigateToPage(href, pageName);
+        });
+    });
+}
+
 // Translation and Dropdown functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Setup smooth navigation
+    setupSmoothNavigation();
+
+    // Mobile menu functionality
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
     // Profile dropdown toggle
     const profileBtn = document.getElementById('profileBtn');
     const profileDropdown = document.getElementById('profileDropdown');
@@ -440,6 +550,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize category filters
     initializeCategoryFilters();
+
+    // Hide page transition and show content
+    setTimeout(() => {
+        const transition = document.getElementById('pageTransition');
+        const header = document.querySelector('header');
+        
+        document.body.classList.remove('page-loading');
+        
+        if (header) {
+            header.classList.add('loaded');
+        }
+        
+        if (transition) {
+            transition.classList.remove('active');
+        }
+    }, 300);
 });
 </script>
 

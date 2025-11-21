@@ -267,6 +267,17 @@ header .profile-img:hover {
     position: absolute !important;
     background: white !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    min-width: 8rem !important;
+}
+
+#languageDropdown a {
+    display: block !important;
+    cursor: pointer !important;
+}
+
+#languageDropdown a:hover {
+    background-color: #f3f4f6 !important;
 }
 
 #profileDropdown {
@@ -274,6 +285,7 @@ header .profile-img:hover {
     position: absolute !important;
     background: white !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Ensure header has proper stacking context */
@@ -283,9 +295,18 @@ header {
 }
 
 /* Make sure dropdown container has proper positioning */
+.action-buttons {
+    position: relative !important;
+}
+
 .action-buttons .relative {
     position: relative !important;
     z-index: 10001 !important;
+}
+
+.action-buttons button {
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 /* Mobile Menu Styles */

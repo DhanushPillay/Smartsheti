@@ -65,39 +65,58 @@
 </button>
 </div>
 <!-- Mobile Menu -->
-<div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-<nav class="container mx-auto px-6 py-4 flex flex-col space-y-3">
-<a class="font-semibold text-gray-800" href="index.html">Home</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/crop_suggestion page(2).html">Crop Suggestion</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/Weather_page(3).html">Weather</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/Marketplace.html">Marketplace</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/market_demand_fixed.html">Market Demand</a>
-<hr class="my-2">
-<div class="flex items-center space-x-4">
-<button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
-    <span class="material-icons mr-1">translate</span>
-    <span id="currentLangMobile" data-no-translate="true">EN</span>
-</button>
-<button class="text-gray-600 hover:text-green-600">
-    <span class="material-icons">notifications</span>
-</button>
-<button id="profileBtnMobile" class="text-gray-600 hover:text-green-600">
-    <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
-</button>
-</div>
+<div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50" style="top: 100%;">
+<nav class="container mx-auto px-6 py-4 flex flex-col">
+    <a class="mobile-nav-link active" href="index.html">
+        <span class="material-icons text-green-600 mr-3">home</span>
+        <span>Home</span>
+    </a>
+    <a class="mobile-nav-link" href="frontend/html/crop_suggestion page(2).html">
+        <span class="material-icons text-gray-400 mr-3">grass</span>
+        <span>Crop Suggestion</span>
+    </a>
+    <a class="mobile-nav-link" href="frontend/html/Weather_page(3).html">
+        <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
+        <span>Weather</span>
+    </a>
+    <a class="mobile-nav-link" href="frontend/html/Marketplace.html">
+        <span class="material-icons text-gray-400 mr-3">storefront</span>
+        <span>Marketplace</span>
+    </a>
+    <a class="mobile-nav-link" href="frontend/html/market_demand_fixed.html">
+        <span class="material-icons text-gray-400 mr-3">trending_up</span>
+        <span>Market Demand</span>
+    </a>
+    
+    <div class="border-t border-gray-100 my-2 pt-2"></div>
+    
+    <div class="flex items-center justify-between px-2 py-2">
+        <button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors" title="Translate">
+            <span class="material-icons mr-2">translate</span>
+            <span id="currentLangMobile" data-no-translate="true" class="font-medium">EN</span>
+        </button>
+        
+        <button class="text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors">
+            <span class="material-icons">notifications</span>
+        </button>
+        
+        <button id="profileBtnMobile" class="text-gray-600 hover:text-green-600 p-1 rounded-full hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
+            <img alt="User avatar" class="h-8 w-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+        </button>
+    </div>
 </nav>
 </div>
 </header>
 <main class="page-content">
 <section class="relative">
 <div class="absolute inset-0">
-<img alt="Lush green wheat field" class="w-full h-full object-cover rounded-lg" src="https://c4.wallpaperflare.com/wallpaper/878/61/227/landscape-nature-rice-paddy-terraces-wallpaper-preview.jpg"/>
-<div class="absolute inset-0 bg-black opacity-30 rounded-lg"></div>
+<img alt="Lush green wheat field" class="w-full h-full object-cover md:rounded-lg" style="height: 100% !important;" src="https://c4.wallpaperflare.com/wallpaper/878/61/227/landscape-nature-rice-paddy-terraces-wallpaper-preview.jpg"/>
+<div class="absolute inset-0 bg-black opacity-40 md:rounded-lg"></div>
 </div>
-<div class="relative container mx-auto px-6 py-16 md:py-32 text-center text-white">
-<h1 class="text-3xl md:text-5xl font-bold" data-translate="empoweringFarmers">Empowering Farmers with Smart Solutions</h1>
-<p class="mt-4 text-base md:text-lg max-w-2xl mx-auto" data-translate="smartShetiDescription">SmartSheti provides personalized crop suggestions, real-time weather updates, and a marketplace for agricultural products, all in one place.</p>
-<a href="frontend/html/crop_suggestion page(2).html" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors" data-translate="getStarted">Get Started</a>
+<div class="relative container mx-auto px-6 py-20 md:py-32 text-center text-white flex flex-col justify-center min-h-[50vh] md:min-h-0">
+<h1 class="text-3xl md:text-5xl font-bold leading-tight" data-translate="empoweringFarmers">Empowering Farmers with Smart Solutions</h1>
+<p class="mt-4 text-base md:text-lg max-w-2xl mx-auto leading-relaxed" data-translate="smartShetiDescription">SmartSheti provides personalized crop suggestions, real-time weather updates, and a marketplace for agricultural products, all in one place.</p>
+<a href="frontend/html/crop_suggestion page(2).html" class="mt-8 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-lg transform hover:scale-105" data-translate="getStarted">Get Started</a>
 </div>
 </section>
 <section class="py-12 md:py-20">

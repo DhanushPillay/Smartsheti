@@ -1057,8 +1057,10 @@ function getTranslatedIrrigationAdvice(temperature, humidity, rainfall) {
 // Setup language dropdown functionality
 function setupLanguageDropdown() {
     const translateBtn = document.getElementById('translateBtn');
+    const translateBtnMobile = document.getElementById('translateBtnMobile');
     const languageDropdown = document.getElementById('languageDropdown');
     const currentLangElement = document.getElementById('currentLang');
+    const currentLangMobileElement = document.getElementById('currentLangMobile');
     
     if (!translateBtn || !languageDropdown) {
         console.warn('⚠️ Translation elements not found. Translation button will not work.');
@@ -1074,6 +1076,10 @@ function setupLanguageDropdown() {
         // Prevent this element from being auto-translated
         currentLangElement.setAttribute('data-no-translate', 'true');
     }
+    if (currentLangMobileElement) {
+        currentLangMobileElement.textContent = savedLang.toUpperCase();
+        currentLangMobileElement.setAttribute('data-no-translate', 'true');
+    }
     
     // Ensure dropdown is initially hidden
     languageDropdown.classList.add('hidden');
@@ -1088,6 +1094,38 @@ function setupLanguageDropdown() {
         languageDropdown.classList.toggle('hidden');
         console.log(languageDropdown.classList.contains('hidden') ? '🔼 Dropdown hidden' : '🔽 Dropdown shown');
     });
+    
+    // Mobile translate button - cycle through languages
+    if (translateBtnMobile) {
+        translateBtnMobile.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🌐 Mobile translation button clicked');
+            
+            // Cycle through languages: en -> hi -> mr -> en
+            const currentLang = localStorage.getItem('preferredLanguage') || 'en';
+            let nextLang = 'en';
+            
+            if (currentLang === 'en') {
+                nextLang = 'hi';
+            } else if (currentLang === 'hi') {
+                nextLang = 'mr';
+            } else {
+                nextLang = 'en';
+            }
+            
+            console.log(`🌍 Switching from ${currentLang} to ${nextLang}`);
+            translatePage(nextLang);
+            
+            // Update both language indicators
+            if (currentLangElement) {
+                currentLangElement.textContent = nextLang.toUpperCase();
+            }
+            if (currentLangMobileElement) {
+                currentLangMobileElement.textContent = nextLang.toUpperCase();
+            }
+        });
+    }
 
     // Handle language selection
     const languageLinks = languageDropdown.querySelectorAll('a[data-lang]');
@@ -1107,10 +1145,14 @@ function setupLanguageDropdown() {
             // Hide dropdown
             languageDropdown.classList.add('hidden');
             
-            // Update button text
+            // Update button text (both desktop and mobile)
             const currentLangElement = document.getElementById('currentLang');
+            const currentLangMobileElement = document.getElementById('currentLangMobile');
             if (currentLangElement) {
                 currentLangElement.textContent = lang.toUpperCase();
+            }
+            if (currentLangMobileElement) {
+                currentLangMobileElement.textContent = lang.toUpperCase();
             }
         });
     });

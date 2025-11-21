@@ -1196,6 +1196,21 @@
     
     <!-- Translation Scripts -->
     <script src="../js/translations.js"></script>
+    <script>
+        // Initialize translations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup language functionality using the global translation system
+            if (typeof window.setupLanguageDropdown === 'function') {
+                window.setupLanguageDropdown();
+            }
+            
+            // Apply saved language
+            if (typeof window.translatePage === 'function') {
+                const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+                window.translatePage(savedLang);
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -223,3 +223,79 @@ header {
     position: relative !important;
     z-index: 10001 !important;
 }
+
+/* Mobile Responsive Improvements */
+@media (max-width: 768px) {
+    /* Weather page specific improvements */
+    .container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    h1 {
+        font-size: 1.75rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+    
+    /* Search input improvements */
+    input[type="text"] {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 0.875rem 1rem !important;
+    }
+    
+    button {
+        min-height: 44px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Weather cards */
+    .bg-white, .rounded-lg {
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Grid improvements */
+    .grid {
+        gap: 1rem !important;
+    }
+    
+    /* Weather icons and text */
+    .material-icons {
+        font-size: 2.5rem !important;
+    }
+    
+    /* Temperature text */
+    .text-4xl, .text-5xl {
+        font-size: 2.5rem !important;
+    }
+    
+    .text-3xl {
+        font-size: 1.75rem !important;
+    }
+    
+    .text-2xl {
+        font-size: 1.5rem !important;
+    }
+    
+    .text-xl {
+        font-size: 1.25rem !important;
+    }
+    
+    /* Card padding */
+    .p-6, .p-8 {
+        padding: 1.25rem !important;
+    }
+    
+    .p-4 {
+        padding: 1rem !important;
+    }
+    
+    /* Space improvements */
+    .space-y-4 > * + * {
+        margin-top: 0.75rem !important;
+    }
+    
+    .space-y-8 > * + * {
+        margin-top: 1.5rem !important;
+    }
+}

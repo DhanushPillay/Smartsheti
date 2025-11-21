@@ -483,4 +483,85 @@ body {
                 width: 100%;
                 height: 200px;
             }
+            
+            /* Mobile-specific improvements */
+            .container {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            
+            h1 {
+                font-size: 2rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1.25rem !important;
+            }
+            
+            /* Form improvements */
+            form input, form select {
+                font-size: 16px !important; /* Prevents iOS zoom */
+                padding: 0.875rem 1rem !important;
+                min-height: 48px !important;
+            }
+            
+            form button {
+                min-height: 48px !important;
+                font-size: 1.0625rem !important;
+                padding: 0.875rem 1.5rem !important;
+            }
+            
+            /* Map improvements */
+            #map {
+                height: 250px !important;
+                margin-top: 1rem !important;
+            }
+            
+            /* Crop cards */
+            .bg-white {
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            /* Grid spacing */
+            .grid {
+                gap: 1rem !important;
+            }
+            
+            /* Weather popup mobile */
+            .weather-popup {
+                min-width: auto !important;
+                max-width: calc(100vw - 2rem) !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* Crop suggestion cards mobile */
+            .crop-recommendation-card {
+                padding: 1rem !important;
+            }
+            
+            .crop-recommendation-card h3 {
+                font-size: 1.25rem !important;
+            }
+            
+            /* Button improvements */
+            .material-icons {
+                font-size: 1.5rem !important;
+            }
+            
+            /* Space adjustments */
+            .space-y-8 > * + * {
+                margin-top: 1.5rem !important;
+            }
+            
+            .mb-8 {
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .py-4 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
         }

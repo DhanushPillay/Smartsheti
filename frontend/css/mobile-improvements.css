@@ -217,10 +217,10 @@
         backface-visibility: hidden;
     }
     
-    /* Flexbox improvements */
-    .flex {
+    /* Flexbox improvements - Removed global wrap as it breaks specific layouts */
+    /* .flex {
         flex-wrap: wrap !important;
-    }
+    } */
     
     /* Text truncation helpers */
     .truncate {
@@ -244,11 +244,12 @@
         font-size: 1.75rem !important;
     }
     
-    button,
+    /* Removed global full width buttons as it breaks small action buttons */
+    /* button,
     .btn {
         width: 100% !important;
         margin-bottom: 0.5rem !important;
-    }
+    } */
     
     .container {
         padding-left: 0.75rem !important;

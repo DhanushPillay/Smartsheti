@@ -912,6 +912,11 @@ async function translatePage(lang) {
                 if (element.hasAttribute('data-no-translate')) {
                     return;
                 }
+
+                // Skip material icons
+                if (element.classList.contains('material-icons')) {
+                    return;
+                }
                 
                 // Skip if element has children (only translate leaf nodes)
                 if (element.children.length > 0) {

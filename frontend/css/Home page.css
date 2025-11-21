@@ -287,3 +287,36 @@ header {
     position: relative !important;
     z-index: 10001 !important;
 }
+
+/* Mobile Menu Styles */
+#mobileMenu {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile header adjustments */
+@media (max-width: 768px) {
+    header .brand-section img {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+    }
+    
+    header .brand-section span {
+        font-size: 1.25rem !important;
+    }
+    
+    header .container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+}

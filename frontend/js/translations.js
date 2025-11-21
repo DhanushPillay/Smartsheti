@@ -16,6 +16,7 @@ const translations = {
         search: "Search",
         searchPlaceholder: "Search...",
         noResults: "No results found",
+        buyNow: "Buy Now",
         
         // Crop Suggestion
         getCropSuggestions: "Get Crop Suggestions",
@@ -504,7 +505,8 @@ const translations = {
         contact: "संपर्क",
         privacyPolicy: "गोपनीयता नीति",
         termsOfService: "सेवा की शर्तें",
-        copyright: "© 2024 SmartSheti. सर्वाधिकार सुरक्षित."
+        copyright: "© 2024 SmartSheti. सर्वाधिकार सुरक्षित.",
+        buyNow: "अभी खरीदें"
     },
     mr: {
         // Header
@@ -618,8 +620,8 @@ const translations = {
         aphidWaterSpray: "झाडांवरून एफिड काढून टाकण्यासाठी उच्च दाबाच्या पाण्याच्या फवारणीचा वापर करा",
         
         whiteflyTraps: "पांढरी मक्खी व्यवस्थापन: झाडांभोवती पिवळे चिकट सापळे बसवा (10-15 सापळे प्रति एकर)",
-        whiteflyMulch: "व्हाइटफ्लाय गोंधळात टाकण्यासाठी परावर्तक आच्छादन लावा",
-        whiteflyCompanion: "व्हाइटफ्लाय दूर ठेवण्यासाठी मॅरीगोल्ड आणि तुळस सोबती वनस्पती म्हणून लावा",
+        whiteflyMulch: "व्हाइटफ्लाई गोंधळात टाकण्यासाठी परावर्तक आच्छादन लावा",
+        whiteflyCompanion: "व्हाइटफ्लाई दूर ठेवण्यासाठी मॅरीगोल्ड आणि तुळस सोबती वनस्पती म्हणून लावा",
         whiteflySoap: "बाधित भागांवर कीटकनाशक साबण द्रावण (2-3% एकाग्रता) फवारा",
         
         spiderMiteMisting: "कोळी माइट प्रतिबंध: बारीक धुक्याने झाडांभोवती आर्द्रता वाढवा",
@@ -740,7 +742,7 @@ const translations = {
         marketplaceBrowse: "बियाणे आणि खतांपासून ते उपकरणे आणि साधनांपर्यंत कृषी उत्पादनांची विस्तृत श्रेणी ब्राउझ करा.",
         exploreMarketplace: "बाजारपेठ एक्सप्लोर करा",
         smartShetiDescription: "SmartSheti तुमच्या स्थळात, मिट्टीच्या प्रकारात आणि जलवायु परिस्थितीत आधारित व्यक्तिगत फसल सुचना, वास्तविक काळातील हवामान अपडेट आणि कृषी उत्पादांसाठी बाजारस्थान प्रदान करते, सर्व एक जागीत.",
-        keyFeatures: "महत्त्वाची वैशिष्ट्ये",
+        keyFeatures: "मुख्य विशेषताएं",
         featuresDescription: "किसानांसाठी त्यांच्या कृषी अनुभव बेहतर करण्यासाठी डिझाइन केलेल्या SmartSheti च्या मूळ कार्यक्षमता शोधा.",
         cropSuggestions: "व्यक्तिगत फसल सुचना",
         cropSuggestionsDescription: "तुमच्या स्थळात, मिट्टीच्या प्रकारात आणि जलवायु परिस्थितीत आधारित व्यक्तिगत फसल सुचना मिळवा.",
@@ -757,7 +759,8 @@ const translations = {
         contact: "संपर्क",
         privacyPolicy: "गोपनीयता नीती",
         termsOfService: "सेवा शर्ते",
-        copyright: "© 2024 SmartSheti. सर्वाधिकार सुरक्षित."
+        copyright: "© 2024 SmartSheti. सर्वाधिकार सुरक्षित.",
+        buyNow: "आता खरेदी करा"
     }
 };
 
@@ -766,23 +769,41 @@ let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
 
 // Translation cache for API results
 const translationCache = new Map();
-const TRANSLATION_API_URL = 'http://localhost:5001/api/translate';
+let TRANSLATION_API_URL = 'http://localhost:5000/api/translate';
 let apiAvailable = false;
 
 // Check if Translation API is available
 async function checkTranslationAPI() {
+    console.log('🔄 Checking Translation API availability...');
     try {
-        const response = await fetch('http://localhost:5001/api/health', { 
+        const response = await fetch('http://localhost:5000/api/health', { 
             method: 'GET',
-            signal: AbortSignal.timeout(1000)
+            signal: AbortSignal.timeout(2000)
         });
         apiAvailable = response.ok;
         if (apiAvailable) {
-            console.log('✅ Translation API is available - new words will be auto-translated');
+            console.log('✅ Translation API is available on port 5000 - new words will be auto-translated');
+            TRANSLATION_API_URL = 'http://localhost:5000/api/translate';
+            return true;
         }
     } catch (error) {
-        apiAvailable = false;
-        console.log('ℹ️ Translation API offline - using static translations only');
+        // Try port 5001 as fallback
+        try {
+            console.log('⚠️ Port 5000 failed, trying port 5001...');
+            const response = await fetch('http://localhost:5001/api/health', { 
+                method: 'GET',
+                signal: AbortSignal.timeout(2000)
+            });
+            apiAvailable = response.ok;
+            if (apiAvailable) {
+                TRANSLATION_API_URL = 'http://localhost:5001/api/translate';
+                console.log('✅ Translation API is available on port 5001');
+                return true;
+            }
+        } catch (e) {
+            apiAvailable = false;
+            console.log('ℹ️ Translation API offline - using static translations only');
+        }
     }
     return apiAvailable;
 }
@@ -797,6 +818,7 @@ async function translateWithAPI(text, targetLang) {
     }
     
     try {
+        console.log(`🌐 Calling API for: "${text.substring(0, 20)}..."`);
         const response = await fetch(TRANSLATION_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -805,7 +827,7 @@ async function translateWithAPI(text, targetLang) {
                 source: 'en',
                 target: targetLang
             }),
-            signal: AbortSignal.timeout(3000)
+            signal: AbortSignal.timeout(10000) // Increased timeout to 10s
         });
         
         if (response.ok) {
@@ -814,9 +836,11 @@ async function translateWithAPI(text, targetLang) {
                 translationCache.set(cacheKey, data.translated);
                 return data.translated;
             }
+        } else {
+            console.warn(`API Error: ${response.status} ${response.statusText}`);
         }
     } catch (error) {
-        // Silently fail and return original
+        console.warn('API Translation failed:', error);
     }
     
     return null;
@@ -834,12 +858,14 @@ async function autoTranslateText(text, targetLang) {
         }
     }
     
-    // Step 2: Search for partial match in static translations
+    // Step 2: Search for partial match in static translations - REMOVED due to aggressive matching issues
+    /*
     for (const [key, value] of Object.entries(translations['en'])) {
         if (normalizedText.includes(value.toLowerCase()) || value.toLowerCase().includes(normalizedText)) {
             return t[key] || text;
         }
     }
+    */
     
     // Step 3: Try API translation for new words (if available)
     if (apiAvailable && targetLang !== 'en') {
@@ -896,6 +922,11 @@ async function translatePage(lang) {
         
         // AUTO-TRANSLATE: Find and translate text without attributes
         if (currentLanguage !== 'en') {
+            // Ensure API is checked before starting mass translation
+            if (!apiAvailable) {
+                await checkTranslationAPI();
+            }
+
             // Target common text elements
             const textElements = document.querySelectorAll('a, button, h1, h2, h3, h4, h5, h6, p, span, label, td, th, div.text, li');
             
@@ -1059,6 +1090,33 @@ function getTranslatedIrrigationAdvice(temperature, humidity, rainfall) {
     }
 }
 
+// Helper to show toast notification
+function showToast(message, type = 'success') {
+    // Remove existing toast
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerHTML = `
+        <span class="material-icons">${type === 'success' ? 'check_circle' : 'info'}</span>
+        <span>${message}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
 // Setup language dropdown functionality
 function setupLanguageDropdown() {
     const translateBtn = document.getElementById('translateBtn');
@@ -1076,6 +1134,20 @@ function setupLanguageDropdown() {
     
     // Set initial language display
     const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+    
+    // Update active state in dropdown
+    const updateActiveState = (lang) => {
+        languageDropdown.querySelectorAll('a').forEach(link => {
+            if (link.getAttribute('data-lang') === lang) {
+                link.classList.add('active-lang');
+            } else {
+                link.classList.remove('active-lang');
+            }
+        });
+    };
+    
+    updateActiveState(savedLang);
+
     if (currentLangElement) {
         currentLangElement.textContent = savedLang.toUpperCase();
         // Prevent this element from being auto-translated
@@ -1086,8 +1158,9 @@ function setupLanguageDropdown() {
         currentLangMobileElement.setAttribute('data-no-translate', 'true');
     }
     
-    // Ensure dropdown is initially hidden
-    languageDropdown.classList.add('hidden');
+    // Ensure dropdown is initially hidden (using class for animation)
+    languageDropdown.classList.remove('hidden'); // Remove tailwind hidden
+    // But it starts invisible due to CSS
     
     // Toggle language dropdown - prevent event propagation
     translateBtn.addEventListener('click', (e) => {
@@ -1095,9 +1168,8 @@ function setupLanguageDropdown() {
         e.stopPropagation();
         console.log('🌐 Translation button clicked');
         
-        // Toggle visibility
-        languageDropdown.classList.toggle('hidden');
-        console.log(languageDropdown.classList.contains('hidden') ? '🔼 Dropdown hidden' : '🔽 Dropdown shown');
+        // Toggle visibility class
+        languageDropdown.classList.toggle('active');
     });
     
     // Mobile translate button - cycle through languages
@@ -1110,17 +1182,23 @@ function setupLanguageDropdown() {
             // Cycle through languages: en -> hi -> mr -> en
             const currentLang = localStorage.getItem('preferredLanguage') || 'en';
             let nextLang = 'en';
+            let langName = 'English';
             
             if (currentLang === 'en') {
                 nextLang = 'hi';
+                langName = 'हिंदी (Hindi)';
             } else if (currentLang === 'hi') {
                 nextLang = 'mr';
+                langName = 'मराठी (Marathi)';
             } else {
                 nextLang = 'en';
+                langName = 'English';
             }
             
             console.log(`🌍 Switching from ${currentLang} to ${nextLang}`);
             translatePage(nextLang);
+            updateActiveState(nextLang);
+            showToast(`Language changed to ${langName}`);
             
             // Update both language indicators
             if (currentLangElement) {
@@ -1142,13 +1220,16 @@ function setupLanguageDropdown() {
             e.stopPropagation();
             
             const lang = link.getAttribute('data-lang');
+            const langName = link.textContent.trim();
             console.log(`🌍 Language selected: ${lang}`);
             
             // Apply translation
             translatePage(lang);
+            updateActiveState(lang);
+            showToast(`Language changed to ${langName}`);
             
             // Hide dropdown
-            languageDropdown.classList.add('hidden');
+            languageDropdown.classList.remove('active');
             
             // Update button text (both desktop and mobile)
             const currentLangElement = document.getElementById('currentLang');
@@ -1165,7 +1246,7 @@ function setupLanguageDropdown() {
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         if (!translateBtn.contains(e.target) && !languageDropdown.contains(e.target)) {
-            languageDropdown.classList.add('hidden');
+            languageDropdown.classList.remove('active');
         }
     });
     

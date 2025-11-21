@@ -395,3 +395,72 @@ header {
         border-bottom: none;
     }
 }
+
+/* Language Dropdown Animations */
+#languageDropdown {
+    transform-origin: top right;
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+    pointer-events: none;
+    display: block !important; /* Override hidden class but control with opacity */
+    visibility: hidden;
+}
+
+#languageDropdown.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+}
+
+#languageDropdown a {
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+#languageDropdown a.active-lang {
+    background-color: #f0fdf4; /* green-50 */
+    color: #166534; /* green-800 */
+    font-weight: 600;
+}
+
+#languageDropdown a.active-lang::before {
+    content: '✓';
+    position: absolute;
+    left: 0.5rem;
+    color: #16a34a; /* green-600 */
+}
+
+#languageDropdown a {
+    padding-left: 2rem !important; /* Make space for checkmark */
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast-notification .material-icons {
+    font-size: 20px;
+    color: #4ade80; /* green-400 */
+}

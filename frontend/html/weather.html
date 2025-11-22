@@ -107,14 +107,14 @@
 </header>
 
 <main class="container mx-auto px-4 py-8 page-content">
-<h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="weather-info">Weather Information</h1>
+<h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="weatherInformation">Weather Information</h1>
 <div class="relative mb-8 max-w-2xl mx-auto">
     <div class="flex">
         <span class="material-icons absolute left-3 top-3 text-gray-400">search</span>
-        <input id="locationInput" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Search for a location..." type="text" data-translate="search-placeholder"/>
-        <button id="searchBtn" class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700 transition-colors" data-translate="search-btn">Search</button>
+        <input id="locationInput" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Search..." type="text" data-translate="searchPlaceholder"/>
+        <button id="searchBtn" class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700 transition-colors" data-translate="search">Search</button>
     </div>
-    <div id="locationError" class="text-red-500 text-sm mt-1 hidden" data-translate="location-error">Please enter a location</div>
+    <div id="locationError" class="text-red-500 text-sm mt-1 hidden" data-translate="locationError">Please enter a location</div>
 </div>
 <div id="currentLocation" class="bg-white rounded-lg shadow p-6 mb-8">
     <div class="flex justify-between items-start">
@@ -130,12 +130,12 @@
             </div>
         </div>
         <div class="text-right">
-            <p class="text-gray-700" data-translate="feels-like-label">Feels like: <span id="feelsLike">--°C</span></p>
-            <p class="text-gray-700" data-translate="humidity-label">Humidity: <span id="humidity">--%</span></p>
-            <p class="text-gray-700" data-translate="wind-label">Wind: <span id="windSpeed">-- km/h</span></p>
-            <p class="text-gray-700" data-translate="pressure-label">Pressure: <span id="pressure">-- hPa</span></p>
-            <p class="text-gray-700" data-translate="sunrise-label">Sunrise: <span id="sunrise">--:--</span> AM</p>
-            <p class="text-gray-700" data-translate="sunset-label">Sunset: <span id="sunset">--:--</span> PM</p>
+            <p class="text-gray-700" data-translate="feelsLike">Feels like: <span id="feelsLike">--°C</span></p>
+            <p class="text-gray-700" data-translate="humidity">Humidity: <span id="humidity">--%</span></p>
+            <p class="text-gray-700" data-translate="wind">Wind: <span id="windSpeed">-- km/h</span></p>
+            <p class="text-gray-700" data-translate="pressure">Pressure: <span id="pressure">-- hPa</span></p>
+            <p class="text-gray-700" data-translate="sunrise">Sunrise: <span id="sunrise">--:--</span> AM</p>
+            <p class="text-gray-700" data-translate="sunset">Sunset: <span id="sunset">--:--</span> PM</p>
         </div>
     </div>
 </div>
@@ -170,7 +170,7 @@
         </div>
     </div>
 </div>
-<h2 class="text-2xl font-bold text-gray-800 mb-4" data-translate="forecast-title">7-Day Forecast</h2>
+<h2 class="text-2xl font-bold text-gray-800 mb-4" data-translate="forecastTitle">7-Day Forecast</h2>
 <div id="forecastContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 mb-10">
     <!-- Forecast items will be dynamically inserted here -->
     <div class="text-center p-4">
@@ -241,10 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-
-<script src="/frontend/js/translations.js"></script>
-<script src="/frontend/js/pest_risk_analyzer.js"></script>
-<script src="/frontend/js/pest_utils.js"></script>
+<script src="../js/pest_risk_analyzer.js"></script>
+<script src="../js/pest_utils.js"></script>
 <script>
 // Initialize translation when page loads
 document.addEventListener('DOMContentLoaded', function() {

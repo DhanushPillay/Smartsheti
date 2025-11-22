@@ -273,9 +273,8 @@
     </div>
 
 <script>
-// Header functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
+// Safely initialize header interactions after DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     if (mobileMenuBtn && mobileMenu) {
@@ -1244,8 +1243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
     
-    <!-- Translation Scripts -->
-    <script src="/frontend/js/translations.js"></script>
+    <!-- Translation initialized in head; removed duplicate script -->
 
 </body>
 </html>

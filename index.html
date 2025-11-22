@@ -280,39 +280,4 @@ document.addEventListener('DOMContentLoaded', function() {
     hidePageTransition();
 });
 </script>
-
-<script src="/frontend/js/translations.js"></script>
-<script>
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
-    // Setup language functionality using the global translation system
-    if (typeof window.setupLanguageDropdown === 'function') {
-        window.setupLanguageDropdown();
-    }
-    
-    // Apply saved language
-    if (typeof window.translatePage === 'function') {
-        const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-        window.translatePage(savedLang);
-    }
-    
-    // Profile dropdown functionality
-    const profileBtn = document.getElementById('profileBtn');
-    const profileDropdown = document.getElementById('profileDropdown');
-
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-    }
-});
-</script>
 </body></html>

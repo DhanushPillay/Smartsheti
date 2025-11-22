@@ -902,7 +902,12 @@ async function translatePage(lang) {
         document.querySelectorAll('[data-translate]').forEach(element => {
             const key = element.getAttribute('data-translate');
             if (t[key]) {
-                element.textContent = t[key];
+                // If input/textarea, set placeholder instead of textContent
+                if ((element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') && element.hasAttribute('placeholder')) {
+                    element.placeholder = t[key];
+                } else {
+                    element.textContent = t[key];
+                }
                 translatedCount++;
             } else if (key) {
                 console.warn(`Translation key not found: "${key}"`);

@@ -1,15 +1,9 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/crop-suggestion", "destination": "/frontend/html/crop-suggestion.html" },
+    { "source": "/weather", "destination": "/frontend/html/weather.html" },
+    { "source": "/marketplace", "destination": "/frontend/html/marketplace.html" },
+    { "source": "/market-demand", "destination": "/frontend/html/market-demand.html" }
   ]
 }

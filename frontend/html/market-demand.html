@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/market_demand_fixed.css"/>
     <link rel="stylesheet" href="../css/mobile-improvements.css"/>
 </head>
-<body class="font-sans page-loading" style="background-color: #EBE4DB !important;">
+<body class="font-sans page-loading" style="background-color: #EBE4DB !important;" data-page-name="market-demand">
 <!-- Page Transition Overlay -->
 <div class="page-transition" id="pageTransition">
     <div class="loader">
@@ -29,11 +29,11 @@
 <span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
 </a>
 <nav class="hidden md:flex items-center space-x-4">
-<a class="text-gray-600 hover:text-green-600" href="../../index.html" data-translate="home">Home</a>
-<a class="text-gray-600 hover:text-green-600" href="crop_suggestion page(2).html" data-translate="getCropSuggestions">Crop Suggestion</a>
-<a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html" data-translate="weather">Weather</a>
-<a class="text-gray-600 hover:text-green-600" href="Marketplace.html" data-translate="marketplace">Marketplace</a>
-<a class="font-semibold" href="market_demand_fixed.html" data-translate="marketDemand">Market Demand</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home">Home</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="crop-suggestion.html" data-page="crop-suggestion">Crop Suggestion</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather">Weather</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace">Marketplace</a>
+<a class="nav-link text-green-600 font-bold" href="market-demand.html" data-page="market-demand">Market Demand</a>
 </nav>
 <div class="hidden md:flex items-center space-x-2 action-buttons">
 <div class="relative">
@@ -67,30 +67,45 @@
 <span class="material-icons">menu</span>
 </button>
 </div>
-<!-- Mobile Menu -->
-<div id="mobileMenu" class="hidden md:hidden bg-white border-t">
-<nav class="container mx-auto px-6 py-4 flex flex-col space-y-3">
-<a class="text-gray-600 hover:text-green-600" href="../../index.html" data-translate="home">Home</a>
-<a class="text-gray-600 hover:text-green-600" href="crop_suggestion page(2).html" data-translate="getCropSuggestions">Crop Suggestion</a>
-<a class="text-gray-600 hover:text-green-600" href="Weather_page(3).html" data-translate="weather">Weather</a>
-<a class="text-gray-600 hover:text-green-600" href="Marketplace.html" data-translate="marketplace">Marketplace</a>
-<a class="font-semibold text-gray-800" href="market_demand_fixed.html" data-translate="marketDemand">Market Demand</a>
-<hr class="my-2">
-<div class="flex items-center space-x-4">
-<button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
-    <span class="material-icons mr-1">translate</span>
-    <span id="currentLangMobile" data-no-translate="true">EN</span>
-</button>
-<button class="text-gray-600 hover:text-green-600">
-    <span class="material-icons">notifications</span>
-</button>
-<button id="profileBtnMobile" class="text-gray-600 hover:text-green-600">
-    <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
-</button>
-</div>
+<div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50" style="top: 100%;">
+<nav class="container mx-auto px-6 py-4 flex flex-col">
+    <a class="mobile-nav-link" href="../../index.html" data-page="home">
+        <span class="material-icons text-gray-400 mr-3">home</span>
+        <span>Home</span>
+    </a>
+    <a class="mobile-nav-link" href="crop-suggestion.html" data-page="crop-suggestion">
+        <span class="material-icons text-gray-400 mr-3">grass</span>
+        <span>Crop Suggestion</span>
+    </a>
+    <a class="mobile-nav-link" href="weather.html" data-page="weather">
+        <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
+        <span>Weather</span>
+    </a>
+    <a class="mobile-nav-link" href="marketplace.html" data-page="marketplace">
+        <span class="material-icons text-gray-400 mr-3">storefront</span>
+        <span>Marketplace</span>
+    </a>
+    <a class="mobile-nav-link active" href="market-demand.html" data-page="market-demand">
+        <span class="material-icons text-green-600 mr-3">trending_up</span>
+        <span>Market Demand</span>
+    </a>
+    <div class="border-t border-gray-100 my-2 pt-2"></div>
+    <div class="flex items-center justify-between px-2 py-2">
+        <button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors" title="Translate">
+            <span class="material-icons mr-2">translate</span>
+            <span id="currentLangMobile" data-no-translate="true" class="font-medium">EN</span>
+        </button>
+        <button class="text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors">
+            <span class="material-icons">notifications</span>
+        </button>
+        <button id="profileBtnMobile" class="text-gray-600 hover:text-green-600 p-1 rounded-full hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
+            <img alt="User avatar" class="h-8 w-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+        </button>
+    </div>
 </nav>
 </div>
 </header>
+
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="marketDemandTitle">Market Demand & Price Insights</h1>
         
@@ -254,6 +269,50 @@
         </div>
 
     </div>
+
+<script>
+// Header functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // Profile dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    // Mobile profile dropdown
+    const profileBtnMobile = document.getElementById('profileBtnMobile');
+    if (profileBtnMobile && profileDropdown) {
+        profileBtnMobile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+});
+</script>
 
     <script>
         // Page Transition Functions
@@ -1142,17 +1201,6 @@
             // Setup smooth navigation
             setupSmoothNavigation();
             
-            // Mobile menu functionality
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            if (mobileMenuBtn && mobileMenu) {
-                mobileMenuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-
             try {
                 // Initialize components
                 priceGenerator = new RealTimePriceAPI();
@@ -1196,21 +1244,6 @@
     
     <!-- Translation Scripts -->
     <script src="../js/translations.js"></script>
-    <script>
-        // Initialize translations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Setup language functionality using the global translation system
-            if (typeof window.setupLanguageDropdown === 'function') {
-                window.setupLanguageDropdown();
-            }
-            
-            // Apply saved language
-            if (typeof window.translatePage === 'function') {
-                const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-                window.translatePage(savedLang);
-            }
-        });
-    </script>
 
 </body>
 </html>

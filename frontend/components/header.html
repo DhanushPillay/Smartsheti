@@ -1,0 +1,88 @@
+<header class="shadow-sm" style="position: relative;">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<a href="{{ROOT}}/index.html" class="brand-section" style="text-decoration: none;">
+<img src="{{ROOT}}/frontend/assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-12 h-12 mr-1.5"/>
+<span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
+</a>
+<nav class="hidden md:flex items-center space-x-4">
+<a class="nav-link text-gray-600 hover:text-green-600" href="{{ROOT}}/index.html" data-page="home">Home</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="{{ROOT}}/frontend/html/crop-suggestion.html" data-page="crop-suggestion">Crop Suggestion</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="{{ROOT}}/frontend/html/weather.html" data-page="weather">Weather</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="{{ROOT}}/frontend/html/marketplace.html" data-page="marketplace">Marketplace</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="{{ROOT}}/frontend/html/market-demand.html" data-page="market-demand">Market Demand</a>
+</nav>
+<div class="hidden md:flex items-center space-x-2 action-buttons">
+<div class="relative">
+    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
+        <span class="material-icons mr-1">translate</span>
+        <span id="currentLang" data-no-translate="true">EN</span>
+    </button>
+    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
+        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+    </div>
+</div>
+<button class="text-gray-600 hover:text-green-600">
+<span class="material-icons">notifications</span>
+</button>
+<div class="relative">
+<button id="profileBtn" class="text-gray-600 hover:text-green-600">
+<img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+</button>
+<div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="settings">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="dashboard">Dashboard</a>
+<hr class="my-1">
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="logout">Logout</a>
+</div>
+</div>
+</div>
+<button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-green-600">
+<span class="material-icons">menu</span>
+</button>
+</div>
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50" style="top: 100%;">
+<nav class="container mx-auto px-6 py-4 flex flex-col">
+    <a class="mobile-nav-link" href="{{ROOT}}/index.html" data-page="home">
+        <span class="material-icons text-gray-400 mr-3">home</span>
+        <span>Home</span>
+    </a>
+    <a class="mobile-nav-link" href="{{ROOT}}/frontend/html/crop-suggestion.html" data-page="crop-suggestion">
+        <span class="material-icons text-gray-400 mr-3">grass</span>
+        <span>Crop Suggestion</span>
+    </a>
+    <a class="mobile-nav-link" href="{{ROOT}}/frontend/html/weather.html" data-page="weather">
+        <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
+        <span>Weather</span>
+    </a>
+    <a class="mobile-nav-link" href="{{ROOT}}/frontend/html/marketplace.html" data-page="marketplace">
+        <span class="material-icons text-gray-400 mr-3">storefront</span>
+        <span>Marketplace</span>
+    </a>
+    <a class="mobile-nav-link" href="{{ROOT}}/frontend/html/market-demand.html" data-page="market-demand">
+        <span class="material-icons text-gray-400 mr-3">trending_up</span>
+        <span>Market Demand</span>
+    </a>
+    
+    <div class="border-t border-gray-100 my-2 pt-2"></div>
+    
+    <div class="flex items-center justify-between px-2 py-2">
+        <button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors" title="Translate">
+            <span class="material-icons mr-2">translate</span>
+            <span id="currentLangMobile" data-no-translate="true" class="font-medium">EN</span>
+        </button>
+        
+        <button class="text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors">
+            <span class="material-icons">notifications</span>
+        </button>
+        
+        <button id="profileBtnMobile" class="text-gray-600 hover:text-green-600 p-1 rounded-full hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
+            <img alt="User avatar" class="h-8 w-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
+        </button>
+    </div>
+</nav>
+</div>
+</header>

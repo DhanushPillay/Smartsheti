@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="frontend/css/Home page.css"/>
 <link rel="stylesheet" href="frontend/css/mobile-improvements.css"/>
 </head>
-<body class="font-sans page-loading" style="background-color: #EBE4DB !important;">
+<body class="font-sans page-loading" style="background-color: #EBE4DB !important;" data-page-name="home">
 <!-- Page Transition Overlay -->
 <div class="page-transition" id="pageTransition">
     <div class="loader">
@@ -26,11 +26,11 @@
 <span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
 </a>
 <nav class="hidden md:flex items-center space-x-4">
-<a class="font-semibold" href="index.html">Home</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/crop_suggestion page(2).html">Crop Suggestion</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/Weather_page(3).html">Weather</a>
-                <a class="text-gray-600 hover:text-green-600" href="frontend/html/Marketplace.html">Marketplace</a>
-<a class="text-gray-600 hover:text-green-600" href="frontend/html/market_demand_fixed.html">Market Demand</a>
+<a class="nav-link text-green-600 font-bold" href="index.html" data-page="home">Home</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="frontend/html/crop-suggestion.html" data-page="crop-suggestion">Crop Suggestion</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="frontend/html/weather.html" data-page="weather">Weather</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="frontend/html/marketplace.html" data-page="marketplace">Marketplace</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="frontend/html/market-demand.html" data-page="market-demand">Market Demand</a>
 </nav>
 <div class="hidden md:flex items-center space-x-2 action-buttons">
 <div class="relative">
@@ -52,11 +52,11 @@
 <img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
 </button>
 <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">Profile</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="settings">Settings</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="dashboard">Dashboard</a>
 <hr class="my-1">
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="logout">Logout</a>
 </div>
 </div>
 </div>
@@ -67,23 +67,23 @@
 <!-- Mobile Menu -->
 <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50" style="top: 100%;">
 <nav class="container mx-auto px-6 py-4 flex flex-col">
-    <a class="mobile-nav-link active" href="index.html">
+    <a class="mobile-nav-link active" href="index.html" data-page="home">
         <span class="material-icons text-green-600 mr-3">home</span>
         <span>Home</span>
     </a>
-    <a class="mobile-nav-link" href="frontend/html/crop_suggestion page(2).html">
+    <a class="mobile-nav-link" href="frontend/html/crop-suggestion.html" data-page="crop-suggestion">
         <span class="material-icons text-gray-400 mr-3">grass</span>
         <span>Crop Suggestion</span>
     </a>
-    <a class="mobile-nav-link" href="frontend/html/Weather_page(3).html">
+    <a class="mobile-nav-link" href="frontend/html/weather.html" data-page="weather">
         <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
         <span>Weather</span>
     </a>
-    <a class="mobile-nav-link" href="frontend/html/Marketplace.html">
+    <a class="mobile-nav-link" href="frontend/html/marketplace.html" data-page="marketplace">
         <span class="material-icons text-gray-400 mr-3">storefront</span>
         <span>Marketplace</span>
     </a>
-    <a class="mobile-nav-link" href="frontend/html/market_demand_fixed.html">
+    <a class="mobile-nav-link" href="frontend/html/market-demand.html" data-page="market-demand">
         <span class="material-icons text-gray-400 mr-3">trending_up</span>
         <span>Market Demand</span>
     </a>
@@ -107,6 +107,7 @@
 </nav>
 </div>
 </header>
+
 <main class="page-content">
 <section class="relative">
 <div class="absolute inset-0">
@@ -116,7 +117,7 @@
 <div class="relative container mx-auto px-6 py-20 md:py-32 text-center text-white flex flex-col justify-center min-h-[50vh] md:min-h-0">
 <h1 class="text-3xl md:text-5xl font-bold leading-tight" data-translate="empoweringFarmers">Empowering Farmers with Smart Solutions</h1>
 <p class="mt-4 text-base md:text-lg max-w-2xl mx-auto leading-relaxed" data-translate="smartShetiDescription">SmartSheti provides personalized crop suggestions, real-time weather updates, and a marketplace for agricultural products, all in one place.</p>
-<a href="frontend/html/crop_suggestion page(2).html" class="mt-8 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors shadow-lg transform hover:scale-105" data-translate="getStarted">Get Started</a>
+<a href="frontend/html/crop-suggestion.html" class="mt-6 inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors shadow-md transform hover:scale-105 w-auto max-w-xs mx-auto" data-translate="getStarted">Get Started</a>
 </div>
 </section>
 <section class="py-12 md:py-20">
@@ -146,22 +147,54 @@
 <div class="container mx-auto px-6 text-center">
 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4" data-translate="discoverMarketplace">Discover the Marketplace</h2>
 <p class="text-gray-600 mb-8" data-translate="marketplaceBrowse">Browse a wide range of agricultural products, from seeds and fertilizers to equipment and tools.</p>
-                <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg" data-translate="exploreMarketplace" href="frontend/html/Marketplace.html">Explore Marketplace</a>
+                <a class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg" data-translate="exploreMarketplace" href="frontend/html/marketplace.html">Explore Marketplace</a>
 </div>
 </section>
 </main>
-<footer class="py-8 md:py-12" style="background-color: #EBE4DB !important;">
-<div class="container mx-auto px-6">
-<div class="flex justify-center items-center">
-<div class="text-center">
-<a class="text-gray-600 hover:text-green-600 mx-4" href="#" data-translate="aboutUs">About Us</a>
-</div>
-</div>
-<div class="text-center text-gray-500 mt-8">
-<p data-translate="copyright">&copy; 2024 SmartSheti. All rights reserved.</p>
-</div>
-</div>
-</footer>
+
+<script>
+// Header functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    }
+
+    // Profile dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    // Mobile profile dropdown
+    const profileBtnMobile = document.getElementById('profileBtnMobile');
+    if (profileBtnMobile && profileDropdown) {
+        profileBtnMobile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+});
+</script>
 
 <script>
 // Page Transition Functions - Sliding Effect
@@ -188,12 +221,12 @@ function hidePageTransition() {
     
     // Start slide-in animations
     setTimeout(() => {
-        header.classList.add('loaded');
-        content.classList.add('loaded');
+        if (header) header.classList.add('loaded');
+        if (content) content.classList.add('loaded');
         
         // Hide transition overlay after content starts sliding in
         setTimeout(() => {
-            transition.classList.remove('active');
+            if (transition) transition.classList.remove('active');
         }, 300);
     }, 100);
 }
@@ -204,7 +237,7 @@ function navigateToPage(url, pageName) {
     
     // Update loader text
     const loaderText = document.querySelector('.page-transition .text');
-    loaderText.textContent = `Loading ${pageName}...`;
+    if (loaderText) loaderText.textContent = `Loading ${pageName}...`;
     
     // Navigate after transition animation starts
     setTimeout(() => {
@@ -214,38 +247,24 @@ function navigateToPage(url, pageName) {
 
 // Add smooth transition to navigation links
 function setupSmoothNavigation() {
-    const navLinks = document.querySelectorAll('nav a, .page-nav-link');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            const pageName = this.textContent.trim();
-            
-            // Don't transition for hash links or external links
-            if (href.startsWith('#') || href.startsWith('http') || href === window.location.pathname) {
-                return;
-            }
-            
-            navigateToPage(href, pageName);
-        });
-    });
+    // Note: nav links are now loaded dynamically, so we might need to attach listeners after they load
+    // But for now, let's handle the static links in the body
     
     // Also add transition to "Get Started" button
-    const getStartedBtn = document.querySelector('a[href="frontend/html/crop_suggestion page(2).html"]');
+    const getStartedBtn = document.querySelector('a[href="frontend/html/crop-suggestion.html"]');
     if (getStartedBtn) {
         getStartedBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            navigateToPage('frontend/html/crop_suggestion page(2).html', 'Crop Suggestions');
+            navigateToPage('frontend/html/crop-suggestion.html', 'Crop Suggestions');
         });
     }
     
     // Fix "Explore Marketplace" button
-    const exploreMarketBtn = document.querySelector('a[href="frontend/html/Marketplace.html"]');
+    const exploreMarketBtn = document.querySelector('a[href="frontend/html/marketplace.html"]');
     if (exploreMarketBtn) {
         exploreMarketBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            navigateToPage('frontend/html/Marketplace.html', 'Marketplace');
+            navigateToPage('frontend/html/marketplace.html', 'Marketplace');
         });
     }
 }
@@ -257,35 +276,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Hide page transition and show content
     hidePageTransition();
-    
-    // Mobile menu functionality
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
-    
-    // Profile dropdown functionality
-    const profileBtn = document.getElementById('profileBtn');
-    const profileDropdown = document.getElementById('profileDropdown');
-
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-    }
 });
 </script>
 

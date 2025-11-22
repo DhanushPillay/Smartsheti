@@ -1253,11 +1253,27 @@ function setupLanguageDropdown() {
     console.log('✅ Language dropdown setup complete');
 }
 
-// Initialize translation API check on page load
+// Initialize translation system (API check + dropdown + initial translation)
+function initializeTranslations() {
+    // Perform API availability check first (non-blocking for UI)
+    checkTranslationAPI().then(() => {
+        // Re-apply translation once API status known (for potential dynamic translations)
+        translatePage(currentLanguage);
+    });
+    // Setup language dropdown and indicators
+    try {
+        setupLanguageDropdown();
+    } catch (e) {
+        console.warn('⚠️ setupLanguageDropdown failed:', e);
+    }
+    // Initial static translation pass for fast UI
+    translatePage(currentLanguage);
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => checkTranslationAPI());
+    document.addEventListener('DOMContentLoaded', initializeTranslations);
 } else {
-    checkTranslationAPI();
+    initializeTranslations();
 }
 
 // Reset to English (useful for debugging)

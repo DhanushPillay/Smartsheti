@@ -69,10 +69,11 @@ Go to [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
 - Track price history and forecasts
 - View price source indicators for transparency
 
-### 6. **Explore Marketplace**
-- Connect with buyers and sellers
-- List your produce
-- Find best market opportunities
+### 6. **Agricultural Marketplace**
+- **Curated Products**: Browse high-quality seeds, fertilizers, and equipment
+- **Trusted Partners**: Direct links to purchase from verified platforms (e.g., BigHaat)
+- **Category Filtering**: Easily filter by seeds, tools, or fertilizers
+- **Price Comparison**: View current prices and discounts
 
 ## 🎯 Key Highlights
 

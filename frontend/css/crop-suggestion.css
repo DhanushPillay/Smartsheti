@@ -328,12 +328,47 @@ body {
             transform: scale(1.05);
         }
         
-        /* Dropdown z-index fixes */
+        /* Dropdown z-index fixes and Animations */
         #languageDropdown {
             z-index: 99999 !important;
             position: absolute !important;
             background: white !important;
             border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            
+            /* Animation styles */
+            transform-origin: top right;
+            transition: all 0.2s ease-in-out;
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+            pointer-events: none;
+            display: block !important; /* Override hidden class but control with opacity */
+            visibility: hidden;
+        }
+        
+        #languageDropdown.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        #languageDropdown a {
+            transition: background-color 0.2s;
+            position: relative;
+            padding-left: 2rem !important; /* Make space for checkmark */
+        }
+        
+        #languageDropdown a.active-lang {
+            background-color: #f0fdf4; /* green-50 */
+            color: #166534; /* green-800 */
+            font-weight: 600;
+        }
+        
+        #languageDropdown a.active-lang::before {
+            content: '✓';
+            position: absolute;
+            left: 0.5rem;
+            color: #16a34a; /* green-600 */
         }
         
         #profileDropdown {

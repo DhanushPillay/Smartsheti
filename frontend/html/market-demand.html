@@ -31,11 +31,11 @@
 <span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
 </a>
 <nav class="hidden md:flex items-center space-x-4">
-<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home">Home</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="crop-suggestion.html" data-page="crop-suggestion">Crop Suggestion</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather">Weather</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace">Marketplace</a>
-<a class="nav-link text-green-600 font-bold" href="market-demand.html" data-page="market-demand">Market Demand</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home" data-translate="home">Home</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="crop-suggestion.html" data-page="crop-suggestion" data-translate="cropSuggestion">Crop Suggestion</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather" data-translate="weather">Weather</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace" data-translate="marketplace">Marketplace</a>
+<a class="nav-link text-green-600 font-bold" href="market-demand.html" data-page="market-demand" data-translate="marketDemand">Market Demand</a>
 </nav>
 <div class="hidden md:flex items-center space-x-2 action-buttons">
 <div class="relative">
@@ -73,23 +73,23 @@
 <nav class="container mx-auto px-6 py-4 flex flex-col">
     <a class="mobile-nav-link" href="../../index.html" data-page="home">
         <span class="material-icons text-gray-400 mr-3">home</span>
-        <span>Home</span>
+        <span data-translate="home">Home</span>
     </a>
     <a class="mobile-nav-link" href="crop-suggestion.html" data-page="crop-suggestion">
         <span class="material-icons text-gray-400 mr-3">grass</span>
-        <span>Crop Suggestion</span>
+        <span data-translate="cropSuggestion">Crop Suggestion</span>
     </a>
     <a class="mobile-nav-link" href="weather.html" data-page="weather">
         <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
-        <span>Weather</span>
+        <span data-translate="weather">Weather</span>
     </a>
     <a class="mobile-nav-link" href="marketplace.html" data-page="marketplace">
         <span class="material-icons text-gray-400 mr-3">storefront</span>
-        <span>Marketplace</span>
+        <span data-translate="marketplace">Marketplace</span>
     </a>
     <a class="mobile-nav-link active" href="market-demand.html" data-page="market-demand">
         <span class="material-icons text-green-600 mr-3">trending_up</span>
-        <span>Market Demand</span>
+        <span data-translate="marketDemand">Market Demand</span>
     </a>
     <div class="border-t border-gray-100 my-2 pt-2"></div>
     <div class="flex items-center justify-between px-2 py-2">
@@ -165,7 +165,7 @@
                     <span id="currentPrice" class="text-4xl font-bold text-gray-800">₹25/kg</span>
                     <span id="priceChange" class="text-sm text-green-600 font-semibold">+5%</span>
                 </div>
-                <p class="text-sm text-gray-500">Last 60 Days</p>
+                <p class="text-sm text-gray-500" data-translate="last60Days">Last 60 Days</p>
             </div>
             
             <!-- Line Graph Container -->
@@ -202,21 +202,21 @@
                     <div id="lowestTooltip" class="absolute hidden">
                         <div class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded shadow-lg">
                             <div class="font-semibold" id="lowestPrice">₹2,320</div>
-                            <div class="text-xs">Lowest</div>
+                            <div class="text-xs" data-translate="lowest">Lowest</div>
                         </div>
                     </div>
                     
                     <div id="highestTooltip" class="absolute hidden">
                         <div class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded shadow-lg">
                             <div class="font-semibold" id="highestPrice">₹2,680</div>
-                            <div class="text-xs">Highest</div>
+                            <div class="text-xs" data-translate="highest">Highest</div>
                         </div>
                     </div>
                     
                     <div id="currentTooltip" class="absolute hidden">
                         <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded shadow-lg">
                             <div class="font-semibold" id="currentPriceTooltip">₹2,500</div>
-                            <div class="text-xs">Current</div>
+                            <div class="text-xs" data-translate="current">Current</div>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
             <!-- Loading indicator -->
             <div id="chartLoading" class="hidden text-center py-4">
                 <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
-                <p class="mt-2 text-sm text-gray-500">Updating price data...</p>
+                <p class="mt-2 text-sm text-gray-500" data-translate="updatingPriceData">Updating price data...</p>
             </div>
             
             <!-- X-axis labels -->
@@ -244,15 +244,15 @@
             <div class="flex justify-center items-center space-x-6 mt-4 text-xs">
                 <div class="flex items-center space-x-1">
                     <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <span class="text-gray-600">Lowest Price</span>
+                    <span class="text-gray-600" data-translate="lowestPrice">Lowest Price</span>
                 </div>
                 <div class="flex items-center space-x-1">
                     <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <span class="text-gray-600">Highest Price</span>
+                    <span class="text-gray-600" data-translate="highestPrice">Highest Price</span>
                 </div>
                 <div class="flex items-center space-x-1">
                     <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <span class="text-gray-600">Current Price</span>
+                    <span class="text-gray-600" data-translate="currentPrice">Current Price</span>
                 </div>
             </div>
         </div>

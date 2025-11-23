@@ -32,11 +32,11 @@
 <span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
 </a>
 <nav class="hidden md:flex items-center space-x-4">
-<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home">Home</a>
-<a class="nav-link text-green-600 font-bold" href="crop-suggestion.html" data-page="crop-suggestion">Crop Suggestion</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather">Weather</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace">Marketplace</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="market-demand.html" data-page="market-demand">Market Demand</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home" data-translate="home">Home</a>
+<a class="nav-link text-green-600 font-bold" href="crop-suggestion.html" data-page="crop-suggestion" data-translate="cropSuggestion">Crop Suggestion</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather" data-translate="weather">Weather</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace" data-translate="marketplace">Marketplace</a>
+<a class="nav-link text-gray-600 hover:text-green-600" href="market-demand.html" data-page="market-demand" data-translate="marketDemand">Market Demand</a>
 </nav>
 <div class="hidden md:flex items-center space-x-2 action-buttons">
 <div class="relative">
@@ -74,23 +74,23 @@
 <nav class="container mx-auto px-6 py-4 flex flex-col">
     <a class="mobile-nav-link" href="../../index.html" data-page="home">
         <span class="material-icons text-gray-400 mr-3">home</span>
-        <span>Home</span>
+        <span data-translate="home">Home</span>
     </a>
     <a class="mobile-nav-link active" href="crop-suggestion.html" data-page="crop-suggestion">
         <span class="material-icons text-green-600 mr-3">grass</span>
-        <span>Crop Suggestion</span>
+        <span data-translate="cropSuggestion">Crop Suggestion</span>
     </a>
     <a class="mobile-nav-link" href="weather.html" data-page="weather">
         <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
-        <span>Weather</span>
+        <span data-translate="weather">Weather</span>
     </a>
     <a class="mobile-nav-link" href="marketplace.html" data-page="marketplace">
         <span class="material-icons text-gray-400 mr-3">storefront</span>
-        <span>Marketplace</span>
+        <span data-translate="marketplace">Marketplace</span>
     </a>
     <a class="mobile-nav-link" href="market-demand.html" data-page="market-demand">
         <span class="material-icons text-gray-400 mr-3">trending_up</span>
-        <span>Market Demand</span>
+        <span data-translate="marketDemand">Market Demand</span>
     </a>
     <div class="border-t border-gray-100 my-2 pt-2"></div>
     <div class="flex items-center justify-between px-2 py-2">
@@ -134,15 +134,15 @@
 <div class="relative">
 <select class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="soil-type">
 <option value="" data-translate="selectSoilType">Select soil type</option>
-<option value="black-cotton">Black Cotton Soil</option>
-<option value="red-lateritic">Red Lateritic Soil</option>
-<option value="alluvial">Alluvial Soil</option>
-<option value="sandy-loam">Sandy Loam Soil</option>
-<option value="clay-loam">Clay Loam Soil</option>
-<option value="well-drained-loamy">Well-drained Loamy Soil</option>
-<option value="deep-loamy">Deep Loamy Soil</option>
-<option value="forest-loam">Forest Loam Soil</option>
-<option value="coastal-sandy">Coastal Sandy Soil</option>
+<option value="black-cotton" data-translate="blackCotton">Black Cotton Soil</option>
+<option value="red-lateritic" data-translate="redLateritic">Red Lateritic Soil</option>
+<option value="alluvial" data-translate="alluvial">Alluvial Soil</option>
+<option value="sandy-loam" data-translate="sandyLoam">Sandy Loam Soil</option>
+<option value="clay-loam" data-translate="clayLoam">Clay Loam Soil</option>
+<option value="well-drained-loamy" data-translate="wellDrainedLoamy">Well-drained Loamy Soil</option>
+<option value="deep-loamy" data-translate="deepLoamy">Deep Loamy Soil</option>
+<option value="forest-loam" data-translate="forestLoam">Forest Loam Soil</option>
+<option value="coastal-sandy" data-translate="coastalSandy">Coastal Sandy Soil</option>
 </select>
 <span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
 </div>
@@ -159,13 +159,13 @@
 <div class="relative">
 <select class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="irrigation-type">
 <option value="" data-translate="selectIrrigationType">Select irrigation type</option>
-<option value="drip">Drip Irrigation</option>
-<option value="sprinkler">Sprinkler Irrigation</option>
-<option value="flood">Flood Irrigation</option>
-<option value="furrow">Furrow Irrigation</option>
-<option value="rain-fed">Rain-fed/No Irrigation</option>
-<option value="canal">Canal Irrigation</option>
-<option value="well">Well/Borewell Irrigation</option>
+<option value="drip" data-translate="drip">Drip Irrigation</option>
+<option value="sprinkler" data-translate="sprinkler">Sprinkler Irrigation</option>
+<option value="flood" data-translate="flood">Flood Irrigation</option>
+<option value="furrow" data-translate="furrow">Furrow Irrigation</option>
+<option value="rain-fed" data-translate="rainFed">Rain-fed/No Irrigation</option>
+<option value="canal" data-translate="canal">Canal Irrigation</option>
+<option value="well" data-translate="well">Well/Borewell Irrigation</option>
 </select>
 <span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
 </div>

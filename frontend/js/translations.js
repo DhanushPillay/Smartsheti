@@ -3,6 +3,7 @@ const translations = {
     en: {
         // Header
         home: "Home",
+        cropSuggestion: "Crop Suggestion",
         weather: "Weather",
         marketplace: "Marketplace",
         marketDemand: "Market Demand",
@@ -45,6 +46,28 @@ const translations = {
         cotton: "Cotton",
         sugarcane: "Sugarcane",
         quintal: "quintal",
+        clear: "Clear Form",
+        fillFormMessage: "Please fill out the form above to get personalized crop suggestions based on your location, soil type, land size, and irrigation method.",
+        
+        // Soil Types
+        blackCotton: "Black Cotton Soil",
+        redLateritic: "Red Lateritic Soil",
+        alluvial: "Alluvial Soil",
+        sandyLoam: "Sandy Loam Soil",
+        clayLoam: "Clay Loam Soil",
+        wellDrainedLoamy: "Well-drained Loamy Soil",
+        deepLoamy: "Deep Loamy Soil",
+        forestLoam: "Forest Loam Soil",
+        coastalSandy: "Coastal Sandy Soil",
+        
+        // Irrigation Types
+        drip: "Drip Irrigation",
+        sprinkler: "Sprinkler Irrigation",
+        flood: "Flood Irrigation",
+        furrow: "Furrow Irrigation",
+        rainFed: "Rain-fed/No Irrigation",
+        canal: "Canal Irrigation",
+        well: "Well/Borewell Irrigation",
         
         // Weather
         currentLocation: "Current Location",
@@ -64,6 +87,11 @@ const translations = {
         currentWeather: "Current Weather",
         pestRiskAnalysis: "Pest Risk Analysis",
         irrigationAdvice: "Irrigation Advice",
+        agriculturalAdvice: "Agricultural Advice",
+        searchForAgriAdvice: "Search for a location to get agricultural advice",
+        searchForForecast: "Search for a location to see forecast",
+        pestRiskInfo: "Pest risk information will be displayed here based on current weather conditions.",
+        irrigationAdviceInfo: "Irrigation advice will be displayed here based on current weather conditions.",
         lowRisk: "Low risk of pest attacks due to dry conditions",
         moderateRisk: "Moderate risk - monitor crops regularly",
         highRisk: "High risk - consider preventive measures",
@@ -202,6 +230,12 @@ const translations = {
         market: "Market",
         priceTrendFor: "Price Trend for",
         last60Days: "Last 60 Days",
+        lowest: "Lowest",
+        highest: "Highest",
+        current: "Current",
+        updatingPriceData: "Updating price data...",
+        lowestPrice: "Lowest Price",
+        highestPrice: "Highest Price",
         demandIndicator: "Demand Indicator",
         currentDemand: "Current Demand",
         highDemand: "High Demand",
@@ -247,6 +281,14 @@ const translations = {
         marketplaceBrowse: "Browse a wide range of agricultural products, from seeds and fertilizers to equipment and tools.",
         exploreMarketplace: "Explore Marketplace",
         
+        // Marketplace Page
+        marketplaceSubtitle: "Browse premium quality vegetable seeds from BigHaat - India's trusted agricultural platform.",
+        allProducts: "All Products",
+        seeds: "Seeds",
+        fertilizers: "Fertilizers",
+        equipment: "Equipment",
+        tools: "Tools",
+        
         // Footer
         aboutUs: "About Us",
         contact: "Contact",
@@ -257,6 +299,7 @@ const translations = {
     hi: {
         // Header
         home: "गृह",
+        cropSuggestion: "फसल सुझाव",
         weather: "मौसम",
         marketplace: "बाजार",
         marketDemand: "बाजार मांग",
@@ -298,6 +341,28 @@ const translations = {
         cotton: "कपास",
         sugarcane: "गन्ना",
         quintal: "क्विंटल",
+        clear: "फॉर्म साफ़ करें",
+        fillFormMessage: "अपने स्थान, मिट्टी के प्रकार, भूमि के आकार और सिंचाई विधि के आधार पर व्यक्तिगत फसल सुझाव प्राप्त करने के लिए कृपया ऊपर दिया गया फॉर्म भरें।",
+        
+        // Soil Types
+        blackCotton: "काली कपास मिट्टी",
+        redLateritic: "लाल लेटेराइट मिट्टी",
+        alluvial: "जलोढ़ मिट्टी",
+        sandyLoam: "रेतीली दोमट मिट्टी",
+        clayLoam: "चिकनी दोमट मिट्टी",
+        wellDrainedLoamy: "अच्छी जल निकासी वाली दोमट मिट्टी",
+        deepLoamy: "गहरी दोमट मिट्टी",
+        forestLoam: "वन दोमट मिट्टी",
+        coastalSandy: "तटीय रेतीली मिट्टी",
+        
+        // Irrigation Types
+        drip: "ड्रिप सिंचाई",
+        sprinkler: "छिड़काव सिंचाई",
+        flood: "बाढ़ सिंचाई",
+        furrow: "कुंड सिंचाई",
+        rainFed: "वर्षा आधारित/कोई सिंचाई नहीं",
+        canal: "नहर सिंचाई",
+        well: "कुआं/बोरवेल सिंचाई",
         
         // Weather
         currentLocation: "वर्तमान स्थान",
@@ -317,6 +382,11 @@ const translations = {
         currentWeather: "वर्तमान मौसम",
         pestRiskAnalysis: "कीट जोखिम विश्लेषण",
         irrigationAdvice: "सिंचाई सलाह",
+        agriculturalAdvice: "कृषि सलाह",
+        searchForAgriAdvice: "कृषि सलाह प्राप्त करने के लिए स्थान खोजें",
+        searchForForecast: "पूर्वानुमान देखने के लिए स्थान खोजें",
+        pestRiskInfo: "वर्तमान मौसम की स्थिति के आधार पर कीट जोखिम जानकारी यहां प्रदर्शित की जाएगी।",
+        irrigationAdviceInfo: "वर्तमान मौसम की स्थिति के आधार पर सिंचाई सलाह यहां प्रदर्शित की जाएगी।",
         lowRisk: "सूखी स्थितियों के कारण कीट हमलों का कम जोखिम",
         moderateRisk: "मध्यम जोखिम - नियमित रूप से फसलों की निगरानी करें",
         highRisk: "उच्च जोखिम - निवारक उपायों पर विचार करें",
@@ -455,6 +525,12 @@ const translations = {
         market: "बाजार",
         priceTrendFor: "मूल्य प्रवृत्ति के लिए",
         last60Days: "पिछले 60 दिन",
+        lowest: "न्यूनतम",
+        highest: "अधिकतम",
+        current: "वर्तमान",
+        updatingPriceData: "मूल्य डेटा अपडेट हो रहा है...",
+        lowestPrice: "न्यूनतम मूल्य",
+        highestPrice: "अधिकतम मूल्य",
         demandIndicator: "मांग संकेतक",
         currentDemand: "वर्तमान मांग",
         highDemand: "उच्च मांग",
@@ -499,6 +575,14 @@ const translations = {
         discoverMarketplace: "बाजार का अन्वेषण करें",
         marketplaceBrowse: "बीज, उर्वरक से उपकरण और उपकरण तक व्यापक श्रृंखला के कृषि उत्पादों का ब्राउज़ करें।",
         exploreMarketplace: "बाजार का अन्वेषण करें",
+
+        // Marketplace Page
+        marketplaceSubtitle: "BigHaat से प्रीमियम गुणवत्ता वाले सब्जी के बीज ब्राउज़ करें - भारत का विश्वसनीय कृषि मंच।",
+        allProducts: "सभी उत्पाद",
+        seeds: "बीज",
+        fertilizers: "उर्वरक",
+        equipment: "उपकरण",
+        tools: "औजार",
         
         // Footer
         aboutUs: "हमारे बारे में",
@@ -511,6 +595,7 @@ const translations = {
     mr: {
         // Header
         home: "होम",
+        cropSuggestion: "पीक सल्ला",
         weather: "हवामान",
         marketplace: "बाजार",
         marketDemand: "बाजार विनंद",
@@ -552,6 +637,28 @@ const translations = {
         cotton: "कापूस",
         sugarcane: "ऊस",
         quintal: "क्विंटल",
+        clear: "फॉर्म साफ करा",
+        fillFormMessage: "तुमचे स्थान, मातीचा प्रकार, जमिनीचा आकार आणि सिंचन पद्धतीवर आधारित वैयक्तिक पीक सूचना मिळवण्यासाठी कृपया वरील फॉर्म भरा.",
+        
+        // Soil Types
+        blackCotton: "काळी कापूस माती",
+        redLateritic: "लाल जांभी माती",
+        alluvial: "गाळाची माती",
+        sandyLoam: "वालुकामय चिकन माती",
+        clayLoam: "चिकन माती",
+        wellDrainedLoamy: "चांगला निचरा होणारी चिकन माती",
+        deepLoamy: "खोल चिकन माती",
+        forestLoam: "वन चिकन माती",
+        coastalSandy: "किनारपट्टीची वालुकामय माती",
+        
+        // Irrigation Types
+        drip: "ठिबक सिंचन",
+        sprinkler: "तुषार सिंचन",
+        flood: "पूर सिंचन",
+        furrow: "सरी सिंचन",
+        rainFed: "पावसावर आधारित/सिंचन नाही",
+        canal: "कालवा सिंचन",
+        well: "विहीर/बोअरवेल सिंचन",
         
         // Weather
         currentLocation: "सध्याचे स्थान",
@@ -571,6 +678,11 @@ const translations = {
         currentWeather: "सध्याचे हवामान",
         pestRiskAnalysis: "कीड जोखीम विश्लेषण",
         irrigationAdvice: "सिंचन सल्ला",
+        agriculturalAdvice: "कृषी सल्ला",
+        searchForAgriAdvice: "कृषी सल्ला मिळवण्यासाठी ठिकाण शोधा",
+        searchForForecast: "हवामान अंदाज पाहण्यासाठी ठिकाण शोधा",
+        pestRiskInfo: "सध्याच्या हवामानाच्या स्थितीवर आधारित कीटक जोखीम माहिती येथे दर्शविली जाईल.",
+        irrigationAdviceInfo: "सध्याच्या हवामानाच्या स्थितीवर आधारित सिंचन सल्ला येथे दर्शविला जाईल.",
         lowRisk: "कोरड्या परिस्थितीमुळे कीड हल्ल्याचा कमी धोका",
         moderateRisk: "मध्यम जोखीम - नियमितपणे पिकांचे निरीक्षण करा",
         highRisk: "उच्च जोखीम - प्रतिबंधात्मक उपायांचा विचार करा",
@@ -709,6 +821,12 @@ const translations = {
         market: "बाजार",
         priceTrendFor: "किंमत ट्रेंड यासाठी",
         last60Days: "गेल्या 60 दिवस",
+        lowest: "सर्वात कमी",
+        highest: "सर्वात जास्त",
+        current: "सध्याचे",
+        updatingPriceData: "किंमत डेटा अपडेट करत आहे...",
+        lowestPrice: "सर्वात कमी किंमत",
+        highestPrice: "सर्वात जास्त किंमत",
         demandIndicator: "मागणी सूचक",
         currentDemand: "सध्याची मागणी",
         highDemand: "उच्च मागणी",
@@ -753,6 +871,14 @@ const translations = {
         discoverMarketplace: "बाजार शोधा",
         marketplaceBrowse: "बीज, उर्वरक ते उपकरण आणि उपकरण यांच्या व्यापक श्रृंखला कृषी उत्पाद ब्राऊझ करा.",
         exploreMarketplace: "बाजार शोधा",
+
+        // Marketplace Page
+        marketplaceSubtitle: "BigHaat वरून प्रीमियम गुणवत्तेचे भाजीपाला बियाणे ब्राउझ करा - भारताचे विश्वसनीय कृषी प्लॅटफॉर्म.",
+        allProducts: "सर्व उत्पादने",
+        seeds: "बियाणे",
+        fertilizers: "खते",
+        equipment: "उपकरणे",
+        tools: "साधने",
         
         // Footer
         aboutUs: "आमच्याबद्दल",
@@ -1228,13 +1354,13 @@ function setupLanguageDropdown() {
             const langName = link.textContent.trim();
             console.log(`🌍 Language selected: ${lang}`);
             
+            // Hide dropdown immediately
+            languageDropdown.classList.remove('active');
+            
             // Apply translation
             translatePage(lang);
             updateActiveState(lang);
             showToast(`Language changed to ${langName}`);
-            
-            // Hide dropdown
-            languageDropdown.classList.remove('active');
             
             // Update button text (both desktop and mobile)
             const currentLangElement = document.getElementById('currentLang');

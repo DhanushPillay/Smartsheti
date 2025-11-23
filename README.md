@@ -13,23 +13,24 @@ SmartSheti is a comprehensive agricultural platform that empowers Maharashtra fa
 - **Profitability insights**: Based on 2025-26 MSP rates and market trends
 
 ### 🌤️ Real-time Weather Integration
-- Live weather data with temperature, humidity, wind, and pressure
-- **Pest risk analysis**: Predicts pest threats based on weather conditions
-- **Smart irrigation advice**: Personalized watering recommendations
-- 7-day weather forecast for planning
+- **Live Weather Data**: Accurate temperature, humidity, wind speed, and pressure
+- **"Feels Like" Precision**: Accounts for humidity and wind for realistic temperature perception
+- **Pest Risk Analysis**: Advanced algorithms predict pest threats based on weather patterns
+- **Smart Irrigation Advice**: Personalized watering recommendations based on soil moisture and rain
+- **7-Day Forecast**: Detailed planning data for the week ahead
 
-### 💰 Live Market Prices
-- **4-tier price system**: Live API → Cached data → Government API → MSP fallback
-- Current 2025-26 MSP rates for 35+ crops
-- Market demand trends and price indicators
-- Visual price source badges (🟢 Live, 🔵 Recent, 🟣 Official, ⚪ MSP)
+### 💰 Live Market Prices & Demand
+- **Dynamic Price Trends**: Visual charts showing price movements over the last 60 days
+- **Mandi Comparison**: Compare prices across different markets (e.g., Mumbai vs Pune APMC)
+- **4-Tier Price System**: Live API → Cached data → Government API → MSP fallback
+- **Visual Indicators**: Color-coded badges for price sources (🟢 Live, 🔵 Recent, 🟣 Official)
 
-### 🌐 Automatic Translation (Zero-Code!)
-- **Auto-translates everything**: No manual coding needed for new content
-- **3-tier system**: Static dictionary (927 words) → Smart matching → Live API
-- Supports **English, Hindi (हिंदी), Marathi (मराठी)**
-- **NEW**: Add any text to website → Translates automatically via API
-- One-click language switching with localStorage persistence
+### 🌐 Comprehensive Translation System
+- **100% Language Coverage**: Every button, tooltip, chart label, and dynamic text is translatable
+- **3-Language Support**: Seamless switching between **English, Hindi (हिंदी), and Marathi (मराठी)**
+- **Hybrid Engine**: Combines a static dictionary (927+ terms) with real-time API translation
+- **Context-Aware**: Handles complex UI elements like dropdowns and dynamic charts
+- **User Preference**: Remembers your language choice across sessions
 
 ### 📊 Additional Features
 - Interactive Maharashtra location map with district selection
@@ -82,6 +83,7 @@ Go to [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
 3. **Real-Time Prices**: 4-tier fallback ensures you always get price data
 4. **Maharashtra-Focused**: 56+ crops, district-wise data, local languages
 5. **Mobile-Friendly**: Responsive design works on phones, tablets, and desktop
+6. **Data Integrity**: Smart translation system preserves live data (weather, prices) while translating labels
 
 ### 📊 Current Data Coverage
 
@@ -89,6 +91,7 @@ Go to [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
 - **35+ crops** with updated 2025-26 MSP rates
 - **927 pre-translated terms** in 3 languages
 - **Maharashtra districts** with location-based recommendations
+- **Real-time Weather** with "Feels Like" precision
 
 ## 🛠️ Technologies Used
 
@@ -138,85 +141,40 @@ Cross-check official sources (local APMC, e-NAM portal) for financial decisions.
 farmer/
 ├── index.html             # Homepage (root entry point)
 ├── frontend/
-│   ├── html/              # Other pages (Crop Suggestion, Weather, Market Demand, etc.)
-│   ├── css/               # Stylesheets
-│   ├── js/                # JavaScript (crop engine, translations, maps)
+│   ├── html/              # Feature pages (Weather, Market, Crops)
+│   ├── css/               # Modular CSS (Tailwind + Custom)
+│   ├── js/                # Logic (Translations, Charts, Weather)
 │   ├── assets/images/     # Images and icons
-│   └── test/              # Test pages
+│   └── components/        # Reusable UI components (Header, Footer)
 ├── backend/
 │   ├── api/               # Flask APIs (Price API, Translation API)
-│   ├── python/            # Core scripts (scrapers, price updater)
-│   ├── prices.json        # Current crop prices
+│   ├── python/            # Core scripts (Scrapers, Analysis, Charts)
+│   │   ├── agmarknet_scraper.py        # Government data scraper
+│   │   ├── enhanced_price_api.py       # Advanced price logic
+│   │   └── pest.py                     # Pest risk algorithms
+│   ├── prices.json        # Current crop prices database
 │   └── requirements.txt   # Python dependencies
 ├── data/
-│   ├── csv/               # Market data CSV files
-│   └── json/              # Crop data, prices, market summary
-├── scripts/               # Batch files and utility scripts
-│   ├── start_all_apis.bat        # Start both APIs
-│   ├── start_price_api.bat       # Start price API only
-│   ├── start_translation_api.bat # Start translation API only
-│   ├── run_scraper.bat           # Run market scraper
-│   └── update_html_files.py      # CSS extraction utility
-├── docs/                  # Documentation and guides
-│   ├── AUTO_TRANSLATION_GUIDE.md
-│   ├── TRANSLATION_API_GUIDE.md
-│   ├── PRICE_SETUP_GUIDE.md
-│   └── ... (other guides)
-├── logs/                  # Application logs
-└── README.md              # This file
+│   ├── csv/               # Historical market data
+│   └── json/              # Static data (Crops, Markets, Translations)
+├── docs/                  # Documentation & Guides
+└── scripts/               # Automation scripts (Start servers, Update data)
 ```
 
+## 🚀 Recent Updates
+- **UI/UX Polish**: Fixed language dropdown animations and z-index issues across all pages.
+- **Data Integrity**: Resolved issues where translation logic was overwriting live weather data.
+- **Performance**: Optimized translation loading to prevent "flicker" on page load.
+- **Documentation**: Added comprehensive guides for Translation API and Real-time Systems.
 
+## 🤝 Contributing
 
+We welcome contributions to SmartSheti! To get involved:
+1. **Explore the Code**: Check the project structure and understand the codebase.
+2. **Report Issues**: Help us by reporting bugs or suggesting features.
+3. **Submit Pull Requests**: For code changes, please submit a pull request with a clear description of the changes.
 
-
-## 🎯 Key Highlights
-
-### ✨ What Makes SmartSheti Special
-
-1. **Zero-Code Translation**: Add any new feature → Translates automatically (no manual coding!)
-2. **Weather-Smart Crops**: Recommendations adapt to current temperature and conditions
-3. **Real-Time Prices**: 4-tier fallback ensures you always get price data
-4. **Maharashtra-Focused**: 56+ crops, district-wise data, local languages
-5. **Mobile-Friendly**: Responsive design works on phones, tablets, and desktop
-
-### 📊 Current Data Coverage
-
-- **56 crops** across 8 categories (Cereals, Cash Crops, Pulses, Vegetables, etc.)
-- **35+ crops** with updated 2025-26 MSP rates
-- **927 pre-translated terms** in 3 languages
-- **Maharashtra districts** with location-based recommendations
-
-## 🔍 Price Data Accuracy & Disclaimer
-
-SmartSheti shows crop prices using a multi-source fallback chain designed to keep the interface functional even when live feeds are unavailable. However, displayed values (especially for fruits) should be treated as indicative only, not exact trading or procurement prices.
-
-### Data Source Hierarchy (Attempt Order)
-1. **Government Real-Time (data.gov.in)** – Dataset: `9ef84268-d588-465a-a308-a864a43d0070` (modal prices, often per quintal)
-2. **Local Price API (`simple_price_api.py`)** – Historical JSON (simulated / previously scraped)
-3. **Seasonal Fruit Fallback** – Estimated wholesale midpoint ranges (e.g., Mango: ₹55/kg harvest season, ₹95/kg off-season)
-4. **MSP Fallback** – Minimum Support Price converted from ₹/quintal → ₹/kg for eligible crops (cereals, pulses, oilseeds, not fruits)
-
-### Important Differences
-- **MSP ≠ Market Price**: MSP is a government support benchmark, not a guaranteed sale price.
-- **Fruits Have No MSP**: Fruit values shown when no real data are seasonal wholesale approximations (variety, grade, packing, and district can shift actual price widely).
-- **Unit Conversions**: Government data often reports ₹/quintal. We convert to ₹/kg by dividing by 100; errors may occur if unit metadata is inconsistent.
-- **Modal Price Meaning**: Modal price is a central tendency at a market, not minimum nor maximum; extreme trades may differ.
-
-### Accuracy Caveats
-- Prices can vary hourly by arrival volume, quality, and weather.
-- Variety-specific differences (e.g., Alphonso vs. Totapuri mango) are not distinguished.
-- Scraper/API interruptions will trigger fallbacks which may freeze or approximate values.
-- Historical trend synthesis for missing weeks uses a volatility model (purely indicative).
-
-### Usage Guidance
-Do not rely on these displayed prices for contracts, large-scale procurement, or financial planning without cross-checking an official source (local APMC bulletin, e-NAM portal, or verified trader quotes).
-
-If you need higher precision: integrate a dedicated feed or expand the scraper to capture per-market variety-level data.
-
-> **Disclaimer**: All price data are provided “AS IS” without warranty. The project is educational and demonstrative; validate before making economic decisions.
-
-
+Please follow the existing code style and ensure your contributions align with the project's goals.
 
 ## 🐛 Known Limitations
 

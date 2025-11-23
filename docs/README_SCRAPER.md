@@ -14,19 +14,19 @@ This project integrates live agricultural market data from AGMARKNET (https://ag
 ## 📁 Files Overview
 
 ### Python Scraper
-- `agmarknet_scraper.py` - Main web scraping script
-- `requirements.txt` - Python dependencies
-- `run_scraper.bat` - Easy-to-run batch file for Windows
+- `backend/python/agmarknet_scraper.py` - Main web scraping script
+- `backend/requirements.txt` - Python dependencies
+- `scripts/run_scraper.bat` - Easy-to-run batch file for Windows
 
 ### JavaScript Integration
-- `market_data_manager.js` - Handles data loading and UI updates
-- Updated `market_demand.html` - Integrated with live data display
+- `frontend/js/market_data_manager.js` - Handles data loading and UI updates
+- `frontend/html/market-demand.html` - Integrated with live data display
 
 ### Generated Data Files
-- `market_data.json` - Complete market data
-- `market_summary.json` - Aggregated market summary
-- `wheat_price_trends.json` - Price trend data
-- `market_data.csv` - Data in CSV format for analysis
+- `data/json/market_data.json` - Complete market data
+- `data/json/market_summary.json` - Aggregated market summary
+- `data/json/wheat_price_trends.json` - Price trend data
+- `data/csv/market_data.csv` - Data in CSV format for analysis
 
 ## 🛠️ Setup Instructions
 

@@ -5,49 +5,73 @@ This document describes the organized structure of the SmartSheti agricultural p
 ## Directory Structure
 
 ```
-College pbl/
-├── frontend/                    # Frontend files
-│   ├── html/                   # HTML pages
-│   │   ├── Home page.html
-│   │   ├── Weather_page(3).html
-│   │   ├── crop_suggestion page(2).html
-│   │   ├── crop_price_trends.html
-│   │   ├── market_demand.html
-│   │   ├── market_demand_fixed.html
-│   │   ├── price_monitor.html
-│   │   ├── debug_panel.html
-│   │   └── test_python_integration.html
-│   ├── js/                     # JavaScript files
-│   │   ├── translations.js      # Multi-language support
-│   │   ├── translations_simple.js
+farmer/
+├── index.html             # Homepage (root entry point)
+├── frontend/
+│   ├── html/              # Feature pages
+│   │   ├── crop-suggestion.html
+│   │   ├── market-demand.html
+│   │   ├── marketplace.html
+│   │   └── weather.html
+│   ├── css/               # Modular CSS (Tailwind + Custom)
+│   │   ├── crop-suggestion.css
+│   │   ├── Home page.css
+│   │   ├── market_demand_fixed.css
+│   │   ├── mobile-improvements.css
+│   │   └── weather.css
+│   ├── js/                # Logic (Translations, Charts, Weather)
+│   │   ├── component-loader.js
+│   │   ├── crop_images.js
+│   │   ├── crop_recommendation_engine.js
 │   │   ├── maharashtra-locations.js
 │   │   ├── market_data_manager.js
-│   │   └── python_bridge.js
-│   ├── css/                    # Stylesheets
-│   │   ├── Home page.css
-│   │   ├── Weather_page(3).css
-│   │   ├── crop_suggestion page(2).css
-│   │   ├── crop_price_trends.css
-│   │   ├── market_demand.css
-│   │   ├── market_demand_fixed.css
-│   │   ├── price_monitor.css
-│   │   ├── debug_panel.css
-│   │   └── test_python_integration.css
-│   └── assets/                 # Static assets
-│       └── images/            # Images and icons
-│           └── plant-logo.svg
-│
-├── backend/                     # Backend files
-│   ├── python/                 # Python scripts
-│   │   ├── agmarknet_scraper.py
-│   │   ├── enhanced_agmarknet_scraper.py
-│   │   ├── dynamic_price_updater.py
-│   │   ├── demo_dynamic_graphs.py
-│   │   ├── price_chart_generator.py
-│   │   ├── pest.py
-│   │   └── __pycache__/       # Python cache files
-│   ├── api/                    # API files
+│   │   ├── performance_optimizer.js
+│   │   ├── pest_risk_analyzer.js
+│   │   ├── python_bridge.js
+│   │   └── translations.js
+│   ├── assets/            # Images and icons
+│   └── components/        # Reusable UI components (Header, Footer)
+├── backend/
+│   ├── api/               # Flask APIs
 │   │   ├── backend_api.py
+│   │   ├── enhanced_price_api.py
+│   │   ├── price_update_api.py
+│   │   ├── simple_price_api.py
+│   │   └── translation_api.py
+│   ├── python/            # Core scripts
+│   │   ├── agmarknet_scraper.py
+│   │   ├── dynamic_price_updater.py
+│   │   ├── pest.py
+│   │   └── price_chart_generator.py
+│   ├── prices.json        # Current crop prices database
+│   └── requirements.txt   # Python dependencies
+├── data/
+│   ├── csv/               # Historical market data
+│   └── json/              # Static data (Crops, Markets, Translations)
+├── docs/                  # Documentation & Guides
+└── scripts/               # Automation scripts (Start servers, Update data)
+```
+
+## Key Directories
+
+### `frontend/`
+Contains all client-side code.
+- **html/**: The main pages of the application.
+- **css/**: Stylesheets. `Home page.css` contains global styles.
+- **js/**: JavaScript logic. `translations.js` handles the i18n system.
+
+### `backend/`
+Contains server-side logic.
+- **api/**: Flask applications serving data and translations.
+- **python/**: Standalone scripts for scraping and data processing.
+
+### `data/`
+Stores static and generated data files.
+- **json/**: JSON files used by the frontend and backend.
+
+### `docs/`
+Project documentation.
+
 │   │   ├── enhanced_price_api.py
 │   │   └── price_update_api.py
 │   └── requirements.txt        # Python dependencies

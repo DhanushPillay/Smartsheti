@@ -17,7 +17,7 @@ The real-time dynamic price chart system is now fully implemented with the follo
 ## How to Test the System
 
 ### 1. Access the Application
-- Open your browser and go to: `http://localhost:8000/html/market_demand.html`
+- Open your browser and go to: `http://localhost:8000/frontend/html/market-demand.html`
 - You should see the Market Demand page with a price chart
 
 ### 2. Real-Time Features to Test

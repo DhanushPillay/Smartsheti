@@ -26,17 +26,16 @@ Your SmartSheti website now has **3-tier automatic translation**:
 ### Just Write Normal HTML:
 
 ```html
-<!-- OLD WAY (manual): -->
-<h1 data-translate="home">Home</h1>
-
-<!-- NEW WAY (automatic): -->
+<!-- Automatic Translation (Recommended for static text): -->
 <h1>Home</h1>
 <button>Submit Form</button>
 <p>Welcome to our farm management system</p>
-<input placeholder="Enter your name">
+
+<!-- Manual Control (Recommended for dynamic content): -->
+<span data-translate="temperature">Temperature</span>: <span id="temp-value">25°C</span>
 ```
 
-**All of this translates automatically!** 🎉
+**The system handles both automatically!** 🎉
 
 ---
 
@@ -45,7 +44,7 @@ Your SmartSheti website now has **3-tier automatic translation**:
 ✅ **Navigation Links** - Home, Weather, Marketplace  
 ✅ **Buttons** - Get Suggestions, Save, Submit  
 ✅ **Headings** - H1, H2, H3, H4, H5, H6  
-✅ **Paragraphs** - All `<p>` tags  
+✅ **Paragraphs** - All `<p>` tags (unless they contain dynamic data)
 ✅ **Labels** - Form labels  
 ✅ **Table Headers** - TH and TD  
 ✅ **List Items** - LI elements  

@@ -10,7 +10,10 @@
       "rainfall_requirement_mm": [1500, 3000],
       "best_soil_types": ["Deep alluvial soil with good water retention", "Clayey loam with pH 5.5-7.0", "Well-drained paddy fields"],
       "agroclimatic_zones": ["Konkan", "Western Ghat", "High Rainfall Vidarbha"],
-      "cultivation_tips": "Requires standing water during growing season"
+      "cultivation_tips": "Requires standing water during growing season",
+      "duration_days": "120-150",
+      "fertilizer_recommendation": "N:P:K 100:50:50 kg/ha",
+      "common_pests": ["Stem Borer", "Leaf Folder", "Brown Plant Hopper"]
     },
     {
       "name": "Jowar (Sorghum)",
@@ -20,7 +23,10 @@
       "rainfall_requirement_mm": [500, 900],
       "best_soil_types": ["Medium to deep black cotton soil", "Red lateritic soil with good drainage", "Sandy loam with pH 6.0-8.5"],
       "agroclimatic_zones": ["Scarcity Zone", "Vidarbha", "Transition Zones"],
-      "cultivation_tips": "Drought tolerant crop suitable for rainfed conditions"
+      "cultivation_tips": "Drought tolerant crop suitable for rainfed conditions",
+      "duration_days": "100-115",
+      "fertilizer_recommendation": "N:P:K 80:40:40 kg/ha",
+      "common_pests": ["Shoot Fly", "Stem Borer", "Aphids"]
     },
     {
       "name": "Soybean",
@@ -30,7 +36,10 @@
       "rainfall_requirement_mm": [600, 900],
       "best_soil_types": ["Deep black cotton soil with good organic matter", "Well-drained loamy soil with pH 6.0-7.5", "Medium textured soil with adequate calcium"],
       "agroclimatic_zones": ["Assured Rainfall Zone", "Scarcity Zone", "Central Vidarbha"],
-      "cultivation_tips": "Nitrogen fixing legume, benefits from rhizobium inoculation"
+      "cultivation_tips": "Nitrogen fixing legume, benefits from rhizobium inoculation",
+      "duration_days": "90-100",
+      "fertilizer_recommendation": "N:P:K 20:60:20 kg/ha",
+      "common_pests": ["Girdle Beetle", "Tobacco Caterpillar", "Whitefly"]
     },
     {
       "name": "Cotton",

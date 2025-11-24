@@ -1,0 +1,103 @@
+{
+  "pests": {
+    "aphids": {
+      "name": "Aphids",
+      "icon": "🐛",
+      "conditions": {
+        "temperature": { "min": 18, "max": 35 },
+        "humidity": { "min": 50, "max": 100 },
+        "cloudCover": { "min": 30, "max": 100 },
+        "windSpeed": { "min": 0, "max": 15 }
+      },
+      "riskLevel": "moderate",
+      "description": "Small soft-bodied insects that feed on plant sap",
+      "symptoms": ["Curled leaves", "Stunted growth", "Honeydew on leaves", "Yellowing"],
+      "affectedCrops": ["Cotton", "Wheat", "Vegetables", "Legumes"],
+      "prevention": [
+        "Regular field inspection",
+        "Use yellow sticky traps",
+        "Encourage beneficial insects",
+        "Avoid over-fertilization with nitrogen"
+      ],
+      "treatment": [
+        "Spray with insecticidal soap",
+        "Use neem oil",
+        "Apply systemic insecticides if severe",
+        "Remove affected plant parts"
+      ]
+    },
+    "whitefly": {
+      "name": "Whitefly",
+      "icon": "☁️",
+      "conditions": {
+        "temperature": { "min": 20, "max": 32 },
+        "humidity": { "min": 35, "max": 100 },
+        "cloudCover": { "min": 0, "max": 100 },
+        "windSpeed": { "min": 0, "max": 10 }
+      },
+      "riskLevel": "high",
+      "description": "Small white flying insects that damage crops",
+      "symptoms": ["White flying insects", "Yellowing leaves", "Sooty mold", "Reduced yield"],
+      "affectedCrops": ["Tomato", "Cotton", "Cabbage", "Beans"],
+      "prevention": [
+        "Use yellow sticky traps",
+        "Remove weeds",
+        "Use reflective mulches"
+      ],
+      "treatment": [
+        "Spray with neem oil",
+        "Use insecticidal soaps",
+        "Apply imidacloprid if severe"
+      ]
+    },
+    "bollworm": {
+      "name": "Pink Bollworm",
+      "icon": "🐛",
+      "conditions": {
+        "temperature": { "min": 25, "max": 35 },
+        "humidity": { "min": 60, "max": 90 },
+        "cloudCover": { "min": 20, "max": 80 },
+        "windSpeed": { "min": 0, "max": 20 }
+      },
+      "riskLevel": "critical",
+      "description": "Larvae bore into cotton bolls, destroying fiber and seeds",
+      "symptoms": ["Rosetted flowers", "Holes in bolls", "Stained lint", "Premature boll opening"],
+      "affectedCrops": ["Cotton", "Okra", "Hibiscus"],
+      "prevention": [
+        "Plant resistant Bt cotton varieties",
+        "Use pheromone traps for monitoring",
+        "Deep ploughing in summer",
+        "Crop rotation"
+      ],
+      "treatment": [
+        "Apply recommended insecticides",
+        "Release Trichogramma wasps",
+        "Destroy infested plant parts"
+      ]
+    },
+    "thrips": {
+      "name": "Thrips",
+      "icon": "🦟",
+      "conditions": {
+        "temperature": { "min": 25, "max": 35 },
+        "humidity": { "min": 40, "max": 70 },
+        "cloudCover": { "min": 0, "max": 50 },
+        "windSpeed": { "min": 0, "max": 15 }
+      },
+      "riskLevel": "moderate",
+      "description": "Tiny insects that puncture and suck plant cells",
+      "symptoms": ["Silvery streaks on leaves", "Distorted growth", "Brown edges on leaves", "Flower drop"],
+      "affectedCrops": ["Onion", "Chilli", "Cotton", "Vegetables"],
+      "prevention": [
+        "Use blue sticky traps",
+        "Maintain proper irrigation",
+        "Remove weeds"
+      ],
+      "treatment": [
+        "Spray with spinosad",
+        "Use neem-based formulations",
+        "Apply systemic insecticides"
+      ]
+    }
+  }
+}

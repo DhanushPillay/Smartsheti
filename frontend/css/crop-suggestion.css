@@ -49,6 +49,16 @@ body {
             justify-content: space-between;
             margin-bottom: 15px;
         }
+
+        /* Hide spin buttons for number inputs */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
         .weather-popup .temp {
             font-size: 36px;
             font-weight: bold;

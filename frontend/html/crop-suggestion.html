@@ -119,8 +119,8 @@
 <label class="block text-gray-700 mb-2" for="location" data-translate="location">Location</label>
 <div class="flex gap-2">
 <div class="relative flex-1">
-<input class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500" id="location" placeholder="Enter any location - city, village, street, lane, etc." type="text" data-translate-placeholder="enterLocation"/>
-<span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">unfold_more</span>
+<input class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500" id="location" placeholder="Enter any location - city, village, street, lane, etc." type="text" data-translate-placeholder="enterLocation"/>
+<span class="material-icons absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">location_on</span>
 <!-- Autocomplete dropdown -->
 <div id="locationSuggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto z-10"></div>
 </div>
@@ -132,7 +132,7 @@
 <div class="mb-4">
 <label class="block text-gray-700 mb-2" for="soil-type" data-translate="soilType">Soil Type</label>
 <div class="relative">
-<select class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="soil-type">
+<select class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="soil-type">
 <option value="" data-translate="selectSoilType">Select soil type</option>
 <option value="black-cotton" data-translate="blackCotton">Black Cotton Soil</option>
 <option value="red-lateritic" data-translate="redLateritic">Red Lateritic Soil</option>
@@ -144,20 +144,20 @@
 <option value="forest-loam" data-translate="forestLoam">Forest Loam Soil</option>
 <option value="coastal-sandy" data-translate="coastalSandy">Coastal Sandy Soil</option>
 </select>
-<span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
+<span class="material-icons absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
 </div>
 </div>
 <div class="mb-4">
 <label class="block text-gray-700 mb-2" for="land-size" data-translate="landSize">Land Size (in acres)</label>
 <div class="relative">
-<input class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500" id="land-size" placeholder="Enter land size" type="number" step="0.1" min="0.1" max="1000" data-translate-placeholder="enterLandSize"/>
-<span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">landscape</span>
+<input class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500" id="land-size" placeholder="Enter land size" type="number" step="0.1" min="0.1" max="1000" data-translate-placeholder="enterLandSize"/>
+<span class="material-icons absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">landscape</span>
 </div>
 </div>
 <div class="mb-6">
 <label class="block text-gray-700 mb-2" for="irrigation-type" data-translate="irrigationType">Irrigation Type</label>
 <div class="relative">
-<select class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="irrigation-type">
+<select class="w-full pl-4 pr-10 py-3 border border-gray-300 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-green-500" id="irrigation-type">
 <option value="" data-translate="selectIrrigationType">Select irrigation type</option>
 <option value="drip" data-translate="drip">Drip Irrigation</option>
 <option value="sprinkler" data-translate="sprinkler">Sprinkler Irrigation</option>
@@ -167,7 +167,7 @@
 <option value="canal" data-translate="canal">Canal Irrigation</option>
 <option value="well" data-translate="well">Well/Borewell Irrigation</option>
 </select>
-<span class="material-icons absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
+<span class="material-icons absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">arrow_drop_down</span>
 </div>
 </div>
 <button class="w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors" type="submit" data-translate="getSuggestions">Get Suggestions</button>

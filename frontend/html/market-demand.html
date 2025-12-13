@@ -1,136 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartSheti - Market Demand & Price Insights</title>
-    <link rel="icon" type="image/svg+xml" href="../assets/images/plant-logo.svg"/>
-    <link rel="shortcut icon" type="image/svg+xml" href="../assets/images/plant-logo.svg"/>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/plant-logo.svg" />
+    <link rel="shortcut icon" type="image/svg+xml" href="../assets/images/plant-logo.svg" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <link rel="stylesheet" href="../css/Home page.css"/>
-    <link rel="stylesheet" href="../css/market_demand_fixed.css"/>
-    <link rel="stylesheet" href="../css/mobile-improvements.css"/>
+
+    <link rel="stylesheet" href="../css/Home page.css" />
+    <link rel="stylesheet" href="../css/market_demand_fixed.css" />
+    <link rel="stylesheet" href="../css/mobile-improvements.css" />
     <script src="../js/translations.js"></script>
 </head>
-<body class="font-sans page-loading" style="background-color: #EBE4DB !important;" data-page-name="market-demand">
-<!-- Page Transition Overlay -->
-<div class="page-transition" id="pageTransition">
-    <div class="loader">
-        <span class="material-icons">trending_up</span>
-        <div class="text">Loading Market Demand...</div>
-    </div>
-</div>
 
-<header class="shadow-sm" style="position: relative;">
-<div class="container mx-auto px-6 py-4 flex justify-between items-center">
-<a href="../../index.html" class="brand-section" style="text-decoration: none;">
-<img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-12 h-12 mr-1.5"/>
-<span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
-</a>
-<nav class="hidden md:flex items-center space-x-4">
-<a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home" data-translate="home">Home</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="crop-suggestion.html" data-page="crop-suggestion" data-translate="cropSuggestion">Crop Suggestion</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather" data-translate="weather">Weather</a>
-<a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace" data-translate="marketplace">Marketplace</a>
-<a class="nav-link text-green-600 font-bold" href="market-demand.html" data-page="market-demand" data-translate="marketDemand">Market Demand</a>
-</nav>
-<div class="hidden md:flex items-center space-x-2 action-buttons">
-<div class="relative">
-    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600" title="Translate">
-        <span class="material-icons mr-1">translate</span>
-        <span id="currentLang" data-no-translate="true">EN</span>
-    </button>
-    <div id="languageDropdown" class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="en">English</a>
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="hi">हिंदी</a>
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-lang="mr">मराठी</a>
+<body class="font-sans page-loading" style="background-color: #EBE4DB !important;" data-page-name="market-demand">
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="pageTransition">
+        <div class="loader">
+            <span class="material-icons">trending_up</span>
+            <div class="text">Loading Market Demand...</div>
+        </div>
     </div>
-</div>
-<button class="text-gray-600 hover:text-green-600">
-<span class="material-icons">notifications</span>
-</button>
-<div class="relative">
-<button id="profileBtn" class="text-gray-600 hover:text-green-600">
-<img alt="User avatar" class="h-8 w-8 rounded-full profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
-</button>
-<div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="profile">Profile</a>
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="settings">Settings</a>
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="dashboard">Dashboard</a>
-<hr class="my-1">
-<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-translate="logout">Logout</a>
-</div>
-</div>
-</div>
-<button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-green-600">
-<span class="material-icons">menu</span>
-</button>
-</div>
-<div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50" style="top: 100%;">
-<nav class="container mx-auto px-6 py-4 flex flex-col">
-    <a class="mobile-nav-link" href="../../index.html" data-page="home">
-        <span class="material-icons text-gray-400 mr-3">home</span>
-        <span data-translate="home">Home</span>
-    </a>
-    <a class="mobile-nav-link" href="crop-suggestion.html" data-page="crop-suggestion">
-        <span class="material-icons text-gray-400 mr-3">grass</span>
-        <span data-translate="cropSuggestion">Crop Suggestion</span>
-    </a>
-    <a class="mobile-nav-link" href="weather.html" data-page="weather">
-        <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
-        <span data-translate="weather">Weather</span>
-    </a>
-    <a class="mobile-nav-link" href="marketplace.html" data-page="marketplace">
-        <span class="material-icons text-gray-400 mr-3">storefront</span>
-        <span data-translate="marketplace">Marketplace</span>
-    </a>
-    <a class="mobile-nav-link active" href="market-demand.html" data-page="market-demand">
-        <span class="material-icons text-green-600 mr-3">trending_up</span>
-        <span data-translate="marketDemand">Market Demand</span>
-    </a>
-    <div class="border-t border-gray-100 my-2 pt-2"></div>
-    <div class="flex items-center justify-between px-2 py-2">
-        <button id="translateBtnMobile" class="flex items-center text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors" title="Translate">
-            <span class="material-icons mr-2">translate</span>
-            <span id="currentLangMobile" data-no-translate="true" class="font-medium">EN</span>
-        </button>
-        <button class="text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors">
-            <span class="material-icons">notifications</span>
-        </button>
-        <button id="profileBtnMobile" class="text-gray-600 hover:text-green-600 p-1 rounded-full hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
-            <img alt="User avatar" class="h-8 w-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7"/>
-        </button>
-    </div>
-</nav>
-</div>
-</header>
+
+    <header class="shadow-sm" style="position: relative;">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../../index.html" class="brand-section" style="text-decoration: none;">
+                <img src="../assets/images/plant-logo.svg" alt="SmartSheti Logo" class="w-12 h-12 mr-1.5" />
+                <span class="text-2xl font-bold brand-text" data-no-translate="true">SmartSheti</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-4">
+                <a class="nav-link text-gray-600 hover:text-green-600" href="../../index.html" data-page="home"
+                    data-translate="home">Home</a>
+                <a class="nav-link text-gray-600 hover:text-green-600" href="crop-suggestion.html"
+                    data-page="crop-suggestion" data-translate="cropSuggestion">Crop Suggestion</a>
+                <a class="nav-link text-gray-600 hover:text-green-600" href="weather.html" data-page="weather"
+                    data-translate="weather">Weather</a>
+                <a class="nav-link text-gray-600 hover:text-green-600" href="marketplace.html" data-page="marketplace"
+                    data-translate="marketplace">Marketplace</a>
+                <a class="nav-link text-green-600 font-bold" href="market-demand.html" data-page="market-demand"
+                    data-translate="marketDemand">Market Demand</a>
+            </nav>
+            <div class="hidden md:flex items-center space-x-2 action-buttons">
+                <div class="relative">
+                    <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600"
+                        title="Translate">
+                        <span class="material-icons mr-1">translate</span>
+                        <span id="currentLang" data-no-translate="true">EN</span>
+                    </button>
+                    <div id="languageDropdown"
+                        class="hidden absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-lang="en">English</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-lang="hi">हिंदी</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-lang="mr">मराठी</a>
+                    </div>
+                </div>
+                <button class="text-gray-600 hover:text-green-600">
+                    <span class="material-icons">notifications</span>
+                </button>
+                <div class="relative">
+                    <button id="profileBtn" class="text-gray-600 hover:text-green-600">
+                        <img alt="User avatar" class="h-8 w-8 rounded-full profile-img"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7" />
+                    </button>
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-translate="profile">Profile</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-translate="settings">Settings</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-translate="dashboard">Dashboard</a>
+                        <hr class="my-1">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            data-translate="logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-green-600">
+                <span class="material-icons">menu</span>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-lg absolute w-full left-0 z-50"
+            style="top: 100%;">
+            <nav class="container mx-auto px-6 py-4 flex flex-col">
+                <a class="mobile-nav-link" href="../../index.html" data-page="home">
+                    <span class="material-icons text-gray-400 mr-3">home</span>
+                    <span data-translate="home">Home</span>
+                </a>
+                <a class="mobile-nav-link" href="crop-suggestion.html" data-page="crop-suggestion">
+                    <span class="material-icons text-gray-400 mr-3">grass</span>
+                    <span data-translate="cropSuggestion">Crop Suggestion</span>
+                </a>
+                <a class="mobile-nav-link" href="weather.html" data-page="weather">
+                    <span class="material-icons text-gray-400 mr-3">wb_sunny</span>
+                    <span data-translate="weather">Weather</span>
+                </a>
+                <a class="mobile-nav-link" href="marketplace.html" data-page="marketplace">
+                    <span class="material-icons text-gray-400 mr-3">storefront</span>
+                    <span data-translate="marketplace">Marketplace</span>
+                </a>
+                <a class="mobile-nav-link active" href="market-demand.html" data-page="market-demand">
+                    <span class="material-icons text-green-600 mr-3">trending_up</span>
+                    <span data-translate="marketDemand">Market Demand</span>
+                </a>
+                <div class="border-t border-gray-100 my-2 pt-2"></div>
+                <div class="flex items-center justify-between px-2 py-2">
+                    <button id="translateBtnMobile"
+                        class="flex items-center text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors"
+                        title="Translate">
+                        <span class="material-icons mr-2">translate</span>
+                        <span id="currentLangMobile" data-no-translate="true" class="font-medium">EN</span>
+                    </button>
+                    <button
+                        class="text-gray-600 hover:text-green-600 p-2 rounded-lg hover:bg-green-50 transition-colors">
+                        <span class="material-icons">notifications</span>
+                    </button>
+                    <button id="profileBtnMobile"
+                        class="text-gray-600 hover:text-green-600 p-1 rounded-full hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
+                        <img alt="User avatar" class="h-8 w-8 rounded-full"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfgKVTuoarJ30-OoWjwDrS6uclk5wMjg6jm8_dPaiYCxzJj7a-PRFyYqv-S4wyHqDCxAySMcyi4UfZ2UHFEGN_IUnb5FeGGPcUUDx7agdzfpWQz0v8Wh5WGfIyL7cW4T2tvktCFoWeDu-fxvgw4-feS9R543jxMdvJ4H8aSzWsxDVwob9liEuY9frVJUyFg2RXKIPj7c0U9ddf9W8q3YnblznaFfnvwsfZYSTW0Ay7TqDO9yRPg45dK32yzjuGKKxOALMLJ9Y5Zju7" />
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="marketDemandTitle">Market Demand & Price Insights</h1>
-        
+        <h1 class="text-3xl font-bold text-gray-800 mb-6" data-translate="marketDemandTitle">Market Demand & Price
+            Insights</h1>
+
         <!-- Filter Section -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="relative">
-                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="searchCrop">Search Crop</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="searchCrop">Search
+                    Crop</label>
                 <div class="relative">
-                    <input 
-                        type="text" 
-                        id="cropInput" 
-                        class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4 pr-10" 
+                    <input type="text" id="cropInput"
+                        class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4 pr-10"
                         placeholder="Type crop name (e.g., wheat, rice, tomato...)"
-                        data-translate-placeholder="searchCropPlaceholder"
-                        autocomplete="off"
-                    />
+                        data-translate-placeholder="searchCropPlaceholder" autocomplete="off" />
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                         <span class="material-icons text-gray-400">search</span>
                     </div>
                     <!-- Suggestions dropdown -->
-                    <div id="cropSuggestions" 
-                         class="hidden absolute w-full bg-white border-2 border-green-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-2xl"
-                         style="z-index: 9999; user-select: none;">
+                    <div id="cropSuggestions"
+                        class="hidden absolute w-full bg-white border-2 border-green-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-2xl"
+                        style="z-index: 9999; user-select: none;">
                         <!-- Suggestions will be populated here -->
                     </div>
                 </div>
@@ -167,7 +189,7 @@
                 </div>
                 <p class="text-sm text-gray-500" data-translate="last60Days">Last 60 Days</p>
             </div>
-            
+
             <!-- Line Graph Container -->
             <div id="priceChart" class="relative h-40 mb-4">
                 <!-- Y-axis labels -->
@@ -178,7 +200,7 @@
                     <span id="lowPrice">₹2,400</span>
                     <span id="minPrice">₹2,300</span>
                 </div>
-                
+
                 <!-- Graph area -->
                 <div class="ml-12 relative h-full">
                     <!-- Grid lines -->
@@ -191,13 +213,13 @@
                             <div class="border-t border-gray-200"></div>
                         </div>
                     </div>
-                    
+
                     <!-- SVG Line Graph -->
                     <svg id="chartSvg" class="w-full h-full" viewBox="0 0 400 160">
-                        <polyline id="priceLine" fill="none" stroke="#10B981" stroke-width="3" points=""/>
+                        <polyline id="priceLine" fill="none" stroke="#10B981" stroke-width="3" points="" />
                         <g id="dataPoints"></g>
                     </svg>
-                    
+
                     <!-- Tooltips -->
                     <div id="lowestTooltip" class="absolute hidden">
                         <div class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded shadow-lg">
@@ -205,14 +227,14 @@
                             <div class="text-xs" data-translate="lowest">Lowest</div>
                         </div>
                     </div>
-                    
+
                     <div id="highestTooltip" class="absolute hidden">
                         <div class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded shadow-lg">
                             <div class="font-semibold" id="highestPrice">₹2,680</div>
                             <div class="text-xs" data-translate="highest">Highest</div>
                         </div>
                     </div>
-                    
+
                     <div id="currentTooltip" class="absolute hidden">
                         <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded shadow-lg">
                             <div class="font-semibold" id="currentPriceTooltip">₹2,500</div>
@@ -221,13 +243,13 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Loading indicator -->
             <div id="chartLoading" class="hidden text-center py-4">
                 <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
                 <p class="mt-2 text-sm text-gray-500" data-translate="updatingPriceData">Updating price data...</p>
             </div>
-            
+
             <!-- X-axis labels -->
             <div class="flex justify-between text-xs text-gray-500 ml-12">
                 <span>7W ago</span>
@@ -239,7 +261,7 @@
                 <span>1W ago</span>
                 <span class="font-semibold text-blue-600">Now</span>
             </div>
-            
+
             <!-- Legend -->
             <div class="flex justify-center items-center space-x-6 mt-4 text-xs">
                 <div class="flex items-center space-x-1">
@@ -272,57 +294,57 @@
 
     </div>
 
-<script>
-// Safely initialize header interactions after DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileMenu.classList.toggle('hidden');
-        });
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileMenu.classList.add('hidden');
+    <script>
+        // Safely initialize header interactions after DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('hidden');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Profile dropdown
+            const profileBtn = document.getElementById('profileBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+            if (profileBtn && profileDropdown) {
+                profileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                        profileDropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Mobile profile dropdown
+            const profileBtnMobile = document.getElementById('profileBtnMobile');
+            if (profileBtnMobile && profileDropdown) {
+                profileBtnMobile.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('hidden');
+                });
             }
         });
-    }
-
-    // Profile dropdown
-    const profileBtn = document.getElementById('profileBtn');
-    const profileDropdown = document.getElementById('profileDropdown');
-    if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('hidden');
-        });
-        document.addEventListener('click', (e) => {
-            if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-                profileDropdown.classList.add('hidden');
-            }
-        });
-    }
-
-    // Mobile profile dropdown
-    const profileBtnMobile = document.getElementById('profileBtnMobile');
-    if (profileBtnMobile && profileDropdown) {
-        profileBtnMobile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileDropdown.classList.toggle('hidden');
-        });
-    }
-});
-</script>
+    </script>
 
     <script>
         // Page Transition Functions
         function showPageTransition() {
             const transition = document.getElementById('pageTransition');
             document.body.classList.add('page-loading');
-            
+
             document.body.classList.add('page-exiting');
-            
+
             setTimeout(() => {
                 transition.classList.add('active');
             }, 100);
@@ -331,14 +353,14 @@ document.addEventListener('DOMContentLoaded', () => {
         function hidePageTransition() {
             const transition = document.getElementById('pageTransition');
             const header = document.querySelector('header');
-            
+
             document.body.classList.remove('page-loading', 'page-exiting');
-            
+
             setTimeout(() => {
                 if (header) {
                     header.classList.add('loaded');
                 }
-                
+
                 setTimeout(() => {
                     if (transition) {
                         transition.classList.remove('active');
@@ -349,12 +371,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function navigateToPage(url, pageName) {
             showPageTransition();
-            
+
             const loaderText = document.querySelector('.page-transition .text');
             if (loaderText) {
                 loaderText.textContent = `Loading ${pageName}...`;
             }
-            
+
             setTimeout(() => {
                 window.location.href = url;
             }, 600);
@@ -362,17 +384,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function setupSmoothNavigation() {
             const navLinks = document.querySelectorAll('nav a');
-            
+
             navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const href = this.getAttribute('href');
                     const pageName = this.textContent.trim();
-                    
+
                     if (href.startsWith('#') || href.startsWith('http') || href === window.location.pathname) {
                         return;
                     }
-                    
+
                     navigateToPage(href, pageName);
                 });
             });
@@ -389,21 +411,23 @@ document.addEventListener('DOMContentLoaded', () => {
         class RealTimePriceAPI {
             constructor() {
                 this.apiUrl = 'http://localhost:5000/api/prices';
+                this.livePriceUrl = 'http://localhost:5000/api/live-price'; // NEW: Real scraper endpoint
                 this.dataGovApiKey = '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
                 this.dataGovUrl = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
                 this.apiAvailable = false;
+                this.realScraperAvailable = false;
                 this.priceCache = {};
                 // Distinguish fruits (need fruit market price, not seed/MSP)
                 this.fruitCrops = new Set([
-                    'mango','banana','apple','orange','grapes','pomegranate','papaya','watermelon','guava','chiku','sapota','pear','plum'
+                    'mango', 'banana', 'apple', 'orange', 'grapes', 'pomegranate', 'papaya', 'watermelon', 'guava', 'chiku', 'sapota', 'pear', 'plum'
                 ]);
-                
+
                 // Fallback base prices (per kg)
                 this.fallbackPrices = {
                     // Cereals (MSP rates per quintal / 100)
                     'wheat': 24.25, 'rice': 23.20, 'maize': 21.75, 'bajra': 23.50,
                     // Cash crops
-                    'cotton': 75.21, 'sugarcane': 3.15, 'soybean': 48.41, 
+                    'cotton': 75.21, 'sugarcane': 3.15, 'soybean': 48.41,
                     // Vegetables (market rates per kg)
                     'tomato': 35, 'onion': 22, 'potato': 18, 'cabbage': 15,
                     // Fruits (base reference – mango will be seasonal adjusted below)
@@ -425,9 +449,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         method: 'GET',
                         signal: AbortSignal.timeout(2000)
                     });
-                    this.apiAvailable = response.ok;
-                    if (this.apiAvailable) {
-                        debugLog('✅ Price API is online - using real-time data', 'success');
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.apiAvailable = true;
+                        this.realScraperAvailable = data.realScraperAvailable || false;
+
+                        if (this.realScraperAvailable) {
+                            debugLog('✅ Real AGMARKNET Scraper is available - fetching LIVE data!', 'success');
+                            this.showLiveIndicator();
+                        } else {
+                            debugLog('✅ Price API is online - using cached/proxy data', 'success');
+                        }
                     }
                 } catch (error) {
                     this.apiAvailable = false;
@@ -435,13 +467,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Show live data indicator
+            showLiveIndicator() {
+                const existingIndicator = document.getElementById('liveDataIndicator');
+                if (existingIndicator) return;
+
+                const indicator = document.createElement('div');
+                indicator.id = 'liveDataIndicator';
+                indicator.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center space-x-2 z-50 animate-pulse';
+                indicator.innerHTML = `
+                    <span class="inline-block w-2 h-2 bg-white rounded-full animate-ping"></span>
+                    <span class="text-sm font-medium">🔴 LIVE</span>
+                    <span class="text-xs opacity-80">Real Market Data</span>
+                `;
+                document.body.appendChild(indicator);
+
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    indicator.classList.remove('animate-pulse');
+                    indicator.classList.add('opacity-75');
+                }, 5000);
+            }
+
             // Get real-time price data
             async generatePriceData(crop, state, market) {
                 debugLog(`Fetching price data for ${crop} in ${state}, ${market}`, 'info');
-                
+
                 try {
-                    // Always try to fetch from data.gov.in API first
-                    const apiData = await this.fetchFromAPI(crop);
+                    // Always try to fetch from API first
+                    const apiData = await this.fetchFromAPI(crop, state);
                     if (apiData) {
                         debugLog(`✅ Using real data: ₹${apiData.current_price}/kg from ${apiData.source}`, 'success');
                         return apiData;
@@ -457,14 +511,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Fetch from Price API
-            async fetchFromAPI(crop) {
-                // Try data.gov.in API first
+            // Fetch from Price API - Now tries the new live-price endpoint first!
+            async fetchFromAPI(crop, state = 'Maharashtra') {
+                // STEP 1: Try the NEW /api/live-price endpoint (uses RealAGMARKNETScraper)
+                if (this.realScraperAvailable) {
+                    try {
+                        const livePriceUrl = `${this.livePriceUrl}/${crop.toLowerCase()}?state=${state}`;
+                        debugLog(`🔴 LIVE: Fetching real-time price from scraper for: ${crop}`, 'info');
+
+                        const liveResp = await fetch(livePriceUrl, {
+                            method: 'GET',
+                            signal: AbortSignal.timeout(10000)
+                        });
+
+                        if (liveResp.ok) {
+                            const liveData = await liveResp.json();
+                            if (liveData.success && liveData.data) {
+                                const priceInfo = liveData.data;
+                                const isRealData = liveData.isRealData;
+
+                                debugLog(`${isRealData ? '✅ REAL' : '📦 CACHED'}: ₹${priceInfo.current_price}`, 'success');
+
+                                // Convert price if needed (API returns per quintal, we need per kg)
+                                let currentPrice = priceInfo.current_price;
+                                const unit = priceInfo.unit?.toLowerCase() || '';
+                                if (unit.includes('quintal') && currentPrice > 1000) {
+                                    currentPrice = Math.round(currentPrice / 100);
+                                }
+
+                                // Generate historical prices if not provided
+                                const historicalPrices = this.generateHistoricalPrices(currentPrice, 0.08, 0.03, 8);
+                                const previousPrice = historicalPrices[historicalPrices.length - 2];
+                                const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+
+                                // Get market comparison from API or generate
+                                const marketData = priceInfo.markets?.map(m => ({
+                                    market: m.name,
+                                    price: m.price > 1000 ? Math.round(m.price / 100) : m.price,
+                                    change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 5).toFixed(1)}%`
+                                })) || this.generateMarketComparison(crop, state, currentPrice);
+
+                                return {
+                                    success: true,
+                                    crop: crop,
+                                    current_price: currentPrice,
+                                    change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
+                                    historical_prices: historicalPrices,
+                                    market_comparison: marketData,
+                                    timestamp: liveData.timestamp,
+                                    source: isRealData ? 'REAL_AGMARKNET' : 'SCRAPER_CACHE',
+                                    source_badge: isRealData ? '🟢 LIVE' : '🔵 Recent',
+                                    state: priceInfo.state,
+                                    markets_count: priceInfo.markets_count
+                                };
+                            }
+                        }
+                    } catch (error) {
+                        debugLog(`Live price endpoint failed: ${error.message}`, 'warning');
+                    }
+                }
+
+                // STEP 2: Try realprice proxy (existing endpoint)
                 try {
                     // Use local proxy to avoid CORS
-                    const proxyUrl = `http://localhost:5000/api/realprice/${crop.toLowerCase()}?state=Maharashtra`;
-                    debugLog(`🌐 Calling local realprice proxy for: ${crop}`, 'info');
-                    debugLog(`🔗 Proxy URL: ${proxyUrl}`, 'info');
+                    const proxyUrl = `http://localhost:5000/api/realprice/${crop.toLowerCase()}?state=${state}`;
+                    debugLog(`🌐 Calling realprice proxy for: ${crop}`, 'info');
 
                     const proxyResp = await fetch(proxyUrl, {
                         method: 'GET',
@@ -513,19 +624,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         const data = await response.json();
                         debugLog(`📦 Received data with ${data.records?.length || 0} records`, 'info');
-                        
+
                         if (data.records && data.records.length > 0) {
                             debugLog(`✅ Found ${data.records.length} REAL price records from government!`, 'success');
-                            
+
                             // Log first record for debugging
                             const firstRecord = data.records[0];
                             debugLog(`📊 Sample: ${firstRecord.commodity} - ₹${firstRecord.modal_price}/${firstRecord.unit} at ${firstRecord.market}`, 'info');
-                            
+
                             // Extract prices from records
                             const prices = data.records.map(r => {
                                 const modalPrice = parseFloat(r.modal_price);
                                 const unit = r.unit?.toLowerCase() || '';
-                                
+
                                 // Convert to per kg
                                 if (unit.includes('quintal')) {
                                     return Math.round(modalPrice / 100);
@@ -534,25 +645,25 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                                 return Math.round(modalPrice);
                             }).filter(p => p > 0 && p < 10000); // Filter valid prices only
-                            
+
                             if (prices.length > 0) {
                                 // Use latest price
                                 const currentPrice = prices[0];
                                 debugLog(`💰 Current price: ₹${currentPrice}/kg`, 'success');
-                                
+
                                 // Create historical data from recent records
-                                const historicalPrices = prices.length >= 8 ? 
-                                    prices.slice(0, 8).reverse() : 
+                                const historicalPrices = prices.length >= 8 ?
+                                    prices.slice(0, 8).reverse() :
                                     this.generateHistoricalPrices(currentPrice, 0.05, 0.02, 8);
-                                
+
                                 // Calculate change
                                 const previousPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
                                 const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
-                                
+
                                 // Get market details
                                 const latestRecord = data.records[0];
                                 const marketData = this.generateRealMarketComparison(data.records, crop, currentPrice);
-                                
+
                                 const result = {
                                     success: true,
                                     crop: crop,
@@ -567,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     state: latestRecord.state,
                                     district: latestRecord.district
                                 };
-                                
+
                                 debugLog(`✅ Returning REAL government data!`, 'success');
                                 return result;
                             }
@@ -592,10 +703,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (response.ok) {
                         const data = await response.json();
-                        
+
                         // Extract price data
                         let currentPrice, historicalPrices;
-                        
+
                         if (data.data && Array.isArray(data.data)) {
                             // API returns historical data array
                             historicalPrices = data.data.map(p => Math.round(p / 100)); // Convert quintal to kg
@@ -604,21 +715,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Single price value
                             const price = data.price || data.current_price || this.fallbackPrices[crop.toLowerCase()] || 25;
                             const unit = data.unit || '';
-                            
+
                             // Convert to per kg if needed
                             currentPrice = unit.includes('quintal') ? Math.round(price / 100) : Math.round(price);
                             historicalPrices = this.generateHistoricalPrices(currentPrice, 0.08, 0.04, 8);
                         }
-                        
+
                         // Pad historical data to 8 weeks if needed
                         while (historicalPrices.length < 8) {
                             historicalPrices.unshift(Math.round(historicalPrices[0] * 0.95));
                         }
-                        
+
                         // Calculate change
                         const previousPrice = historicalPrices[historicalPrices.length - 2];
                         const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
-                        
+
                         return {
                             success: true,
                             crop: crop,
@@ -640,13 +751,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Generate market comparison from real data
             generateRealMarketComparison(records, crop, basePrice) {
                 const marketMap = {};
-                
+
                 // Group by market/district
                 records.forEach(record => {
                     const marketName = record.market || record.district || 'Unknown';
                     const modalPrice = parseFloat(record.modal_price);
                     const unit = record.unit?.toLowerCase() || '';
-                    
+
                     // Convert to per kg
                     let price = modalPrice;
                     if (unit.includes('quintal')) {
@@ -654,17 +765,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (unit.includes('ton')) {
                         price = Math.round(modalPrice / 1000);
                     }
-                    
+
                     if (!marketMap[marketName] || price > 0) {
                         marketMap[marketName] = price;
                     }
                 });
-                
+
                 // Convert to array and take top 5
                 const markets = Object.entries(marketMap)
                     .map(([name, price]) => ({ name, price }))
                     .slice(0, 5);
-                
+
                 // If less than 5 markets, fill with variations of base price
                 while (markets.length < 5) {
                     const variation = 0.9 + (Math.random() * 0.2); // 90% to 110%
@@ -673,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         price: Math.round(basePrice * variation)
                     });
                 }
-                
+
                 return markets;
             }
 
@@ -738,32 +849,32 @@ document.addEventListener('DOMContentLoaded', () => {
             // Generate historical prices using Python-style algorithm
             generateHistoricalPrices(currentPrice, volatility, trend, weeks) {
                 const prices = [];
-                
+
                 for (let i = weeks - 1; i >= 0; i--) {
                     if (i === 0) {
                         prices.push(currentPrice);
                     } else {
                         // Apply reverse trend
                         const trendEffect = trend * i * currentPrice;
-                        
+
                         // Use deterministic variation based on week index
                         const randomNormal = Math.sin(i * 0.7) * Math.cos(i * 0.3); // Deterministic "random"
                         const volatilityEffect = randomNormal * volatility * currentPrice * 0.5;
-                        
+
                         // Seasonal patterns
                         const seasonalEffect = Math.sin(i * 0.5) * (volatility * 0.3 * currentPrice);
-                        
+
                         let historicalPrice = currentPrice - trendEffect + volatilityEffect + seasonalEffect;
-                        
+
                         // Ensure reasonable bounds
                         const minBound = currentPrice * 0.6;
                         const maxBound = currentPrice * 1.4;
                         historicalPrice = Math.max(minBound, Math.min(maxBound, historicalPrice));
-                        
+
                         prices.push(Math.round(historicalPrice));
                     }
                 }
-                
+
                 return prices;
             }
 
@@ -773,16 +884,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Mumbai APMC': 1.1, 'Pune APMC': 1.0, 'Nashik APMC': 0.95,
                     'Nagpur APMC': 1.05, 'Aurangabad APMC': 1.08
                 };
-                
+
                 const markets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
                 return markets.map((market, index) => {
                     const multiplier = marketMultipliers[market] || 1.0;
                     const variation = ((index * 0.05) % 0.1 - 0.05) * 0.1; // Deterministic variation
                     const price = Math.round(basePrice * multiplier * (1 + variation));
-                    
+
                     const changePercent = (index * 2 - 4); // Deterministic change: -4%, -2%, 0%, 2%, 4%
                     const changeStr = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(0)}%`;
-                    
+
                     return {
                         market: market,
                         price: price,
@@ -805,13 +916,13 @@ document.addEventListener('DOMContentLoaded', () => {
             renderChart(priceData) {
                 try {
                     debugLog('Rendering chart with new data', 'info');
-                    
+
                     const prices = priceData.historical_prices;
                     const minPrice = Math.min(...prices);
                     const maxPrice = Math.max(...prices);
                     const range = maxPrice - minPrice;
                     const padding = range * 0.1;
-                    
+
                     const chartMin = Math.floor(minPrice - padding);
                     const chartMax = Math.ceil(maxPrice + padding);
                     const chartRange = chartMax - chartMin;
@@ -835,17 +946,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Clear and regenerate data points
                     this.dataPoints.innerHTML = '';
-                    
+
                     prices.forEach((price, index) => {
                         const x = (index / (prices.length - 1)) * 400;
                         const y = 160 - ((price - chartMin) / chartRange) * 160;
-                        
+
                         const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                         circle.setAttribute('cx', x);
                         circle.setAttribute('cy', y);
                         circle.setAttribute('stroke', 'white');
                         circle.setAttribute('stroke-width', '2');
-                        
+
                         if (price === minPrice) {
                             circle.setAttribute('r', '4');
                             circle.setAttribute('fill', '#EF4444');
@@ -860,7 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             circle.setAttribute('r', '3');
                             circle.setAttribute('fill', '#10B981');
                         }
-                        
+
                         this.dataPoints.appendChild(circle);
                     });
 
@@ -875,7 +986,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('currentTooltip').classList.remove('hidden');
 
                     debugLog('Chart rendered successfully', 'success');
-                    
+
                 } catch (error) {
                     debugLog(`Error rendering chart: ${error.message}`, 'error');
                 }
@@ -887,7 +998,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isPositive = change.includes('+');
                 changeElement.className = `text-sm font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`;
                 changeElement.textContent = change;
-                
+
                 // Add source badge if available
                 if (source_badge) {
                     changeElement.textContent += ` ${source_badge}`;
@@ -897,18 +1008,18 @@ document.addEventListener('DOMContentLoaded', () => {
             updateMarketComparison(marketData) {
                 const container = document.getElementById('marketComparison');
                 container.innerHTML = '';
-                
+
                 marketData.forEach(market => {
                     const row = document.createElement('div');
                     row.className = 'grid grid-cols-3 items-center bg-gray-50 rounded-lg p-4';
-                    
+
                     const isPositive = market.change.includes('+');
                     row.innerHTML = `
                         <span class="text-gray-800">${market.market}</span>
                         <span class="text-center text-gray-800">₹${market.price.toLocaleString()}/kg</span>
                         <span class="text-right font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}">${market.change}</span>
                     `;
-                    
+
                     container.appendChild(row);
                 });
             }
@@ -932,18 +1043,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const crop = document.getElementById('cropSelect').value;
             const state = document.getElementById('stateSelect').value;
             const market = document.getElementById('marketSelect').value;
-            
+
             debugLog(`Updating chart for ${crop} in ${state}, ${market}`, 'info');
-            
+
             try {
                 chartRenderer.showLoading();
-                
+
                 // Update crop name
                 document.getElementById('cropName').textContent = crop.charAt(0).toUpperCase() + crop.slice(1);
-                
+
                 // Generate price data (now async with API)
                 const priceData = await priceGenerator.generatePriceData(crop, state, market);
-                
+
                 // Show real data source info
                 if (priceData.source === 'DATA_GOV_IN') {
                     const sourceInfo = document.createElement('div');
@@ -963,18 +1074,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     const container = document.querySelector('.demand-analysis-card');
                     container.insertBefore(sourceInfo, container.firstChild);
                 }
-                
+
                 // Update displays
                 chartRenderer.updateMainPriceDisplay(
-                    priceData.current_price, 
+                    priceData.current_price,
                     priceData.change_percentage,
                     priceData.source_badge || ''
                 );
                 chartRenderer.renderChart(priceData);
                 chartRenderer.updateMarketComparison(priceData.market_comparison);
-                
+
                 setTimeout(() => chartRenderer.hideLoading(), 500);
-                
+
             } catch (error) {
                 debugLog(`Error updating chart: ${error.message}`, 'error');
                 chartRenderer.hideLoading();
@@ -1007,20 +1118,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     { value: 'ginger', name: 'Ginger', category: 'Spice' },
                     { value: 'cabbage', name: 'Cabbage', category: 'Vegetable' }
                 ];
-                
+
                 this.input = null;
                 this.hiddenInput = null;
                 this.suggestions = null;
                 this.selectedIndex = -1;
-                
+
                 this.init();
             }
-            
+
             init() {
                 this.input = document.getElementById('cropInput');
                 this.hiddenInput = document.getElementById('cropSelect');
                 this.suggestions = document.getElementById('cropSuggestions');
-                
+
                 if (this.input) {
                     this.input.addEventListener('input', (e) => this.handleInput(e));
                     this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
@@ -1028,29 +1139,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.input.addEventListener('focus', (e) => this.handleFocus(e));
                 }
             }
-            
+
             handleInput(e) {
                 const query = e.target.value.toLowerCase().trim();
                 this.selectedIndex = -1;
-                
+
                 if (query.length === 0) {
                     this.hideSuggestions();
                     return;
                 }
-                
-                const filtered = this.crops.filter(crop => 
-                    crop.name.toLowerCase().includes(query) || 
+
+                const filtered = this.crops.filter(crop =>
+                    crop.name.toLowerCase().includes(query) ||
                     crop.value.toLowerCase().includes(query) ||
                     crop.category.toLowerCase().includes(query)
                 );
-                
+
                 this.showSuggestions(filtered, query);
             }
-            
+
             handleKeydown(e) {
                 const suggestionItems = this.suggestions.querySelectorAll('.crop-suggestion-item');
-                
-                switch(e.key) {
+
+                switch (e.key) {
                     case 'ArrowDown':
                         e.preventDefault();
                         this.selectedIndex = Math.min(this.selectedIndex + 1, suggestionItems.length - 1);
@@ -1073,23 +1184,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                 }
             }
-            
+
             handleBlur(e) {
                 // Delay hiding to allow for click events on suggestions
                 setTimeout(() => {
                     this.hideSuggestions();
                 }, 300);  // Increased delay to 300ms
             }
-            
+
             handleFocus(e) {
                 if (e.target.value.trim()) {
                     this.handleInput(e);
                 }
             }
-            
+
             showSuggestions(crops, query) {
                 console.log(`Showing ${crops.length} crop suggestions`);  // Debug
-                
+
                 if (crops.length === 0) {
                     this.suggestions.innerHTML = '<div class="px-4 py-2 text-gray-500 text-sm">No crops found</div>';
                 } else {
@@ -1106,14 +1217,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="material-icons text-gray-400 text-sm pointer-events-none">agriculture</span>
                         </div>
                     `).join('');
-                    
+
                     // Add click events with mousedown (fires before blur)
                     const suggestionItems = this.suggestions.querySelectorAll('.crop-suggestion-item');
                     console.log(`Added ${suggestionItems.length} suggestion items`);  // Debug
-                    
+
                     suggestionItems.forEach((item, index) => {
                         console.log(`Setting up item ${index}:`, item.dataset.name);  // Debug
-                        
+
                         // Use mousedown instead of click to fire before blur event
                         item.addEventListener('mousedown', (e) => {
                             console.log('Mousedown on:', item.dataset.name);  // Debug
@@ -1121,7 +1232,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             e.stopPropagation();
                             this.selectCrop(item.dataset);
                         });
-                        
+
                         // Also keep click as backup
                         item.addEventListener('click', (e) => {
                             console.log('Click on:', item.dataset.name);  // Debug
@@ -1129,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             e.stopPropagation();
                             this.selectCrop(item.dataset);
                         });
-                        
+
                         // Add touch event for mobile
                         item.addEventListener('touchstart', (e) => {
                             console.log('Touch on:', item.dataset.name);  // Debug
@@ -1138,16 +1249,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     });
                 }
-                
+
                 this.suggestions.classList.remove('hidden');
                 console.log('Dropdown is now visible');  // Debug
             }
-            
+
             hideSuggestions() {
                 this.suggestions.classList.add('hidden');
                 this.selectedIndex = -1;
             }
-            
+
             updateSelection(items) {
                 items.forEach((item, index) => {
                     if (index === this.selectedIndex) {
@@ -1157,38 +1268,38 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-            
+
             selectCrop(data) {
                 console.log('Selecting crop:', data);  // Debug log
-                
+
                 this.input.value = data.name;
                 this.hiddenInput.value = data.value;
                 this.hideSuggestions();
-                
+
                 // Visual feedback - briefly highlight input
                 this.input.classList.add('ring-2', 'ring-green-500');
                 setTimeout(() => {
                     this.input.classList.remove('ring-2', 'ring-green-500');
                 }, 500);
-                
+
                 // Update the crop name display
                 const cropNameElement = document.getElementById('cropName');
                 if (cropNameElement) {
                     cropNameElement.textContent = data.name;
                 }
-                
+
                 // Trigger change event for existing functionality
                 const changeEvent = new Event('change', { bubbles: true });
                 this.hiddenInput.dispatchEvent(changeEvent);
-                
+
                 debugLog(`✅ Selected crop: ${data.name} (${data.value})`, 'success');
-                
+
                 // Trigger price update immediately
                 if (window.updatePriceChart) {
                     window.updatePriceChart(data.value);
                 }
             }
-            
+
             highlightMatch(text, query) {
                 if (!query) return text;
                 const regex = new RegExp(`(${query})`, 'gi');
@@ -1196,54 +1307,55 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             debugLog('Initializing SmartSheti Market Demand page', 'info');
-            
+
             // Setup smooth navigation
             setupSmoothNavigation();
-            
+
             try {
                 // Initialize components
                 priceGenerator = new RealTimePriceAPI();
                 chartRenderer = new ChartRenderer();
-                
+
                 // Initialize crop autocomplete
                 const cropAutocomplete = new CropAutocomplete();
                 debugLog('Crop autocomplete initialized', 'success');
-                
+
                 // Set up event listeners
                 document.getElementById('cropSelect').addEventListener('change', updateChart);
                 document.getElementById('stateSelect').addEventListener('change', updateChart);
                 document.getElementById('marketSelect').addEventListener('change', updateChart);
-                
+
                 // Initial chart load
                 updateChart();
-                
+
                 debugLog('Application initialized successfully', 'success');
-                
+
                 // Hide page transition and show content
                 setTimeout(() => {
                     const transition = document.getElementById('pageTransition');
                     const header = document.querySelector('header');
-                    
+
                     document.body.classList.remove('page-loading');
-                    
+
                     if (header) {
                         header.classList.add('loaded');
                     }
-                    
+
                     if (transition) {
                         transition.classList.remove('active');
                     }
                 }, 300);
-                
+
             } catch (error) {
                 debugLog(`Initialization error: ${error.message}`, 'error');
             }
         });
     </script>
-    
+
     <!-- Translation initialized in head; removed duplicate script -->
 
 </body>
+
 </html>

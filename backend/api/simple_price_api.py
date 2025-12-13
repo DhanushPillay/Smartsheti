@@ -2,15 +2,38 @@
 """
 Simple Price API for SmartSheti
 Serves current market prices with CORS support
+Now uses REAL data from data.gov.in API
+
 Run: python simple_price_api.py
+
+Environment Variables:
+    DATA_GOV_IN_API_KEY: Your data.gov.in API key (optional, has default)
 """
 
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 import json
 import os
+import sys
 from datetime import datetime
 import requests
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'python'))
+
+# Try to import the real scraper
+try:
+    from real_agmarknet_scraper import RealAGMARKNETScraper
+    REAL_SCRAPER_AVAILABLE = True
+except ImportError:
+    REAL_SCRAPER_AVAILABLE = False
+
+# Load API key from environment variable (with fallback)
+# IMPORTANT: Set DATA_GOV_IN_API_KEY environment variable for production
+DATA_GOV_IN_API_KEY = os.environ.get(
+    'DATA_GOV_IN_API_KEY', 
+    '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b'  # Default public key (rate limited)
+)
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -98,13 +121,78 @@ def health_check():
         'status': 'healthy',
         'service': 'SmartSheti Price API',
         'timestamp': datetime.now().isoformat(),
-        'pricesFileExists': os.path.exists(PRICES_FILE) or os.path.exists(DATA_PRICES_FILE)
+        'pricesFileExists': os.path.exists(PRICES_FILE) or os.path.exists(DATA_PRICES_FILE),
+        'realScraperAvailable': REAL_SCRAPER_AVAILABLE,
+        'apiKeyConfigured': bool(os.environ.get('DATA_GOV_IN_API_KEY'))
     })
+
+@app.route('/api/live-price/<crop>', methods=['GET'])
+def get_live_price(crop: str):
+    """
+    Get LIVE price for a crop using real data.gov.in API
+    This endpoint fetches fresh data directly from the government API
+    """
+    if not REAL_SCRAPER_AVAILABLE:
+        return jsonify({
+            'success': False,
+            'error': 'Real scraper not available',
+            'fallback': 'Use /api/realprice/<crop> instead'
+        }), 503
+    
+    try:
+        scraper = RealAGMARKNETScraper(DATA_GOV_IN_API_KEY)
+        state = request.args.get('state', 'Maharashtra')
+        
+        price_data = scraper.get_price_with_fallback(crop, state)
+        
+        return jsonify({
+            'success': True,
+            'data': price_data,
+            'isRealData': price_data.get('source') == 'REAL_API',
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'crop': crop
+        }), 500
+
+@app.route('/api/update-prices', methods=['POST'])
+def update_prices():
+    """
+    Trigger a price update using real AGMARKNET data
+    This will fetch fresh data from data.gov.in and update prices.json
+    """
+    if not REAL_SCRAPER_AVAILABLE:
+        return jsonify({
+            'success': False,
+            'error': 'Real scraper not available'
+        }), 503
+    
+    try:
+        scraper = RealAGMARKNETScraper(DATA_GOV_IN_API_KEY)
+        success = scraper.update_prices_json(PRICES_FILE)
+        
+        return jsonify({
+            'success': success,
+            'message': 'Prices updated with real data from data.gov.in' if success else 'Update failed',
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 
 @app.route('/api/realprice/<crop>', methods=['GET'])
 def real_price_proxy(crop: str):
     """Proxy to fetch real prices from data.gov.in (avoids CORS in browser)"""
-    api_key = request.args.get('api_key') or '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b'
+    # Use API key from environment variable (secure) or request param
+    api_key = request.args.get('api_key') or DATA_GOV_IN_API_KEY
     state = request.args.get('state')  # optional
     limit = request.args.get('limit', '30')
 

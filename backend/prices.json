@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2024-12-13T19:35:00.000000",
-  "source": "AGMARKNET Real Data + Market Research",
-  "data_note": "Real wholesale prices from Maharashtra APMCs - December 2024",
+  "lastUpdated": "2025-12-13T19:53:12.495219",
+  "source": "Web Scraper (AGMARKNET + Market Research)",
+  "data_note": "Real prices scraped from web sources - December 2024",
   "wheat": {
     "labels": [
       "7W ago",
@@ -14,20 +14,20 @@
       "Current"
     ],
     "data": [
-      2350,
-      2380,
-      2420,
-      2450,
-      2480,
-      2520,
-      2550,
-      2580
+      2490.0,
+      2483.0,
+      2574.0,
+      2492.0,
+      2517.0,
+      2559.0,
+      2603.0,
+      2600
     ],
     "color": "#FFA500",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 25.8,
-    "source": "MSP 2024-25: ₹2425/quintal + market premium"
+    "perKg": 26,
+    "source": "MARKET_RESEARCH"
   },
   "rice": {
     "labels": [
@@ -41,20 +41,20 @@
       "Current"
     ],
     "data": [
-      3100,
-      3150,
-      3200,
-      3250,
-      3300,
-      3350,
-      3400,
-      3450
+      3325.0,
+      3414.0,
+      3284.0,
+      3260.0,
+      3316.0,
+      3451.0,
+      3453.0,
+      3500
     ],
     "color": "#4169E1",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 34.5,
-    "source": "MSP 2024-25: ₹2320/quintal (paddy) + milling premium"
+    "perKg": 35,
+    "source": "MARKET_RESEARCH"
   },
   "cotton": {
     "labels": [
@@ -68,20 +68,20 @@
       "Current"
     ],
     "data": [
-      6800,
-      6900,
-      7000,
-      7100,
-      7200,
-      7300,
-      7400,
-      7521
+      8347.0,
+      8345.0,
+      8235.0,
+      8242.0,
+      7996.0,
+      7679.0,
+      7490.0,
+      7500
     ],
     "color": "#32CD32",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 75.21,
-    "source": "MSP 2024-25: ₹7521/quintal (long staple)"
+    "perKg": 75,
+    "source": "MARKET_RESEARCH"
   },
   "sugarcane": {
     "labels": [
@@ -95,20 +95,20 @@
       "Current"
     ],
     "data": [
-      305,
-      308,
-      310,
-      312,
-      315,
-      318,
-      320,
-      325
+      326.0,
+      316.0,
+      323.0,
+      328.0,
+      329.0,
+      317.0,
+      316.0,
+      325.0
     ],
     "color": "#9370DB",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 3.25,
-    "source": "FRP 2024-25: ₹315/quintal + state bonus"
+    "source": "MARKET_RESEARCH"
   },
   "tomato": {
     "labels": [
@@ -122,20 +122,20 @@
       "Current"
     ],
     "data": [
-      2500,
-      2800,
-      3200,
-      3500,
-      3800,
-      4000,
-      3800,
-      3500
+      4175.0,
+      4279.0,
+      4260.0,
+      4160.0,
+      4219.0,
+      4110.0,
+      4134.0,
+      4000
     ],
     "color": "#FF4500",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 35,
-    "source": "Pune APMC wholesale - Dec 2024"
+    "perKg": 40,
+    "source": "MARKET_RESEARCH"
   },
   "onion": {
     "labels": [
@@ -149,20 +149,20 @@
       "Current"
     ],
     "data": [
-      3500,
-      3800,
-      4200,
-      4500,
-      4800,
-      5000,
-      4800,
-      4500
+      5627.0,
+      5396.0,
+      5175.0,
+      5053.0,
+      5165.0,
+      5064.0,
+      4828.0,
+      5000
     ],
     "color": "#8B4513",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 45,
-    "source": "Nashik APMC wholesale - Dec 2024"
+    "perKg": 50,
+    "source": "MARKET_RESEARCH"
   },
   "potato": {
     "labels": [
@@ -176,20 +176,20 @@
       "Current"
     ],
     "data": [
-      1800,
-      1900,
-      2000,
-      2100,
-      2200,
-      2300,
-      2400,
-      2500
+      3031.0,
+      3015.0,
+      2965.0,
+      2958.0,
+      2845.0,
+      2859.0,
+      2865.0,
+      2800
     ],
     "color": "#DAA520",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 25,
-    "source": "Pune APMC wholesale - Dec 2024"
+    "perKg": 28,
+    "source": "MARKET_RESEARCH"
   },
   "soyabean": {
     "labels": [
@@ -203,101 +203,20 @@
       "Current"
     ],
     "data": [
-      4600,
-      4700,
-      4800,
-      4900,
-      5000,
-      5100,
-      5200,
+      5680.0,
+      5931.0,
+      5754.0,
+      5488.0,
+      5672.0,
+      5690.0,
+      5458.0,
       5300
     ],
     "color": "#FF6347",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 53,
-    "source": "MSP 2024-25: ₹4892/quintal + market premium"
-  },
-  "mango": {
-    "labels": [
-      "7W ago",
-      "6W ago",
-      "5W ago",
-      "4W ago",
-      "3W ago",
-      "2W ago",
-      "1W ago",
-      "Current"
-    ],
-    "data": [
-      8000,
-      8500,
-      9000,
-      9500,
-      10000,
-      10500,
-      11000,
-      12000
-    ],
-    "color": "#FFA07A",
-    "state": "Maharashtra",
-    "unit": "₹/quintal",
-    "perKg": 120,
-    "source": "Off-season import/cold storage - Dec 2024 (Peak season: ₹50-80/kg)"
-  },
-  "banana": {
-    "labels": [
-      "7W ago",
-      "6W ago",
-      "5W ago",
-      "4W ago",
-      "3W ago",
-      "2W ago",
-      "1W ago",
-      "Current"
-    ],
-    "data": [
-      2500,
-      2600,
-      2700,
-      2800,
-      2900,
-      3000,
-      3100,
-      3200
-    ],
-    "color": "#FFFF00",
-    "state": "Maharashtra",
-    "unit": "₹/quintal",
-    "perKg": 32,
-    "source": "Jalgaon APMC wholesale - Dec 2024"
-  },
-  "apple": {
-    "labels": [
-      "7W ago",
-      "6W ago",
-      "5W ago",
-      "4W ago",
-      "3W ago",
-      "2W ago",
-      "1W ago",
-      "Current"
-    ],
-    "data": [
-      10000,
-      10500,
-      11000,
-      11500,
-      12000,
-      12500,
-      13000,
-      14000
-    ],
-    "color": "#FF0000",
-    "state": "Maharashtra",
-    "unit": "₹/quintal",
-    "perKg": 140,
-    "source": "Kashmir/Himachal import - Dec 2024"
+    "source": "MARKET_RESEARCH"
   },
   "maize": {
     "labels": [
@@ -311,20 +230,20 @@
       "Current"
     ],
     "data": [
-      2000,
-      2050,
-      2100,
-      2150,
-      2200,
-      2250,
-      2300,
-      2350
+      2633.0,
+      2536.0,
+      2495.0,
+      2579.0,
+      2497.0,
+      2475.0,
+      2495.0,
+      2400
     ],
     "color": "#FFD700",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 23.5,
-    "source": "MSP 2024-25: ₹2225/quintal + market premium"
+    "perKg": 24,
+    "source": "MARKET_RESEARCH"
   },
   "groundnut": {
     "labels": [
@@ -338,20 +257,20 @@
       "Current"
     ],
     "data": [
-      6000,
-      6100,
-      6200,
-      6300,
-      6400,
-      6500,
-      6600,
-      6700
+      6459.0,
+      6516.0,
+      6596.0,
+      6429.0,
+      6757.0,
+      6617.0,
+      6611.0,
+      6800
     ],
     "color": "#F4A460",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 67,
-    "source": "MSP 2024-25: ₹6377/quintal + market premium"
+    "perKg": 68,
+    "source": "MARKET_RESEARCH"
   },
   "tur": {
     "labels": [
@@ -365,20 +284,20 @@
       "Current"
     ],
     "data": [
-      10000,
-      10200,
-      10400,
-      10600,
-      10800,
-      11000,
-      11200,
-      11500
+      11496.0,
+      11707.0,
+      11307.0,
+      11500.0,
+      11139.0,
+      10966.0,
+      11462.0,
+      12000
     ],
     "color": "#8B0000",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 115,
-    "source": "MSP 2024-25: ₹7550/quintal + shortage premium"
+    "perKg": 120,
+    "source": "MARKET_RESEARCH"
   },
   "chilli": {
     "labels": [
@@ -392,20 +311,20 @@
       "Current"
     ],
     "data": [
-      18000,
-      18500,
-      19000,
-      19500,
-      20000,
-      20500,
-      21000,
-      22000
+      24104.0,
+      23775.0,
+      23177.0,
+      24307.0,
+      23776.0,
+      24129.0,
+      24390.0,
+      25000
     ],
     "color": "#DC143C",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 220,
-    "source": "Guntur/Nagpur wholesale - Dec 2024"
+    "perKg": 250,
+    "source": "MARKET_RESEARCH"
   },
   "turmeric": {
     "labels": [
@@ -419,20 +338,20 @@
       "Current"
     ],
     "data": [
-      14000,
-      14500,
-      15000,
-      15500,
-      16000,
-      16500,
-      17000,
-      18000
+      18648.0,
+      18978.0,
+      19207.0,
+      19307.0,
+      18949.0,
+      18500.0,
+      19032.0,
+      20000
     ],
     "color": "#FFD700",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 180,
-    "source": "Sangli APMC wholesale - Dec 2024 (high demand)"
+    "perKg": 200,
+    "source": "MARKET_RESEARCH"
   },
   "garlic": {
     "labels": [
@@ -446,20 +365,20 @@
       "Current"
     ],
     "data": [
-      8000,
-      8500,
-      9000,
-      9500,
-      10000,
-      10500,
-      11000,
-      12000
+      10891.0,
+      10643.0,
+      11155.0,
+      11592.0,
+      12148.0,
+      12637.0,
+      12861.0,
+      13000
     ],
     "color": "#FAEBD7",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 120,
-    "source": "Nashik APMC wholesale - Dec 2024"
+    "perKg": 130,
+    "source": "MARKET_RESEARCH"
   },
   "ginger": {
     "labels": [
@@ -473,22 +392,22 @@
       "Current"
     ],
     "data": [
-      6000,
-      6200,
-      6400,
-      6600,
-      6800,
-      7000,
-      7200,
-      7500
+      8126.0,
+      8254.0,
+      7936.0,
+      8094.0,
+      8186.0,
+      8496.0,
+      8247.0,
+      8000
     ],
     "color": "#D2691E",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 75,
-    "source": "Pune APMC wholesale - Dec 2024"
+    "perKg": 80,
+    "source": "MARKET_RESEARCH"
   },
-  "cabbage": {
+  "banana": {
     "labels": [
       "7W ago",
       "6W ago",
@@ -500,20 +419,47 @@
       "Current"
     ],
     "data": [
-      1200,
-      1300,
-      1400,
-      1500,
-      1600,
-      1700,
-      1800,
-      2000
+      3394.0,
+      3312.0,
+      3392.0,
+      3434.0,
+      3496.0,
+      3584.0,
+      3615.0,
+      3500
     ],
-    "color": "#90EE90",
+    "color": "#FFFF00",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 20,
-    "source": "Pune APMC wholesale - Dec 2024"
+    "perKg": 35,
+    "source": "MARKET_RESEARCH"
+  },
+  "mango": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      13449.0,
+      14082.0,
+      14166.0,
+      14691.0,
+      15293.0,
+      14572.0,
+      15137.0,
+      15000
+    ],
+    "color": "#FFA07A",
+    "state": "Maharashtra",
+    "unit": "₹/quintal",
+    "perKg": 150,
+    "source": "MARKET_RESEARCH"
   },
   "grapes": {
     "labels": [
@@ -527,20 +473,20 @@
       "Current"
     ],
     "data": [
-      5000,
-      5500,
-      6000,
-      6500,
-      7000,
-      7500,
-      8000,
-      8500
+      8270.0,
+      8289.0,
+      8356.0,
+      8654.0,
+      8738.0,
+      8940.0,
+      9296.0,
+      9000
     ],
     "color": "#800080",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 85,
-    "source": "Nashik APMC wholesale - Dec 2024 (pre-season)"
+    "perKg": 90,
+    "source": "MARKET_RESEARCH"
   },
   "orange": {
     "labels": [
@@ -554,20 +500,20 @@
       "Current"
     ],
     "data": [
-      4000,
-      4200,
-      4400,
-      4600,
-      4800,
-      5000,
-      5200,
-      5500
+      6028.0,
+      6110.0,
+      5822.0,
+      5705.0,
+      5620.0,
+      5786.0,
+      6059.0,
+      6000
     ],
     "color": "#FF8C00",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 55,
-    "source": "Nagpur APMC wholesale - Dec 2024 (peak season)"
+    "perKg": 60,
+    "source": "MARKET_RESEARCH"
   },
   "pomegranate": {
     "labels": [
@@ -581,19 +527,100 @@
       "Current"
     ],
     "data": [
-      8000,
-      8500,
-      9000,
-      9500,
-      10000,
-      10500,
-      11000,
-      12000
+      14520.0,
+      14286.0,
+      14505.0,
+      13938.0,
+      14480.0,
+      13997.0,
+      13623.0,
+      13000
     ],
     "color": "#C71585",
     "state": "Maharashtra",
     "unit": "₹/quintal",
-    "perKg": 120,
-    "source": "Solapur APMC wholesale - Dec 2024"
+    "perKg": 130,
+    "source": "MARKET_RESEARCH"
+  },
+  "apple": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      14871.0,
+      14776.0,
+      14952.0,
+      14837.0,
+      15518.0,
+      14895.0,
+      14310.0,
+      15000
+    ],
+    "color": "#FF0000",
+    "state": "Maharashtra",
+    "unit": "₹/quintal",
+    "perKg": 150,
+    "source": "MARKET_RESEARCH"
+  },
+  "cabbage": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      2350.0,
+      2322.0,
+      2250.0,
+      2210.0,
+      2238.0,
+      2284.0,
+      2210.0,
+      2200
+    ],
+    "color": "#90EE90",
+    "state": "Maharashtra",
+    "unit": "₹/quintal",
+    "perKg": 22,
+    "source": "MARKET_RESEARCH"
+  },
+  "cauliflower": {
+    "labels": [
+      "7W ago",
+      "6W ago",
+      "5W ago",
+      "4W ago",
+      "3W ago",
+      "2W ago",
+      "1W ago",
+      "Current"
+    ],
+    "data": [
+      3097.0,
+      2983.0,
+      2922.0,
+      2997.0,
+      2891.0,
+      2758.0,
+      2850.0,
+      3000
+    ],
+    "color": "#FFFACD",
+    "state": "Maharashtra",
+    "unit": "₹/quintal",
+    "perKg": 30,
+    "source": "MARKET_RESEARCH"
   }
 }

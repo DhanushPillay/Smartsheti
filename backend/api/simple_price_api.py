@@ -88,13 +88,20 @@ def get_crop_price(crop: str):
             if isinstance(crop_data, dict):
                 price_list = crop_data.get('data', [])
                 current_price = price_list[-1] if price_list else None
+                per_kg = crop_data.get('perKg', current_price / 100 if current_price else None)
+                
                 return jsonify({
+                    'success': True,
                     'crop': crop,
                     'currentPrice': current_price,
+                    'current_price': per_kg,  # Per kg for frontend
+                    'perKg': per_kg,
                     'unit': crop_data.get('unit', '₹/quintal'),
                     'priceHistory': price_list,
+                    'historical_prices': [round(p / 100, 2) for p in price_list],  # Per kg history
                     'labels': crop_data.get('labels', []),
                     'state': crop_data.get('state', 'Maharashtra'),
+                    'source': crop_data.get('source', data.get('source', 'AGMARKNET')),
                     'lastUpdated': data.get('lastUpdated', datetime.now().isoformat())
                 })
             else:

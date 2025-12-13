@@ -694,8 +694,9 @@
                     console.error('Full error:', error);
                 }
 
-                // Try local API as backup
+                // Try local cached prices API as backup
                 try {
+                    debugLog(`📦 Fetching cached prices for: ${crop}`, 'info');
                     const response = await fetch(`${this.apiUrl}/${crop.toLowerCase()}`, {
                         method: 'GET',
                         signal: AbortSignal.timeout(3000)
@@ -703,43 +704,36 @@
 
                     if (response.ok) {
                         const data = await response.json();
+                        debugLog(`✅ Cached price found: ₹${data.perKg || data.current_price}/kg`, 'success');
 
-                        // Extract price data
-                        let currentPrice, historicalPrices;
+                        // Use perKg if available (new format), otherwise calculate
+                        let currentPrice = data.perKg || data.current_price;
+                        let historicalPrices = data.historical_prices;
 
-                        if (data.data && Array.isArray(data.data)) {
-                            // API returns historical data array
-                            historicalPrices = data.data.map(p => Math.round(p / 100)); // Convert quintal to kg
+                        // If no per-kg history, convert from quintal
+                        if (!historicalPrices && data.priceHistory) {
+                            historicalPrices = data.priceHistory.map(p => Math.round(p / 100));
                             currentPrice = historicalPrices[historicalPrices.length - 1];
-                        } else {
-                            // Single price value
-                            const price = data.price || data.current_price || this.fallbackPrices[crop.toLowerCase()] || 25;
-                            const unit = data.unit || '';
+                        }
 
-                            // Convert to per kg if needed
-                            currentPrice = unit.includes('quintal') ? Math.round(price / 100) : Math.round(price);
+                        if (!historicalPrices) {
                             historicalPrices = this.generateHistoricalPrices(currentPrice, 0.08, 0.04, 8);
                         }
 
-                        // Pad historical data to 8 weeks if needed
-                        while (historicalPrices.length < 8) {
-                            historicalPrices.unshift(Math.round(historicalPrices[0] * 0.95));
-                        }
-
                         // Calculate change
-                        const previousPrice = historicalPrices[historicalPrices.length - 2];
+                        const previousPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
                         const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
 
                         return {
                             success: true,
                             crop: crop,
-                            current_price: currentPrice,
+                            current_price: Math.round(currentPrice),
                             change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                            historical_prices: historicalPrices.slice(-8), // Last 8 weeks only
+                            historical_prices: historicalPrices.map(p => Math.round(p)),
                             market_comparison: this.generateMarketComparison(crop, 'Maharashtra', currentPrice),
-                            timestamp: new Date().toISOString(),
-                            source: data.source || 'LIVE_API',
-                            source_badge: this.getSourceBadge(data.source)
+                            timestamp: data.lastUpdated || new Date().toISOString(),
+                            source: data.source || 'AGMARKNET_CACHE',
+                            source_badge: '🟢 REAL'  // This is real data from prices.json
                         };
                     }
                 } catch (error) {

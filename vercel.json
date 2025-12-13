@@ -1,0 +1,74 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "index.html",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "frontend/**",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "backend/prices.json",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "data/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/index.html"
+        },
+        {
+            "src": "/index.html",
+            "dest": "/index.html"
+        },
+        {
+            "src": "/frontend/(.*)",
+            "dest": "/frontend/$1"
+        },
+        {
+            "src": "/data/(.*)",
+            "dest": "/data/$1"
+        },
+        {
+            "src": "/backend/prices.json",
+            "dest": "/backend/prices.json"
+        },
+        {
+            "src": "/(.*)\\.html",
+            "dest": "/$1.html"
+        },
+        {
+            "src": "/(.*)\\.css",
+            "dest": "/$1.css"
+        },
+        {
+            "src": "/(.*)\\.js",
+            "dest": "/$1.js"
+        },
+        {
+            "src": "/(.*)\\.json",
+            "dest": "/$1.json"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/index.html"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                }
+            ]
+        }
+    ]
+}

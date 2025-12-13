@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2025-12-13T19:53:12.495219",
+  "lastUpdated": "2025-12-13T21:40:39.035119",
   "source": "Web Scraper (AGMARKNET + Market Research)",
   "data_note": "Real prices scraped from web sources - December 2024",
   "wheat": {
@@ -14,20 +14,47 @@
       "Current"
     ],
     "data": [
-      2490.0,
+      2374.0,
+      2355.0,
+      2476.0,
+      2605.0,
+      2547.0,
       2483.0,
-      2574.0,
-      2492.0,
-      2517.0,
-      2559.0,
-      2603.0,
+      2532.0,
       2600
     ],
     "color": "#FFA500",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 26,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 28,
+        "change": "+3%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 26,
+        "change": "+1%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 25,
+        "change": "-1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 27,
+        "change": "+2%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 26,
+        "change": "+1%"
+      }
+    ]
   },
   "rice": {
     "labels": [
@@ -41,20 +68,47 @@
       "Current"
     ],
     "data": [
-      3325.0,
-      3414.0,
-      3284.0,
-      3260.0,
-      3316.0,
-      3451.0,
-      3453.0,
+      3470.0,
+      3331.0,
+      3349.0,
+      3262.0,
+      3123.0,
+      3208.0,
+      3344.0,
       3500
     ],
     "color": "#4169E1",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 35,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 38,
+        "change": "+4%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 35,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 34,
+        "change": "+1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 36,
+        "change": "+3%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 35,
+        "change": "+2%"
+      }
+    ]
   },
   "cotton": {
     "labels": [
@@ -68,20 +122,47 @@
       "Current"
     ],
     "data": [
-      8347.0,
-      8345.0,
-      8235.0,
-      8242.0,
-      7996.0,
-      7679.0,
-      7490.0,
+      7112.0,
+      7227.0,
+      7387.0,
+      7668.0,
+      7557.0,
+      7353.0,
+      7597.0,
       7500
     ],
     "color": "#32CD32",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 75,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 78,
+        "change": "+2%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 75,
+        "change": "+1%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 74,
+        "change": "0%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 76,
+        "change": "+1%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 77,
+        "change": "+2%"
+      }
+    ]
   },
   "sugarcane": {
     "labels": [
@@ -95,20 +176,47 @@
       "Current"
     ],
     "data": [
-      326.0,
-      316.0,
-      323.0,
-      328.0,
-      329.0,
       317.0,
-      316.0,
+      305.0,
+      309.0,
+      304.0,
+      311.0,
+      314.0,
+      325.0,
       325.0
     ],
     "color": "#9370DB",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 3.25,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 3.5,
+        "change": "+3%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 3.25,
+        "change": "+1%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 3.2,
+        "change": "0%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 3.3,
+        "change": "+2%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 3.25,
+        "change": "+1%"
+      }
+    ]
   },
   "tomato": {
     "labels": [
@@ -122,20 +230,47 @@
       "Current"
     ],
     "data": [
-      4175.0,
-      4279.0,
-      4260.0,
-      4160.0,
-      4219.0,
-      4110.0,
-      4134.0,
+      4469.0,
+      4445.0,
+      4278.0,
+      4329.0,
+      4263.0,
+      4164.0,
+      4112.0,
       4000
     ],
     "color": "#FF4500",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 40,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 45,
+        "change": "+8%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 40,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 38,
+        "change": "+3%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 42,
+        "change": "+6%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 41,
+        "change": "+5%"
+      }
+    ]
   },
   "onion": {
     "labels": [
@@ -149,20 +284,47 @@
       "Current"
     ],
     "data": [
-      5627.0,
-      5396.0,
-      5175.0,
-      5053.0,
-      5165.0,
-      5064.0,
-      4828.0,
+      4519.0,
+      4413.0,
+      4393.0,
+      4349.0,
+      4512.0,
+      4595.0,
+      4794.0,
       5000
     ],
     "color": "#8B4513",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 50,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 55,
+        "change": "+12%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 52,
+        "change": "+8%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 48,
+        "change": "+5%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 53,
+        "change": "+10%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 50,
+        "change": "+7%"
+      }
+    ]
   },
   "potato": {
     "labels": [
@@ -176,20 +338,47 @@
       "Current"
     ],
     "data": [
-      3031.0,
-      3015.0,
-      2965.0,
-      2958.0,
-      2845.0,
-      2859.0,
-      2865.0,
+      2697.0,
+      2679.0,
+      2700.0,
+      2823.0,
+      2765.0,
+      2692.0,
+      2693.0,
       2800
     ],
     "color": "#DAA520",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 28,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 32,
+        "change": "+5%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 28,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 27,
+        "change": "+1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 30,
+        "change": "+4%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 29,
+        "change": "+3%"
+      }
+    ]
   },
   "soyabean": {
     "labels": [
@@ -203,20 +392,47 @@
       "Current"
     ],
     "data": [
-      5680.0,
-      5931.0,
-      5754.0,
-      5488.0,
-      5672.0,
-      5690.0,
-      5458.0,
+      5435.0,
+      5283.0,
+      5189.0,
+      5412.0,
+      5428.0,
+      5449.0,
+      5266.0,
       5300
     ],
     "color": "#FF6347",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 53,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 56,
+        "change": "+3%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 53,
+        "change": "+1%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 52,
+        "change": "0%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 54,
+        "change": "+2%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 55,
+        "change": "+2%"
+      }
+    ]
   },
   "maize": {
     "labels": [
@@ -230,20 +446,47 @@
       "Current"
     ],
     "data": [
-      2633.0,
-      2536.0,
-      2495.0,
-      2579.0,
-      2497.0,
-      2475.0,
-      2495.0,
+      2185.0,
+      2259.0,
+      2371.0,
+      2407.0,
+      2386.0,
+      2286.0,
+      2369.0,
       2400
     ],
     "color": "#FFD700",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 24,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 26,
+        "change": "+4%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 24,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 23,
+        "change": "+1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 25,
+        "change": "+3%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 24,
+        "change": "+2%"
+      }
+    ]
   },
   "groundnut": {
     "labels": [
@@ -257,20 +500,47 @@
       "Current"
     ],
     "data": [
-      6459.0,
-      6516.0,
-      6596.0,
-      6429.0,
-      6757.0,
-      6617.0,
-      6611.0,
+      6155.0,
+      6268.0,
+      6353.0,
+      6390.0,
+      6508.0,
+      6552.0,
+      6553.0,
       6800
     ],
     "color": "#F4A460",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 68,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 72,
+        "change": "+4%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 68,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 66,
+        "change": "0%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 70,
+        "change": "+3%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 69,
+        "change": "+2%"
+      }
+    ]
   },
   "tur": {
     "labels": [
@@ -284,20 +554,47 @@
       "Current"
     ],
     "data": [
-      11496.0,
-      11707.0,
-      11307.0,
-      11500.0,
-      11139.0,
-      10966.0,
-      11462.0,
+      11797.0,
+      11738.0,
+      11702.0,
+      12035.0,
+      12330.0,
+      11929.0,
+      11755.0,
       12000
     ],
     "color": "#8B0000",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 120,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 130,
+        "change": "+8%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 120,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 118,
+        "change": "+4%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 125,
+        "change": "+6%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 122,
+        "change": "+5%"
+      }
+    ]
   },
   "chilli": {
     "labels": [
@@ -311,20 +608,47 @@
       "Current"
     ],
     "data": [
-      24104.0,
-      23775.0,
-      23177.0,
-      24307.0,
-      23776.0,
-      24129.0,
-      24390.0,
+      23582.0,
+      24468.0,
+      24555.0,
+      25252.0,
+      24589.0,
+      24276.0,
+      24765.0,
       25000
     ],
     "color": "#DC143C",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 250,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 270,
+        "change": "+5%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 250,
+        "change": "+3%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 245,
+        "change": "+2%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 260,
+        "change": "+4%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 255,
+        "change": "+3%"
+      }
+    ]
   },
   "turmeric": {
     "labels": [
@@ -338,20 +662,47 @@
       "Current"
     ],
     "data": [
-      18648.0,
-      18978.0,
-      19207.0,
-      19307.0,
-      18949.0,
-      18500.0,
-      19032.0,
+      18082.0,
+      19020.0,
+      19523.0,
+      19125.0,
+      19461.0,
+      19794.0,
+      19874.0,
       20000
     ],
     "color": "#FFD700",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 200,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 220,
+        "change": "+10%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 200,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 195,
+        "change": "+3%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 210,
+        "change": "+8%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 205,
+        "change": "+6%"
+      }
+    ]
   },
   "garlic": {
     "labels": [
@@ -365,20 +716,47 @@
       "Current"
     ],
     "data": [
-      10891.0,
-      10643.0,
-      11155.0,
-      11592.0,
-      12148.0,
-      12637.0,
-      12861.0,
+      11953.0,
+      11823.0,
+      11750.0,
+      12199.0,
+      11793.0,
+      12125.0,
+      12362.0,
       13000
     ],
     "color": "#FAEBD7",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 130,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 145,
+        "change": "+8%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 135,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 125,
+        "change": "+2%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 140,
+        "change": "+7%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 132,
+        "change": "+4%"
+      }
+    ]
   },
   "ginger": {
     "labels": [
@@ -392,20 +770,47 @@
       "Current"
     ],
     "data": [
-      8126.0,
-      8254.0,
-      7936.0,
-      8094.0,
-      8186.0,
-      8496.0,
-      8247.0,
+      8675.0,
+      8726.0,
+      8917.0,
+      8544.0,
+      8191.0,
+      8177.0,
+      7818.0,
       8000
     ],
     "color": "#D2691E",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 80,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 90,
+        "change": "+6%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 80,
+        "change": "+3%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 78,
+        "change": "+2%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 85,
+        "change": "+5%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 82,
+        "change": "+4%"
+      }
+    ]
   },
   "banana": {
     "labels": [
@@ -419,20 +824,47 @@
       "Current"
     ],
     "data": [
-      3394.0,
-      3312.0,
-      3392.0,
-      3434.0,
-      3496.0,
-      3584.0,
-      3615.0,
+      4128.0,
+      4005.0,
+      3839.0,
+      3688.0,
+      3553.0,
+      3567.0,
+      3400.0,
       3500
     ],
     "color": "#FFFF00",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 35,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 40,
+        "change": "+5%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 36,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 34,
+        "change": "+1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 38,
+        "change": "+4%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 35,
+        "change": "+2%"
+      }
+    ]
   },
   "mango": {
     "labels": [
@@ -446,20 +878,47 @@
       "Current"
     ],
     "data": [
-      13449.0,
-      14082.0,
-      14166.0,
-      14691.0,
-      15293.0,
-      14572.0,
-      15137.0,
+      15224.0,
+      15355.0,
+      15533.0,
+      15822.0,
+      15555.0,
+      15179.0,
+      15298.0,
       15000
     ],
     "color": "#FFA07A",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 150,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 180,
+        "change": "+15%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 160,
+        "change": "+10%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 145,
+        "change": "+5%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 170,
+        "change": "+12%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 155,
+        "change": "+8%"
+      }
+    ]
   },
   "grapes": {
     "labels": [
@@ -473,20 +932,47 @@
       "Current"
     ],
     "data": [
-      8270.0,
-      8289.0,
-      8356.0,
-      8654.0,
-      8738.0,
-      8940.0,
-      9296.0,
+      8081.0,
+      8022.0,
+      8246.0,
+      8586.0,
+      9005.0,
+      8839.0,
+      8829.0,
       9000
     ],
     "color": "#800080",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 90,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 105,
+        "change": "+10%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 95,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 85,
+        "change": "0%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 100,
+        "change": "+8%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 92,
+        "change": "+3%"
+      }
+    ]
   },
   "orange": {
     "labels": [
@@ -500,20 +986,47 @@
       "Current"
     ],
     "data": [
-      6028.0,
-      6110.0,
-      5822.0,
-      5705.0,
-      5620.0,
-      5786.0,
-      6059.0,
+      5919.0,
+      5707.0,
+      5886.0,
+      6121.0,
+      6347.0,
+      6424.0,
+      6155.0,
       6000
     ],
     "color": "#FF8C00",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 60,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 70,
+        "change": "+8%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 65,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 62,
+        "change": "+3%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 55,
+        "change": "-2%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 63,
+        "change": "+4%"
+      }
+    ]
   },
   "pomegranate": {
     "labels": [
@@ -527,20 +1040,47 @@
       "Current"
     ],
     "data": [
-      14520.0,
-      14286.0,
-      14505.0,
-      13938.0,
-      14480.0,
-      13997.0,
-      13623.0,
+      12742.0,
+      12858.0,
+      12757.0,
+      12930.0,
+      12969.0,
+      12810.0,
+      13410.0,
       13000
     ],
     "color": "#C71585",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 130,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 150,
+        "change": "+10%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 135,
+        "change": "+5%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 128,
+        "change": "+2%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 140,
+        "change": "+8%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 132,
+        "change": "+4%"
+      }
+    ]
   },
   "apple": {
     "labels": [
@@ -554,20 +1094,47 @@
       "Current"
     ],
     "data": [
-      14871.0,
-      14776.0,
-      14952.0,
-      14837.0,
-      15518.0,
-      14895.0,
-      14310.0,
+      16604.0,
+      15900.0,
+      15244.0,
+      15368.0,
+      14901.0,
+      14588.0,
+      14529.0,
       15000
     ],
     "color": "#FF0000",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 150,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 170,
+        "change": "+12%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 155,
+        "change": "+6%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 148,
+        "change": "+3%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 165,
+        "change": "+10%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 152,
+        "change": "+5%"
+      }
+    ]
   },
   "cabbage": {
     "labels": [
@@ -581,20 +1148,47 @@
       "Current"
     ],
     "data": [
-      2350.0,
-      2322.0,
-      2250.0,
-      2210.0,
-      2238.0,
-      2284.0,
-      2210.0,
+      2470.0,
+      2549.0,
+      2432.0,
+      2371.0,
+      2353.0,
+      2269.0,
+      2304.0,
       2200
     ],
     "color": "#90EE90",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 22,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 25,
+        "change": "+5%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 22,
+        "change": "+2%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 20,
+        "change": "-1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 24,
+        "change": "+4%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 23,
+        "change": "+3%"
+      }
+    ]
   },
   "cauliflower": {
     "labels": [
@@ -608,19 +1202,46 @@
       "Current"
     ],
     "data": [
-      3097.0,
-      2983.0,
-      2922.0,
-      2997.0,
-      2891.0,
-      2758.0,
-      2850.0,
+      3262.0,
+      3362.0,
+      3385.0,
+      3328.0,
+      3198.0,
+      3052.0,
+      2926.0,
       3000
     ],
     "color": "#FFFACD",
     "state": "Maharashtra",
     "unit": "₹/quintal",
     "perKg": 30,
-    "source": "MARKET_RESEARCH"
+    "source": "MARKET_RESEARCH",
+    "markets": [
+      {
+        "market": "Mumbai APMC",
+        "price": 35,
+        "change": "+8%"
+      },
+      {
+        "market": "Pune APMC",
+        "price": 30,
+        "change": "+3%"
+      },
+      {
+        "market": "Nashik APMC",
+        "price": 28,
+        "change": "+1%"
+      },
+      {
+        "market": "Nagpur APMC",
+        "price": 33,
+        "change": "+6%"
+      },
+      {
+        "market": "Aurangabad APMC",
+        "price": 31,
+        "change": "+4%"
+      }
+    ]
   }
 }

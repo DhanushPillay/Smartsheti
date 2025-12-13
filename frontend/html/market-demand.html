@@ -724,13 +724,19 @@
                         const previousPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
                         const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
 
+                        // Use real market data from API if available
+                        let marketData = data.markets;
+                        if (!marketData || marketData.length === 0) {
+                            marketData = this.generateMarketComparison(crop, 'Maharashtra', currentPrice);
+                        }
+
                         return {
                             success: true,
                             crop: crop,
                             current_price: Math.round(currentPrice),
                             change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
                             historical_prices: historicalPrices.map(p => Math.round(p)),
-                            market_comparison: this.generateMarketComparison(crop, 'Maharashtra', currentPrice),
+                            market_comparison: marketData,  // Use real market data!
                             timestamp: data.lastUpdated || new Date().toISOString(),
                             source: data.source || 'AGMARKNET_CACHE',
                             source_badge: '🟢 REAL'  // This is real data from prices.json

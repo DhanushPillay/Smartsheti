@@ -8,3 +8,4 @@ Flask>=2.2.0
 flask-cors>=3.0.10
 loguru>=0.6.0
 googletrans==3.1.0a0
+google-generativeai>=0.3.0

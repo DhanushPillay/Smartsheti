@@ -14,7 +14,7 @@ class CropRecommendationEngine {
                 './data/json/Maharashtra_crops.json',
                 '/data/json/Maharashtra_crops.json'
             ];
-            
+
             let data = null;
             for (const path of possiblePaths) {
                 try {
@@ -27,7 +27,7 @@ class CropRecommendationEngine {
                     continue;
                 }
             }
-            
+
             if (data) {
                 this.cropsData = data;
                 console.log('Crops data loaded successfully');
@@ -37,7 +37,7 @@ class CropRecommendationEngine {
         } catch (error) {
             console.error('Error loading crops data:', error);
             // Fallback data if JSON fails to load - using some sample crops from Maharashtra
-            this.cropsData = { 
+            this.cropsData = {
                 crops: [
                     {
                         name: "Rice",
@@ -140,10 +140,10 @@ class CropRecommendationEngine {
         };
 
         const userSoilKeywords = soilMappings[userSoilType] || [];
-        
+
         return cropSoilTypes.some(soilType => {
             const lowerSoilType = soilType.toLowerCase();
-            return userSoilKeywords.some(keyword => 
+            return userSoilKeywords.some(keyword =>
                 lowerSoilType.includes(keyword.toLowerCase())
             );
         });
@@ -153,7 +153,7 @@ class CropRecommendationEngine {
     getIrrigationCompatibility(crop, irrigationType) {
         const rainfallReq = crop.rainfall_requirement_mm;
         const minRainfall = rainfallReq[0];
-        
+
         switch (irrigationType) {
             case 'rain-fed':
                 return minRainfall <= 800; // Suitable for low to medium rainfall crops
@@ -202,7 +202,7 @@ class CropRecommendationEngine {
     // Get season-based recommendations
     getCurrentSeasonRecommendation() {
         const month = new Date().getMonth() + 1;
-        
+
         if (month >= 6 && month <= 10) {
             return 'Kharif'; // Monsoon season
         } else if (month >= 11 || month <= 3) {
@@ -221,7 +221,7 @@ class CropRecommendationEngine {
         const minTemp = crop.ideal_temperature_c.min;
         const maxTemp = crop.ideal_temperature_c.max;
         const optimalTemp = (minTemp + maxTemp) / 2;
-        
+
         // Perfect temperature range
         if (currentTemp >= minTemp && currentTemp <= maxTemp) {
             if (Math.abs(currentTemp - optimalTemp) <= 3) {
@@ -303,7 +303,7 @@ class CropRecommendationEngine {
 
         const recommendations = this.cropsData.crops.map(crop => {
             const { score, reasons } = this.scoreCrop(crop, soilType, irrigationType, landSize, currentTemp);
-            
+
             return {
                 ...crop,
                 score,
@@ -314,10 +314,10 @@ class CropRecommendationEngine {
 
         // Sort by score
         let sorted = recommendations.sort((a, b) => b.score - a.score);
-        
+
         // Add diversity: Ensure variety in crop types
         const diversified = this.diversifyRecommendations(sorted);
-        
+
         // Return top 8 recommendations
         return diversified.slice(0, 8);
     }
@@ -332,14 +332,14 @@ class CropRecommendationEngine {
             pulses: ['Tur (Pigeon Pea)', 'Tur'],
             spices: ['Turmeric', 'Ginger', 'Garlic', 'Chilli']
         };
-        
+
         const result = [];
         const categoryCount = {};
-        
+
         // First pass: Take top crop from each category
         for (const crop of sortedCrops) {
             if (result.length >= 8) break;
-            
+
             let category = 'other';
             for (const [cat, crops] of Object.entries(cropCategories)) {
                 if (crops.includes(crop.name)) {
@@ -347,7 +347,7 @@ class CropRecommendationEngine {
                     break;
                 }
             }
-            
+
             // Limit 2-3 crops per category for diversity
             const maxPerCategory = category === 'vegetables' ? 3 : 2;
             if (!categoryCount[category] || categoryCount[category] < maxPerCategory) {
@@ -355,7 +355,7 @@ class CropRecommendationEngine {
                 categoryCount[category] = (categoryCount[category] || 0) + 1;
             }
         }
-        
+
         // Second pass: Fill remaining slots with highest scoring crops
         for (const crop of sortedCrops) {
             if (result.length >= 8) break;
@@ -363,7 +363,7 @@ class CropRecommendationEngine {
                 result.push(crop);
             }
         }
-        
+
         return result;
     }
 
@@ -378,10 +378,10 @@ class CropRecommendationEngine {
     // Get profitability estimate with real market data
     async getProfitabilityEstimate(crop, landSize) {
         const size = parseFloat(landSize) || 1;
-        
+
         // Try to get real market prices, fallback to estimates
         const marketData = await this.getMarketPrices(crop.name);
-        
+
         // Real market data for Maharashtra (Updated for 2025-26 season)
         const profitabilityMap = {
             'Cotton': { yield: 1500, cost: 40000, msp: 7521 }, // MSP 2025-26 per quintal (Medium Staple)
@@ -421,7 +421,7 @@ class CropRecommendationEngine {
         };
 
         const cropData = profitabilityMap[crop.name] || { yield: 1500, cost: 35000, marketPrice: 30 };
-        
+
         // Use MSP (Minimum Support Price) if available, otherwise market price
         let pricePerKg;
         if (cropData.msp) {
@@ -429,11 +429,11 @@ class CropRecommendationEngine {
         } else {
             pricePerKg = marketData?.currentPrice || cropData.marketPrice || 30;
         }
-        
+
         // Apply seasonal and market factors
         const seasonalFactor = this.getSeasonalPriceFactor(crop.name);
         const adjustedPrice = pricePerKg * seasonalFactor;
-        
+
         const revenue = cropData.yield * size * adjustedPrice;
         const totalCost = cropData.cost * size;
         const profit = revenue - totalCost;
@@ -451,11 +451,11 @@ class CropRecommendationEngine {
             lastUpdated: marketData?.lastUpdated || 'Static estimate'
         };
     }
-    
+
     // Get seasonal price factors for crops
     getSeasonalPriceFactor(cropName) {
         const month = new Date().getMonth() + 1; // 1-12
-        
+
         const seasonalFactors = {
             'Cotton': month >= 10 && month <= 2 ? 1.1 : 0.95, // Higher during harvest
             'Soybean': month >= 9 && month <= 11 ? 1.05 : 1.0,
@@ -464,10 +464,10 @@ class CropRecommendationEngine {
             'Onion': month >= 3 && month <= 6 ? 1.3 : month >= 11 ? 1.2 : 1.0, // Seasonal shortage
             'Tomato': month >= 11 && month <= 2 ? 1.25 : month >= 6 && month <= 8 ? 0.8 : 1.0
         };
-        
+
         return seasonalFactors[cropName] || 1.0;
     }
-    
+
     // Get real-time market prices from multiple sources
     async getMarketPrices(cropName) {
         try {
@@ -485,12 +485,12 @@ class CropRecommendationEngine {
                 'Jowar': 'jowar',
                 'Maize': 'maize'
             };
-            
+
             const mappedCropName = cropMapping[cropName] || cropName.toLowerCase();
-            
+
             // Try Method 1: Local Backend API (if running)
             try {
-                const localResponse = await fetch(`http://localhost:5000/api/prices`);
+                const localResponse = await fetch(`/api/prices`);
                 if (localResponse.ok) {
                     const data = await localResponse.json();
                     if (data[mappedCropName]) {
@@ -507,7 +507,7 @@ class CropRecommendationEngine {
             } catch (localError) {
                 console.log('Local API not available, trying alternatives...');
             }
-            
+
             // Try Method 2: Direct prices.json file
             try {
                 const fileResponse = await fetch('../../backend/prices.json');
@@ -527,12 +527,12 @@ class CropRecommendationEngine {
             } catch (fileError) {
                 console.log('Price file not accessible');
             }
-            
+
             // Try Method 3: Government Open API (data.gov.in)
             try {
                 // Using public AGMARKNET data API
                 const apiUrl = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b&format=json&filters[commodity]=${cropName}&filters[state]=Maharashtra&limit=1`;
-                
+
                 const apiResponse = await fetch(apiUrl);
                 if (apiResponse.ok) {
                     const data = await apiResponse.json();
@@ -553,11 +553,11 @@ class CropRecommendationEngine {
             } catch (apiError) {
                 console.log('Government API failed:', apiError.message);
             }
-            
+
             // Fallback: Use static estimates
             console.log(`ℹ️ Using static estimates for ${cropName}`);
             return null;
-            
+
         } catch (error) {
             console.log('Market data fetch failed, using estimates:', error);
             return null;

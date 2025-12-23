@@ -2,15 +2,15 @@
     "version": 2,
     "builds": [
         {
+            "src": "api/index.py",
+            "use": "@vercel/python"
+        },
+        {
             "src": "index.html",
             "use": "@vercel/static"
         },
         {
             "src": "frontend/**",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "backend/prices.json",
             "use": "@vercel/static"
         },
         {
@@ -20,12 +20,12 @@
     ],
     "routes": [
         {
-            "src": "/",
-            "dest": "/index.html"
+            "src": "/api/(.*)",
+            "dest": "/api/index.py"
         },
         {
-            "src": "/index.html",
-            "dest": "/index.html"
+            "src": "/backend/prices.json",
+            "dest": "/backend/prices.json"
         },
         {
             "src": "/frontend/(.*)",
@@ -34,10 +34,6 @@
         {
             "src": "/data/(.*)",
             "dest": "/data/$1"
-        },
-        {
-            "src": "/backend/prices.json",
-            "dest": "/backend/prices.json"
         },
         {
             "src": "/(.*)\\.html",
@@ -53,7 +49,7 @@
         },
         {
             "src": "/(.*)\\.json",
-            "dest": "/$1.json"
+            "dest": "/$1.js"
         },
         {
             "src": "/(.*)",

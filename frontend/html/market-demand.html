@@ -410,8 +410,8 @@
         // Real-Time Price API Integration
         class RealTimePriceAPI {
             constructor() {
-                this.apiUrl = 'http://localhost:5000/api/prices';
-                this.livePriceUrl = 'http://localhost:5000/api/live-price'; // NEW: Real scraper endpoint
+                this.apiUrl = '/api/prices';
+                this.livePriceUrl = '/api/live-price'; // NEW: Real scraper endpoint
                 this.dataGovApiKey = '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
                 this.dataGovUrl = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
                 this.apiAvailable = false;
@@ -445,7 +445,7 @@
             // Check if Price API is available
             async checkAPIAvailability() {
                 try {
-                    const response = await fetch('http://localhost:5000/api/health', {
+                    const response = await fetch('/api/health', {
                         method: 'GET',
                         signal: AbortSignal.timeout(2000)
                     });
@@ -574,7 +574,7 @@
                 // STEP 2: Try realprice proxy (existing endpoint)
                 try {
                     // Use local proxy to avoid CORS
-                    const proxyUrl = `http://localhost:5000/api/realprice/${crop.toLowerCase()}?state=${state}`;
+                    const proxyUrl = `/api/realprice/${crop.toLowerCase()}?state=${state}`;
                     debugLog(`🌐 Calling realprice proxy for: ${crop}`, 'info');
 
                     const proxyResp = await fetch(proxyUrl, {

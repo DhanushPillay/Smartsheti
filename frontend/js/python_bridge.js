@@ -5,7 +5,7 @@
 
 class PythonPriceChartBridge {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:5000/api';
+        this.apiBaseUrl = '/api';
         this.cache = new Map();
         this.cacheTimeout = 5 * 60 * 1000; // 5 minutes cache
         this.backendAvailable = false;
@@ -21,7 +21,7 @@ class PythonPriceChartBridge {
                 method: 'GET',
                 timeout: 5000
             });
-            
+
             if (response.ok) {
                 this.backendAvailable = true;
                 console.log('✅ Python backend API is available');
@@ -40,7 +40,7 @@ class PythonPriceChartBridge {
      */
     async fetchPriceData(crop, state, market) {
         const cacheKey = `${crop}-${state}-${market}`;
-        
+
         // Check cache first
         if (this.cache.has(cacheKey)) {
             const cached = this.cache.get(cacheKey);
@@ -52,7 +52,7 @@ class PythonPriceChartBridge {
 
         try {
             let response;
-            
+
             if (this.backendAvailable) {
                 console.log(`🐍 Fetching data from Python backend for ${crop} in ${state}, ${market}`);
                 response = await this.fetchFromBackend(crop, state, market);
@@ -60,27 +60,27 @@ class PythonPriceChartBridge {
                 console.log(`🔄 Backend unavailable, using simulation for ${crop} in ${state}, ${market}`);
                 response = await this.simulatePythonCall(crop, state, market);
             }
-            
+
             // Cache the result
             this.cache.set(cacheKey, {
                 data: response,
                 timestamp: Date.now()
             });
-            
+
             return response;
-            
+
         } catch (error) {
             console.error('❌ Error fetching price data:', error);
-            
+
             // Fallback to simulation if backend fails
             console.log('🔄 Falling back to simulation mode');
             const fallbackResponse = await this.simulatePythonCall(crop, state, market);
-            
+
             this.cache.set(cacheKey, {
                 data: fallbackResponse,
                 timestamp: Date.now()
             });
-            
+
             return fallbackResponse;
         }
     }
@@ -94,7 +94,7 @@ class PythonPriceChartBridge {
             state: state,
             market: market
         });
-        
+
         const response = await fetch(`${this.apiBaseUrl}/price-data?${params}`, {
             method: 'GET',
             headers: {
@@ -102,17 +102,17 @@ class PythonPriceChartBridge {
             },
             timeout: 10000
         });
-        
+
         if (!response.ok) {
             throw new Error(`Backend API error: ${response.status} ${response.statusText}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (!data.success) {
             throw new Error(`Backend error: ${data.error}`);
         }
-        
+
         console.log('✅ Data successfully fetched from Python backend');
         return data;
     }
@@ -124,7 +124,7 @@ class PythonPriceChartBridge {
     async simulatePythonCall(crop, state, market) {
         // Simulate network delay
         await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
-        
+
         // Base prices for different crops
         const basePrices = {
             'wheat': 2500, 'rice': 3200, 'cotton': 5800, 'sugarcane': 280,
@@ -152,7 +152,7 @@ class PythonPriceChartBridge {
         const basePrice = basePrices[crop.toLowerCase()] || 2500;
         const marketMultiplier = marketMultipliers[market] || 1.0;
         const volatility = volatilityMap[crop.toLowerCase()] || 0.12;
-        
+
         // Add realistic market variation
         const variation = (Math.random() - 0.5) * volatility * 2;
         const currentPrice = Math.round(basePrice * marketMultiplier * (1 + variation));
@@ -213,36 +213,36 @@ class PythonPriceChartBridge {
 
         const volatility = volatilityMap[crop.toLowerCase()] || 0.12;
         const trend = trendMap[crop.toLowerCase()] || 0.02;
-        
+
         const prices = [];
-        
+
         for (let i = weeks - 1; i >= 0; i--) {
             if (i === 0) {
                 prices.push(currentPrice);
             } else {
                 // Apply reverse trend
                 const trendEffect = trend * i * currentPrice;
-                
+
                 // Add random volatility using Box-Muller transform for normal distribution
                 const u1 = Math.random();
                 const u2 = Math.random();
                 const randomNormal = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
                 const volatilityEffect = randomNormal * volatility * currentPrice * 0.5;
-                
+
                 // Add seasonal patterns
                 const seasonalEffect = Math.sin(i * 0.5) * (volatility * 0.3 * currentPrice);
-                
+
                 let historicalPrice = currentPrice - trendEffect + volatilityEffect + seasonalEffect;
-                
+
                 // Ensure reasonable bounds
                 const minBound = currentPrice * 0.6;
                 const maxBound = currentPrice * 1.4;
                 historicalPrice = Math.max(minBound, Math.min(maxBound, historicalPrice));
-                
+
                 prices.push(Math.round(historicalPrice));
             }
         }
-        
+
         return prices;
     }
 
@@ -260,11 +260,11 @@ class PythonPriceChartBridge {
             const multiplier = marketMultipliers[market] || 1.0;
             const variation = (Math.random() - 0.5) * 0.1; // ±5% variation
             const price = Math.round(basePrice * multiplier * (1 + variation));
-            
+
             // Generate realistic change percentage
             const changePercent = (Math.random() - 0.4) * 10; // Bias towards positive
             const changeStr = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(0)}%`;
-            
+
             return {
                 market: market,
                 price: price,

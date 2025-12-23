@@ -63,6 +63,14 @@ except ImportError as e:
 # Helper functions for Price API
 PRICES_FILE = os.path.join(backend_dir, 'prices.json')
 DATA_PRICES_FILE = os.path.join(os.path.dirname(backend_dir), 'data', 'json', 'prices.json')
+PRODUCTS_FILE = os.path.join(os.path.dirname(backend_dir), 'data', 'json', 'products.json')
+
+def get_products_data():
+    """Load products data from JSON"""
+    if os.path.exists(PRODUCTS_FILE):
+        with open(PRODUCTS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return []
 
 def get_prices_data():
     """Load price data from available sources"""
@@ -129,6 +137,24 @@ def translate():
         })
     except Exception as e:
         logger.error(f"Translation API error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    """Get all marketplace products"""
+    try:
+        products = get_products_data()
+        category = request.args.get('category')
+        if category and category != 'all':
+            products = [p for p in products if p.get('category') == category]
+            
+        search = request.args.get('search', '').lower()
+        if search:
+            products = [p for p in products if search in p.get('name', '').lower() or search in p.get('crop', '').lower()]
+            
+        return jsonify({'success': True, 'count': len(products), 'products': products})
+    except Exception as e:
+        logger.error(f"Products API error: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/api/prices', methods=['GET'])
@@ -256,6 +282,37 @@ def health():
             'translation_api': translator is not None
         }
     })
+
+@app.route('/api/cron/update-prices', methods=['GET'])
+def cron_update_prices():
+    """Vercel Cron Job to update prices"""
+    if not REAL_SCRAPER_AVAILABLE:
+        return jsonify({'success': False, 'error': 'Scraper unavailable'}), 503
+        
+    try:
+        logger.info("🕒 Starting scheduled price update...")
+        scraper = RealAGMARKNETScraper(DATA_GOV_IN_API_KEY)
+        
+        # In serverless, we can't easily write to FS that persists
+        # But we can refresh the in-memory cache or external DB
+        # For this setup with JSON file, we might be limited on Vercel
+        # However, we can at least return fresh data to verify it works
+        
+        # If we are on persistent hosting, this updates the file
+        success = scraper.update_prices_json(PRICES_FILE)
+        
+        # Also try to update the data/json one if it exists
+        if os.path.exists(DATA_PRICES_FILE):
+             scraper.update_prices_json(DATA_PRICES_FILE)
+             
+        return jsonify({
+            'success': success,
+            'message': 'Price update triggered', 
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        logger.error(f"Cron error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

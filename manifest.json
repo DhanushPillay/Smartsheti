@@ -1,0 +1,18 @@
+{
+    "name": "SmartSheti - Smart Farming Assistant",
+    "short_name": "SmartSheti",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#10B981",
+    "description": "Smart agricultural platform for Maharashtra farmers with crop recommendations, weather, and market prices.",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "frontend/assets/images/plant-logo.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

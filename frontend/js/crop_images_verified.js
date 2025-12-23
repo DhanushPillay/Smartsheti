@@ -87,15 +87,75 @@ const CROP_IMAGE_DATABASE = {
     'Fennel': 'https://images.unsplash.com/photo-1600456899121-68eda5705257?w=800&h=600&fit=crop&q=90',
 
     // --- Fallback ---
-    'default': 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop&q=90'
+    'default': 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop&q=90',
+
+    // --- New & Missing Crops ---
+    'Ginger': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ginger_Root.jpg/800px-Ginger_Root.jpg',
+    'Apple': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/800px-Red_Apple.jpg',
+    'Custard Apple': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Sugar_Apple_%28Annona_squamosa%29.jpg/800px-Sugar_Apple_%28Annona_squamosa%29.jpg',
+
+    // --- Local Aliases / Mappings (Synced with Scraper) ---
+    // Wheat
+    'Gehun': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&h=600&fit=crop&q=90',
+    'Wheat (Dara)': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&h=600&fit=crop&q=90',
+    // Rice
+    'Paddy': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=800&h=600&fit=crop&q=90',
+    'Paddy(Dhan)(Common)': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=800&h=600&fit=crop&q=90',
+    'Dhan': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=800&h=600&fit=crop&q=90',
+    'Chawal': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=800&h=600&fit=crop&q=90',
+    // Cotton
+    'Kapas': 'https://images.unsplash.com/photo-1594488518020-d3a3399a9a0e?w=800&h=600&fit=crop&q=90',
+    'Cotton (Kapas)': 'https://images.unsplash.com/photo-1594488518020-d3a3399a9a0e?w=800&h=600&fit=crop&q=90',
+    // Sugarcane
+    'Ganna': 'https://images.unsplash.com/photo-1606132758957-37d425b07897?w=800&h=600&fit=crop&q=90',
+    'Sugar Cane': 'https://images.unsplash.com/photo-1606132758957-37d425b07897?w=800&h=600&fit=crop&q=90',
+    // Soyabean
+    'Soyabean': 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=800&h=600&fit=crop&q=90',
+    'Soya Bean': 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=800&h=600&fit=crop&q=90',
+    // Maize
+    'Makka': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&h=600&fit=crop&q=90',
+    // Vegetables
+    'Tamatar': 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=800&h=600&fit=crop&q=90',
+    'Tomato Hybrid': 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=800&h=600&fit=crop&q=90',
+    'Pyaz': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&h=600&fit=crop&q=90',
+    'Onion Red': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&h=600&fit=crop&q=90',
+    'Aloo': 'https://images.unsplash.com/photo-1596450523825-7243c3d5e27a?w=800&h=600&fit=crop&q=90',
+    'Potato Red': 'https://images.unsplash.com/photo-1596450523825-7243c3d5e27a?w=800&h=600&fit=crop&q=90',
+    'Baingan': 'https://images.unsplash.com/photo-1615485925694-a62322319489?w=800&h=600&fit=crop&q=90',
+    'Bhindi': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
+    'Bhindi(Ladies Finger)': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
+    'Lady Finger': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
+    'Phool Gobhi': 'https://images.unsplash.com/photo-1568584711271-055f9b1bb7b6?w=800&h=600&fit=crop&q=90',
+    'Patta Gobhi': 'https://images.unsplash.com/photo-1553978297-833d09932d31?w=800&h=600&fit=crop&q=90',
+    'Kheera': 'https://images.unsplash.com/photo-1604173874749-983ceab562c5?w=800&h=600&fit=crop&q=90',
+    'Kakdi': 'https://images.unsplash.com/photo-1604173874749-983ceab562c5?w=800&h=600&fit=crop&q=90',
+    'Mirchi': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
+    'Chillies (Green)': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
+    'Chilli Red': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
+    'Lahsun': 'https://images.unsplash.com/photo-1598048143224-b1eb2ce05fc6?w=800&h=600&fit=crop&q=90',
+    'Adrak': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ginger_Root.jpg/800px-Ginger_Root.jpg',
+    'Ginger(Green)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ginger_Root.jpg/800px-Ginger_Root.jpg',
+    // Pulses
+    'Moongfali': 'https://images.unsplash.com/photo-1567375698509-46e3775f8bb7?w=800&h=600&fit=crop&q=90',
+    'Arhar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Cajanus_cajan_flower_and_pods.jpg/1024px-Cajanus_cajan_flower_and_pods.jpg',
+    'Arhar (Tur/Red Gram)(Whole)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Cajanus_cajan_flower_and_pods.jpg/1024px-Cajanus_cajan_flower_and_pods.jpg',
+    'Haldi': 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=800&h=600&fit=crop&q=90',
+    // Fruits
+    'Kela': 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=800&h=600&fit=crop&q=90',
+    'Aam': 'https://images.unsplash.com/photo-1626296185854-44cc196c787a?w=800&h=600&fit=crop&q=90',
+    'Angoor': 'https://images.unsplash.com/photo-1596706456743-69024c3cb4a3?w=800&h=600&fit=crop&q=90',
+    'Narangi': 'https://images.unsplash.com/photo-1582281298055-e25b84a30b0b?w=800&h=600&fit=crop&q=90',
+    'Santra': 'https://images.unsplash.com/photo-1582281298055-e25b84a30b0b?w=800&h=600&fit=crop&q=90',
+    'Anar': 'https://images.unsplash.com/photo-1627931326466-9eb1f2e519c7?w=800&h=600&fit=crop&q=90',
+    'Seb': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Red_Apple.jpg/800px-Red_Apple.jpg'
 };
 
 // Function to get crop image with fallback (optimized for HD images)
 function getCropImage(cropName, optimize = true, width = 800, height = 600) {
     if (!cropName) return optimize ? getOptimizedImageUrl(CROP_IMAGE_DATABASE.default, width, height) : CROP_IMAGE_DATABASE.default;
-    
+
     let imageUrl = null;
-    
+
     // Try exact match first
     if (CROP_IMAGE_DATABASE[cropName]) {
         imageUrl = CROP_IMAGE_DATABASE[cropName];
@@ -108,11 +168,11 @@ function getCropImage(cropName, optimize = true, width = 800, height = 600) {
                 break;
             }
         }
-        
+
         // Try partial match if no exact match found
         if (!imageUrl) {
             for (const [key, value] of Object.entries(CROP_IMAGE_DATABASE)) {
-                if (key.toLowerCase().includes(normalizedCropName) || 
+                if (key.toLowerCase().includes(normalizedCropName) ||
                     normalizedCropName.includes(key.toLowerCase())) {
                     imageUrl = value;
                     break;
@@ -120,12 +180,12 @@ function getCropImage(cropName, optimize = true, width = 800, height = 600) {
             }
         }
     }
-    
+
     // Return default if no match found
     if (!imageUrl) {
         imageUrl = CROP_IMAGE_DATABASE.default;
     }
-    
+
     // Return optimized URL if requested
     return optimize ? getOptimizedImageUrl(imageUrl, width, height) : imageUrl;
 }
@@ -134,7 +194,7 @@ function getCropImage(cropName, optimize = true, width = 800, height = 600) {
 function preloadCropImages(limit = 10) {
     // Only preload first 10 images to avoid overwhelming the browser
     const imageUrls = Object.values(CROP_IMAGE_DATABASE).slice(0, limit);
-    
+
     imageUrls.forEach((imageUrl, index) => {
         // Stagger the loading to prevent blocking
         setTimeout(() => {
@@ -155,7 +215,7 @@ function getOptimizedImageUrl(originalUrl, width = 800, height = 600) {
         const baseUrl = originalUrl.split('?')[0];
         return `${baseUrl}?w=${width}&h=${height}&fit=crop&q=90&auto=format&dpr=2`;
     }
-    
+
     // For Google images, try to get higher resolution
     if (originalUrl.includes('encrypted-tbn0.gstatic.com')) {
         // Add size parameter for better quality
@@ -163,7 +223,7 @@ function getOptimizedImageUrl(originalUrl, width = 800, height = 600) {
             return `${originalUrl}=s${Math.max(width, height)}`;
         }
     }
-    
+
     // For other sources, return original HD URL
     return originalUrl;
 }
@@ -176,9 +236,9 @@ if (typeof module !== 'undefined' && module.exports) {
     window.getCropImage = getCropImage;
     window.preloadCropImages = preloadCropImages;
     window.getOptimizedImageUrl = getOptimizedImageUrl;
-    
+
     // Auto-preload only essential images when script loads
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Only preload 5 most common crops to avoid slowing down initial page load
         preloadCropImages(5);
     });

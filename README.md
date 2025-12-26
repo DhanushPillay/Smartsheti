@@ -42,6 +42,12 @@ SmartSheti is a comprehensive agricultural platform that empowers Maharashtra fa
 - **Category Filtering**: Filter by seeds, tools, or fertilizers
 - **Price Comparison**: View current prices and discounts
 
+### 📱 PWA Support (Installable App)
+- **Installable**: Functions as a native app on Android/iOS/Desktop
+- **Offline Capable**: Caches essential assets for faster loading and basic offline access
+- **App-like Experience**: Full-screen mode without browser UI
+- **Auto-Updates**: Automatically stays up-to-date with the latest version
+
 ---
 
 ## 💡 How to Use

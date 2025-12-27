@@ -3,6 +3,8 @@
  * Handles the 'Add to Home Screen' functionality
  */
 
+console.log('📱 Install App script loaded');
+
 let deferredPrompt;
 const installBtnId = 'installAppBtn';
 const installBtnMobileId = 'installAppBtnMobile';

@@ -17,20 +17,27 @@ window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
-    // Update UI notify the user they can install the PWA
-    showInstallPromotion();
     console.log('✅ PWA install prompt intercepted');
 });
 
-function showInstallPromotion() {
+// Always show the install button on page load
+document.addEventListener('DOMContentLoaded', () => {
+    showInstallButton();
+});
+
+function showInstallButton() {
     const btnDesktop = document.getElementById(installBtnId);
     const btnMobile = document.getElementById(installBtnMobileId);
 
+    // Hide buttons if app is already installed
     if (isAppInstalled) {
         console.log('ℹ️ App is already installed (standalone mode)');
+        if (btnDesktop) btnDesktop.classList.add('hidden');
+        if (btnMobile) btnMobile.classList.add('hidden');
         return;
     }
 
+    // Always show and attach click handlers
     if (btnDesktop) {
         btnDesktop.classList.remove('hidden');
         btnDesktop.addEventListener('click', handleInstallClick);
@@ -40,6 +47,13 @@ function showInstallPromotion() {
         btnMobile.classList.remove('hidden');
         btnMobile.addEventListener('click', handleInstallClick);
     }
+
+    console.log('📱 Install buttons initialized');
+}
+
+function showInstallPromotion() {
+    // Legacy function - now handled by showInstallButton
+    showInstallButton();
 }
 
 async function handleInstallClick(e) {

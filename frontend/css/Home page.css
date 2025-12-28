@@ -314,6 +314,37 @@ header {
     z-index: 1 !important;
 }
 
+/* Download App Button - Always visible in header */
+#installAppBtn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    color: white !important;
+    padding: 6px 12px !important;
+    border-radius: 9999px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3) !important;
+    transition: all 0.3s ease !important;
+    align-items: center !important;
+}
+
+#installAppBtn:hover {
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4) !important;
+    transform: translateY(-1px) !important;
+}
+
+#installAppBtn .material-icons {
+    font-size: 16px !important;
+    margin-right: 4px !important;
+}
+
+#installAppBtn span {
+    color: white !important;
+}
+
 /* Mobile Menu Styles */
 #mobileMenu {
     animation: slideDown 0.3s ease-out;

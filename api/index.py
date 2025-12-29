@@ -30,20 +30,13 @@ DATA_GOV_IN_API_KEY = os.environ.get(
 
 # Import functionalities
 try:
-    # Try importing from backend.api package
-    from api.simple_price_api import PriceChartGenerator
+    # Try importing from backend.python package
+    from python.price_chart_generator import PriceChartGenerator
     price_generator = PriceChartGenerator()
     logger.info("✅ PriceChartGenerator initialized")
 except ImportError as e:
     logger.error(f"❌ Failed to import PriceChartGenerator: {e}")
-    # Try alternate import path (legacy)
-    try:
-        from python.simple_price_api import PriceChartGenerator
-        price_generator = PriceChartGenerator()
-        logger.info("✅ PriceChartGenerator initialized (fallback path)")
-    except ImportError as e2:
-        logger.error(f"❌ Failed to import PriceChartGenerator (fallback): {e2}")
-        price_generator = None
+    price_generator = None
 
 try:
     from api.translation_api import TranslationService

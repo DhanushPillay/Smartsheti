@@ -498,10 +498,14 @@ def main():
     print("\n" + "=" * 50)
     print("💾 Updating prices.json with real data...")
     
-    success = scraper.update_prices_json('../prices.json')
+    # Determine correct path to prices.json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    prices_path = os.path.join(os.path.dirname(current_dir), 'prices.json')
+
+    success = scraper.update_prices_json(prices_path)
     
     if success:
-        print("\n✅ Successfully updated prices.json with real market data!")
+        print(f"\n✅ Successfully updated {prices_path} with real market data!")
     else:
         print("\n❌ Failed to update prices.json")
 

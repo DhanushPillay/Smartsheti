@@ -62,7 +62,8 @@ async function handleInstallClick(e) {
         if (isIOS()) {
             alert('To install SmartSheti on iOS:\n1. Tap the Share button\n2. Scroll down and tap "Add to Home Screen"');
         } else {
-            console.log('⚠️ No install prompt available');
+            alert('To install SmartSheti:\n\nOn Chrome/Edge (Desktop):\n1. Click the install icon in the address bar\n2. Or open menu → Install SmartSheti\n\nOn Android:\n1. Open menu (⋮)\n2. Tap "Add to Home screen" or "Install app"\n\nOn iOS:\n1. Tap Share button (📤)\n2. Tap "Add to Home Screen"');
+            console.log('⚠️ No install prompt available - showing manual instructions');
         }
         return;
     }

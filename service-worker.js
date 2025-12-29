@@ -7,6 +7,8 @@ const ASSETS_TO_CACHE = [
     '/frontend/assets/images/plant-logo.svg',
     '/frontend/js/translations.js',
     '/frontend/js/maharashtra-locations.js',
+    '/frontend/js/install-app.js',
+    '/frontend/js/component-loader.js',
     '/manifest.json'
 ];
 

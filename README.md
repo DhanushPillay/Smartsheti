@@ -1,8 +1,14 @@
-# SmartSheti - Agricultural Decision Support Platform
+# SmartSheti 🌾 - Agricultural Decision Support Platform
 
-A web-based agricultural platform designed to assist farmers in Maharashtra with crop planning, weather monitoring, and market price information. The application provides multilingual support (English, Hindi, and Marathi) and is accessible as a Progressive Web App.
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://smartsheti-rho.vercel.app)
+[![Platform](https://img.shields.io/badge/platform-Web%20%7C%20PWA-orange)](#progressive-web-app-pwa)
+[![License](https://img.shields.io/badge/license-Educational-blue)](#license)
 
-**Live Website:** [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
+> **Empowering Maharashtra Farmers with Smart Agricultural Insights**
+
+A comprehensive web-based platform that assists farmers with intelligent crop recommendations, real-time weather monitoring, and live market price information. Features multilingual support (English, Hindi, Marathi) and is accessible as a Progressive Web App for easy mobile access.
+
+**🌐 Live Website:** [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
 
 ---
 

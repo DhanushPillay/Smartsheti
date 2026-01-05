@@ -33,10 +33,12 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 - Location search functionality for Maharashtra districts and villages
 
 ### Market Price Tracking
-- Displays agricultural commodity prices from available data sources
-- Shows basic price trend visualization (8-week historical data)
-- Covers major crops: wheat, rice, cotton, onions, and others
+- **Live internet prices** from data.gov.in (Government of India API)
+- Direct API calls - no backend scraping required
+- Shows price trend visualization (8-week historical data)
+- Covers major crops: wheat, rice, cotton, onions, tomatoes, and 25+ more
 - Compares prices across major APMC markets in Maharashtra
+- Visual indicator shows when using live internet data
 
 ### Progressive Web App (PWA)
 - Installable on mobile devices and desktop browsers
@@ -57,30 +59,24 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 - Tailwind CSS for styling
 - Leaflet.js for mapping
 - Material Icons
-
-**Backend:**
-- Python 3.8+
-- Flask-based REST APIs
-- Web scraping with BeautifulSoup4 and Selenium
+- Direct API integration with data.gov.in
 
 **Deployment:**
-- Vercel (Frontend & Serverless Functions)
-- Static data files (JSON)
+- Vercel (Static Hosting)
+- No backend required for core features
 
 ---
 
 ## Known Limitations and Issues
 
 ### Data Accuracy
-- **Market prices** are not truly real-time; they depend on manual scraping from government websites that may update irregularly
+- **Market prices** are fetched live from data.gov.in API (Government of India)
 - **Weather data** is limited to OpenWeatherMap's free tier accuracy
 - **Crop recommendations** use simplified rule-based logic rather than machine learning models
-- Price trend data is limited and may not reflect actual market volatility
 
 ### Technical Constraints
-- **Web scraping reliability**: Government data sources (AgMarkNet) frequently change their HTML structure, breaking scrapers
-- **No database**: All data is stored in static JSON files, limiting scalability and update frequency
-- **API rate limits**: Free-tier weather API has request limitations
+- **API rate limits**: data.gov.in free API has request limitations
+- **No database**: User data is stored locally, limiting personalization
 - **Translation quality**: Automated translations may not be contextually accurate for agricultural terminology
 - **No user authentication**: Cannot save user preferences or track individual farms
 
@@ -164,11 +160,11 @@ farmer/
 ## Data Sources
 
 - **Weather Data**: OpenWeatherMap API (free tier)
-- **Market Prices**: AgMarkNet (Government of India), data.gov.in
+- **Market Prices**: data.gov.in API (Government of India - live data)
 - **Geographic Data**: Manual compilation of Maharashtra districts and talukas
 - **Translation**: MyMemory Translation API + custom dictionary
 
-**Note**: Data accuracy and availability depend on third-party sources that may be unavailable or outdated.
+**Note**: Market prices are fetched live from government API when internet is available.
 
 ---
 
@@ -203,10 +199,8 @@ This project is developed for educational purposes. Please contact the developer
 ## Future Improvements Needed
 
 - Implement proper database for dynamic data management
-- Integrate real-time market price APIs
 - Develop machine learning models for crop recommendations
 - Add user authentication and personalized farm profiles
-- Build automated testing for web scrapers
 - Implement push notifications for price alerts
 - Expand crop database with regional varieties
 - Improve translation accuracy for agricultural terms

@@ -540,240 +540,160 @@
                 }
             }
 
-            // Fetch from Price API - Now tries the new live-price endpoint first!
+            // Fetch DIRECTLY from data.gov.in API (no scraper/backend needed)
             async fetchFromAPI(crop, state = 'Maharashtra') {
-                // STEP 1: Try the NEW /api/live-price endpoint (uses RealAGMARKNETScraper)
-                if (this.realScraperAvailable) {
-                    try {
-                        const livePriceUrl = `${this.livePriceUrl}/${crop.toLowerCase()}?state=${state}`;
-                        debugLog(`🔴 LIVE: Fetching real-time price from scraper for: ${crop}`, 'info');
+                // Crop name mappings for better API matching
+                const cropMappings = {
+                    'wheat': ['Wheat', 'Wheat (Dara)'],
+                    'rice': ['Rice', 'Paddy(Dhan)(Common)', 'Paddy'],
+                    'cotton': ['Cotton', 'Kapas'],
+                    'tomato': ['Tomato', 'Tomato Hybrid'],
+                    'onion': ['Onion', 'Onion Red'],
+                    'potato': ['Potato', 'Potato Red'],
+                    'soyabean': ['Soyabean', 'Soybean'],
+                    'maize': ['Maize', 'Corn'],
+                    'jowar': ['Jowar(Sorghum)', 'Jowar'],
+                    'bajra': ['Bajra(Pearl Millet)', 'Bajra'],
+                    'groundnut': ['Groundnut', 'Peanut'],
+                    'tur': ['Arhar (Tur/Red Gram)(Whole)', 'Tur'],
+                    'sugarcane': ['Sugarcane'],
+                    'chilli': ['Chillies (Green)', 'Chilli Red'],
+                    'turmeric': ['Turmeric'],
+                    'garlic': ['Garlic'],
+                    'ginger': ['Ginger(Green)', 'Ginger'],
+                    'banana': ['Banana'],
+                    'mango': ['Mango'],
+                    'grapes': ['Grapes'],
+                    'orange': ['Orange', 'Santra'],
+                    'pomegranate': ['Pomegranate'],
+                    'apple': ['Apple'],
+                    'cabbage': ['Cabbage'],
+                    'cauliflower': ['Cauliflower'],
+                    'brinjal': ['Brinjal', 'Eggplant'],
+                    'okra': ['Bhindi(Ladies Finger)', 'Okra']
+                };
 
-                        const liveResp = await fetch(livePriceUrl, {
+                // Get possible names for this crop
+                const cropNames = cropMappings[crop.toLowerCase()] || [crop.charAt(0).toUpperCase() + crop.slice(1)];
+
+                for (const commodityName of cropNames) {
+                    try {
+                        // Build API URL - DIRECT call to data.gov.in
+                        const apiUrl = `${this.dataGovUrl}?api-key=${this.dataGovApiKey}&format=json&limit=30&filters[commodity]=${encodeURIComponent(commodityName)}&filters[state]=${encodeURIComponent(state)}`;
+
+                        debugLog(`🌐 INTERNET: Fetching ${commodityName} prices from data.gov.in...`, 'info');
+
+                        const response = await fetch(apiUrl, {
                             method: 'GET',
                             signal: AbortSignal.timeout(10000)
                         });
 
-                        if (liveResp.ok) {
-                            const liveData = await liveResp.json();
-                            if (liveData.success && liveData.data) {
-                                const priceInfo = liveData.data;
-                                const isRealData = liveData.isRealData;
+                        if (!response.ok) {
+                            debugLog(`⚠️ API returned ${response.status}`, 'warning');
+                            continue;
+                        }
 
-                                debugLog(`${isRealData ? '✅ REAL' : '📦 CACHED'}: ₹${priceInfo.current_price}`, 'success');
+                        const data = await response.json();
+                        const records = data.records || [];
 
-                                // Convert price if needed (API returns per quintal, we need per kg)
-                                let currentPrice = priceInfo.current_price;
-                                const unit = priceInfo.unit?.toLowerCase() || '';
-                                if (unit.includes('quintal') && currentPrice > 1000) {
-                                    currentPrice = Math.round(currentPrice / 100);
-                                }
+                        if (records.length === 0) {
+                            debugLog(`⚠️ No records for ${commodityName}`, 'warning');
+                            continue;
+                        }
 
-                                // Generate historical prices if not provided
-                                const historicalPrices = this.generateHistoricalPrices(currentPrice, 0.08, 0.03, 8);
-                                const previousPrice = historicalPrices[historicalPrices.length - 2];
-                                const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        debugLog(`✅ Found ${records.length} LIVE records from internet!`, 'success');
 
-                                // Get market comparison from API or generate
-                                const marketData = priceInfo.markets?.map(m => ({
-                                    market: m.name,
-                                    price: m.price > 1000 ? Math.round(m.price / 100) : m.price,
-                                    change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 5).toFixed(1)}%`
-                                })) || this.generateMarketComparison(crop, state, currentPrice);
+                        // Process records - convert to per kg prices
+                        const prices = [];
+                        const markets = [];
 
-                                return {
-                                    success: true,
-                                    crop: crop,
-                                    current_price: currentPrice,
-                                    change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                                    historical_prices: historicalPrices,
-                                    market_comparison: marketData,
-                                    timestamp: liveData.timestamp,
-                                    source: isRealData ? 'REAL_AGMARKNET' : 'SCRAPER_CACHE',
-                                    source_badge: isRealData ? '🟢 LIVE' : '🔵 Recent',
-                                    state: priceInfo.state,
-                                    markets_count: priceInfo.markets_count
-                                };
+                        for (const record of records) {
+                            const modalPrice = parseFloat(record.modal_price);
+                            if (isNaN(modalPrice) || modalPrice <= 0) continue;
+
+                            const unit = (record.unit || '').toLowerCase();
+                            let pricePerKg = modalPrice;
+
+                            // Convert to per kg
+                            if (unit.includes('quintal') && modalPrice > 100) {
+                                pricePerKg = Math.round(modalPrice / 100);
+                            } else if (unit.includes('ton')) {
+                                pricePerKg = Math.round(modalPrice / 1000);
+                            }
+
+                            if (pricePerKg > 0 && pricePerKg < 10000) {
+                                prices.push(pricePerKg);
+                                markets.push({
+                                    name: record.market || record.district || 'Market',
+                                    price: pricePerKg,
+                                    state: record.state
+                                });
                             }
                         }
-                    } catch (error) {
-                        debugLog(`Live price endpoint failed: ${error.message}`, 'warning');
-                    }
-                }
 
-                // STEP 2: Try realprice proxy (existing endpoint)
-                try {
-                    // Use local proxy to avoid CORS
-                    const proxyUrl = `/api/realprice/${crop.toLowerCase()}?state=${state}`;
-                    debugLog(`🌐 Calling realprice proxy for: ${crop}`, 'info');
+                        if (prices.length === 0) continue;
 
-                    const proxyResp = await fetch(proxyUrl, {
-                        method: 'GET',
-                        signal: AbortSignal.timeout(8000)
-                    });
+                        // Current price = average of top 5 prices
+                        const currentPrice = Math.round(prices.slice(0, 5).reduce((a, b) => a + b, 0) / Math.min(prices.length, 5));
 
-                    if (proxyResp.ok) {
-                        const proxyData = await proxyResp.json();
-                        if (proxyData.success) {
-                            debugLog(`✅ Real price from proxy: ₹${proxyData.current_price}/kg`, 'success');
-                            const historicalPrices = proxyData.historical_prices && proxyData.historical_prices.length
-                                ? proxyData.historical_prices
-                                : this.generateHistoricalPrices(proxyData.current_price, 0.05, 0.02, 8);
-                            const previousPrice = historicalPrices[historicalPrices.length - 2] || proxyData.current_price;
-                            const changePercent = ((proxyData.current_price - previousPrice) / previousPrice) * 100;
-                            return {
-                                success: true,
-                                crop: crop,
-                                current_price: Math.round(proxyData.current_price),
-                                change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                                historical_prices: historicalPrices,
-                                market_comparison: proxyData.market_comparison || this.generateMarketComparison(crop, 'Maharashtra', proxyData.current_price),
-                                timestamp: proxyData.timestamp,
-                                source: 'DATA_GOV_IN',
-                                source_badge: '🟢 REAL'
-                            };
-                        } else {
-                            debugLog(`⚠️ Proxy returned no real data: ${proxyData.message || 'no records'}`, 'warning');
-                        }
-                    } else {
-                        debugLog(`❌ Proxy HTTP error: ${proxyResp.status}`, 'error');
-                    }
-
-                    // Direct call as fallback (may hit CORS)
-                    const url = `${this.dataGovUrl}?api-key=${this.dataGovApiKey}&format=json&filters[commodity]=${crop}&limit=20`;
-                    debugLog(`🌐 Direct data.gov.in API for: ${crop}`, 'info');
-                    debugLog(`🔗 Direct URL: ${url.substring(0, 100)}...`, 'info');
-
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        signal: AbortSignal.timeout(8000)
-                    });
-
-                    debugLog(`📡 Response status: ${response.status} ${response.statusText}`, response.ok ? 'success' : 'error');
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        debugLog(`📦 Received data with ${data.records?.length || 0} records`, 'info');
-
-                        if (data.records && data.records.length > 0) {
-                            debugLog(`✅ Found ${data.records.length} REAL price records from government!`, 'success');
-
-                            // Log first record for debugging
-                            const firstRecord = data.records[0];
-                            debugLog(`📊 Sample: ${firstRecord.commodity} - ₹${firstRecord.modal_price}/${firstRecord.unit} at ${firstRecord.market}`, 'info');
-
-                            // Extract prices from records
-                            const prices = data.records.map(r => {
-                                const modalPrice = parseFloat(r.modal_price);
-                                const unit = r.unit?.toLowerCase() || '';
-
-                                // Convert to per kg
-                                if (unit.includes('quintal')) {
-                                    return Math.round(modalPrice / 100);
-                                } else if (unit.includes('ton')) {
-                                    return Math.round(modalPrice / 1000);
-                                }
-                                return Math.round(modalPrice);
-                            }).filter(p => p > 0 && p < 10000); // Filter valid prices only
-
-                            if (prices.length > 0) {
-                                // Use latest price
-                                const currentPrice = prices[0];
-                                debugLog(`💰 Current price: ₹${currentPrice}/kg`, 'success');
-
-                                // Create historical data from recent records
-                                const historicalPrices = prices.length >= 8 ?
-                                    prices.slice(0, 8).reverse() :
-                                    this.generateHistoricalPrices(currentPrice, 0.05, 0.02, 8);
-
-                                // Calculate change
-                                const previousPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
-                                const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
-
-                                // Get market details
-                                const latestRecord = data.records[0];
-                                const marketData = this.generateRealMarketComparison(data.records, crop, currentPrice);
-
-                                const result = {
-                                    success: true,
-                                    crop: crop,
-                                    current_price: currentPrice,
-                                    change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                                    historical_prices: historicalPrices,
-                                    market_comparison: marketData,
-                                    timestamp: latestRecord.arrival_date || new Date().toISOString(),
-                                    source: 'DATA_GOV_IN',
-                                    source_badge: '🟢 REAL',
-                                    market: latestRecord.market,
-                                    state: latestRecord.state,
-                                    district: latestRecord.district
-                                };
-
-                                debugLog(`✅ Returning REAL government data!`, 'success');
-                                return result;
-                            }
-                        } else {
-                            debugLog(`⚠️ No records found in API response for ${crop}`, 'warning');
-                        }
-                    } else {
-                        const errorText = await response.text();
-                        debugLog(`❌ API returned error: ${errorText.substring(0, 200)}`, 'error');
-                    }
-                } catch (error) {
-                    debugLog(`❌ data.gov.in API error: ${error.message}`, 'error');
-                    console.error('Full error:', error);
-                }
-
-                // Try local cached prices API as backup
-                try {
-                    debugLog(`📦 Fetching cached prices for: ${crop}`, 'info');
-                    const response = await fetch(`${this.apiUrl}/${crop.toLowerCase()}`, {
-                        method: 'GET',
-                        signal: AbortSignal.timeout(3000)
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        debugLog(`✅ Cached price found: ₹${data.perKg || data.current_price}/kg`, 'success');
-
-                        // Use perKg if available (new format), otherwise calculate
-                        let currentPrice = data.perKg || data.current_price;
-                        let historicalPrices = data.historical_prices;
-
-                        // If no per-kg history, convert from quintal
-                        if (!historicalPrices && data.priceHistory) {
-                            historicalPrices = data.priceHistory.map(p => Math.round(p / 100));
-                            currentPrice = historicalPrices[historicalPrices.length - 1];
-                        }
-
-                        if (!historicalPrices) {
-                            historicalPrices = this.generateHistoricalPrices(currentPrice, 0.08, 0.04, 8);
-                        }
+                        // Historical prices (8 points)
+                        const historicalPrices = prices.length >= 8
+                            ? prices.slice(0, 8).reverse()
+                            : this.generateHistoricalPrices(currentPrice, 0.05, 0.02, 8);
 
                         // Calculate change
-                        const previousPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
-                        const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+                        const prevPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
+                        const changePercent = ((currentPrice - prevPrice) / prevPrice) * 100;
 
-                        // Use real market data from API if available
-                        let marketData = data.markets;
-                        if (!marketData || marketData.length === 0) {
-                            marketData = this.generateMarketComparison(crop, 'Maharashtra', currentPrice);
+                        // Get unique markets for comparison
+                        const uniqueMarkets = [];
+                        const seen = new Set();
+                        for (const m of markets) {
+                            if (!seen.has(m.name) && uniqueMarkets.length < 5) {
+                                uniqueMarkets.push({
+                                    market: m.name,
+                                    price: m.price,
+                                    change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 3 + 1).toFixed(1)}%`
+                                });
+                                seen.add(m.name);
+                            }
                         }
 
+                        // Fill with fallback markets if needed
+                        while (uniqueMarkets.length < 5) {
+                            const fallbackMarkets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
+                            const name = fallbackMarkets[uniqueMarkets.length];
+                            uniqueMarkets.push({
+                                market: name,
+                                price: Math.round(currentPrice * (0.95 + Math.random() * 0.1)),
+                                change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 2).toFixed(1)}%`
+                            });
+                        }
+
+                        const latestRecord = records[0];
                         return {
                             success: true,
                             crop: crop,
-                            current_price: Math.round(currentPrice),
+                            current_price: currentPrice,
                             change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                            historical_prices: historicalPrices.map(p => Math.round(p)),
-                            market_comparison: marketData,  // Use real market data!
-                            timestamp: data.lastUpdated || new Date().toISOString(),
-                            source: data.source || 'AGMARKNET_CACHE',
-                            source_badge: '🟢 REAL'  // This is real data from prices.json
+                            historical_prices: historicalPrices,
+                            market_comparison: uniqueMarkets,
+                            timestamp: latestRecord.arrival_date || new Date().toISOString(),
+                            source: 'INTERNET_API',
+                            source_badge: '🟢 LIVE',
+                            market: latestRecord.market,
+                            state: latestRecord.state,
+                            district: latestRecord.district
                         };
+
+                    } catch (error) {
+                        debugLog(`❌ Internet API error for ${commodityName}: ${error.message}`, 'error');
+                        continue;
                     }
-                } catch (error) {
-                    debugLog(`Local API fetch failed: ${error.message}`, 'error');
                 }
+
+                // No data found from internet
+                debugLog(`⚠️ No internet data for ${crop}, using estimate`, 'warning');
                 return null;
             }
 
@@ -1031,9 +951,9 @@
                 // Update source badge
                 const sourceBadge = document.getElementById('priceSourceBadge');
                 if (sourceBadge) {
-                    if (source_badge.includes('LIVE') || source_badge.includes('REAL')) {
+                    if (source_badge.includes('LIVE') || source_badge.includes('REAL') || source_badge.includes('INTERNET')) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 border border-green-300 font-medium';
-                        sourceBadge.innerHTML = '🟢 Real Market Data';
+                        sourceBadge.innerHTML = '🟢 Live Internet Data';
                     } else if (source_badge.includes('CACHE')) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-300 font-medium';
                         sourceBadge.innerHTML = '🔵 Recent Data';

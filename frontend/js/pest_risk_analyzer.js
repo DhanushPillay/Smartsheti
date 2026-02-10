@@ -6,6 +6,70 @@
 
 class PestRiskAnalyzer {
     constructor() {
+        // Zone-specific pest priorities for Maharashtra
+        this.zonePestPriorities = {
+            'Vidarbha': {
+                'bollworm': 10,
+                'whitefly': 8,
+                'spiderMites': 6,
+                'aphids': 4,
+                'leafhopper': 3
+            },
+            'High Rainfall Vidarbha': {
+                'bollworm': 9,
+                'stemBorer': 7,
+                'whitefly': 6,
+                'fungalDiseases': 8,
+                'armyworm': 5
+            },
+            'Marathwada': {
+                'shootFly': 10,
+                'thrips': 6,
+                'bollworm': 5,
+                'spiderMites': 4,
+                'aphids': 3
+            },
+            'Konkan': {
+                'fungalDiseases': 10,
+                'stemBorer': 9,
+                'leafhopper': 6,
+                'whitefly': 5,
+                'armyworm': 4
+            },
+            'Western Maharashtra': {
+                'stemBorer': 9,
+                'thrips': 8,
+                'aphids': 6,
+                'whitefly': 5,
+                'fungalDiseases': 7
+            },
+            'Western Ghat': {
+                'fungalDiseases': 9,
+                'stemBorer': 7,
+                'leafhopper': 6,
+                'whitefly': 4
+            },
+            'Scarcity Zone': {
+                'spiderMites': 8,
+                'thrips': 7,
+                'shootFly': 6,
+                'aphids': 4
+            },
+            'Transition Zone': {
+                'bollworm': 7,
+                'stemBorer': 6,
+                'aphids': 5,
+                'whitefly': 5,
+                'thrips': 4
+            },
+            'Assured Rainfall Zone': {
+                'stemBorer': 8,
+                'bollworm': 7,
+                'fungalDiseases': 6,
+                'whitefly': 5
+            }
+        };
+
         this.pestDatabase = {
             aphids: {
                 name: "Aphids",
@@ -18,6 +82,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "moderate",
                 description: "Small soft-bodied insects that feed on plant sap",
+                seasonalActivity: {
+                    'Kharif': 5,
+                    'Rabi': 10,
+                    'Summer': 7
+                },
                 symptoms: ["Curled leaves", "Stunted growth", "Honeydew on leaves", "Yellowing"],
                 affectedCrops: ["Cotton", "Wheat", "Vegetables", "Legumes"],
                 prevention: [
@@ -44,6 +113,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "high",
                 description: "Small white flying insects that damage crops",
+                seasonalActivity: {
+                    'Kharif': 10,
+                    'Rabi': 6,
+                    'Summer': 8
+                },
                 symptoms: ["White flying insects", "Yellowing leaves", "Sooty mold", "Reduced yield"],
                 affectedCrops: ["Tomato", "Cotton", "Cabbage", "Beans"],
                 prevention: [
@@ -70,6 +144,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "high",
                 description: "Tiny spider-like pests that thrive in hot, dry conditions",
+                seasonalActivity: {
+                    'Kharif': 7,
+                    'Rabi': 6,
+                    'Summer': 10
+                },
                 symptoms: ["Fine webbing", "Stippled leaves", "Bronze coloration", "Leaf drop"],
                 affectedCrops: ["Cotton", "Soybeans", "Corn", "Vegetables"],
                 prevention: [
@@ -96,6 +175,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "severe",
                 description: "Caterpillars that bore into plant stems",
+                seasonalActivity: {
+                    'Kharif': 10,
+                    'Rabi': 5,
+                    'Summer': 4
+                },
                 symptoms: ["Dead hearts", "Holes in stems", "Wilting", "Broken stems"],
                 affectedCrops: ["Rice", "Sugarcane", "Corn", "Sorghum"],
                 prevention: [
@@ -122,6 +206,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "severe",
                 description: "Various fungal infections promoted by wet conditions",
+                seasonalActivity: {
+                    'Kharif': 10,
+                    'Rabi': 7,
+                    'Summer': 3
+                },
                 symptoms: ["Leaf spots", "Wilting", "Rot", "Mold growth"],
                 affectedCrops: ["All crops", "Vegetables", "Fruits", "Grains"],
                 prevention: [
@@ -148,6 +237,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "moderate",
                 description: "Tiny insects that rasp leaf surfaces",
+                seasonalActivity: {
+                    'Kharif': 6,
+                    'Rabi': 10,
+                    'Summer': 8
+                },
                 symptoms: ["Silver streaks on leaves", "Black specks", "Curled leaves", "Stunted growth"],
                 affectedCrops: ["Onion", "Cotton", "Vegetables", "Flowers"],
                 prevention: [
@@ -174,6 +268,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "moderate",
                 description: "Jumping insects that transmit plant diseases",
+                seasonalActivity: {
+                    'Kharif': 9,
+                    'Rabi': 5,
+                    'Summer': 6
+                },
                 symptoms: ["Yellowing leaves", "Stunted growth", "Hopper burn", "Viral symptoms"],
                 affectedCrops: ["Rice", "Potato", "Beans", "Vegetables"],
                 prevention: [
@@ -200,6 +299,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "high",
                 description: "Small flies whose larvae damage young shoots",
+                seasonalActivity: {
+                    'Kharif': 10,
+                    'Rabi': 8,
+                    'Summer': 5
+                },
                 symptoms: ["Dead hearts", "Wilting shoots", "Stunted growth", "Reduced tillering"],
                 affectedCrops: ["Sorghum", "Pearl millet", "Maize", "Rice"],
                 prevention: [
@@ -226,6 +330,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "severe",
                 description: "Caterpillars that damage cotton bolls and other crops",
+                seasonalActivity: {
+                    'Kharif': 10,
+                    'Rabi': 3,
+                    'Summer': 5
+                },
                 symptoms: ["Damaged bolls", "Holes in fruits", "Caterpillars", "Reduced yield"],
                 affectedCrops: ["Cotton", "Tomato", "Okra", "Chickpea"],
                 prevention: [
@@ -252,6 +361,11 @@ class PestRiskAnalyzer {
                 },
                 riskLevel: "severe",
                 description: "Destructive caterpillars that move in groups",
+                seasonalActivity: {
+                    'Kharif': 9,
+                    'Rabi': 6,
+                    'Summer': 4
+                },
                 symptoms: ["Chewed leaves", "Defoliation", "Cut stems", "Rapid damage"],
                 affectedCrops: ["Maize", "Rice", "Wheat", "Vegetables"],
                 prevention: [
@@ -271,12 +385,14 @@ class PestRiskAnalyzer {
     }
 
     /**
-     * Analyze weather conditions and return pest risks
+     * Analyze weather conditions and return pest risks with location-aware filtering
      * @param {Object} weatherData - Weather data object
-     * @returns {Array} Array of detected pest risks
+     * @param {Object} locationContext - Location context from MaharashtraWeatherContext (optional)
+     * @returns {Array} Array of detected pest risks with relevance scores
      */
-    analyzePestRisks(weatherData) {
+    analyzePestRisks(weatherData, locationContext = null) {
         console.log('PestRiskAnalyzer: Analyzing weather data:', weatherData);
+        console.log('PestRiskAnalyzer: Location context:', locationContext);
         
         const conditions = this.extractWeatherConditions(weatherData);
         console.log('PestRiskAnalyzer: Extracted conditions:', conditions);
@@ -285,16 +401,160 @@ class PestRiskAnalyzer {
         
         for (const [pestKey, pestInfo] of Object.entries(this.pestDatabase)) {
             if (this.checkPestConditions(conditions, pestInfo.conditions)) {
+                // Calculate multi-factor relevance score if location context is available
+                let relevanceScore = 50; // Default score for backward compatibility
+                let scoringDetails = null;
+                
+                if (locationContext) {
+                    const scoring = this.calculatePestRelevance(
+                        pestKey,
+                        pestInfo,
+                        conditions,
+                        locationContext
+                    );
+                    relevanceScore = scoring.totalScore;
+                    scoringDetails = scoring.details;
+                }
+                
                 detectedPests.push({
                     key: pestKey,
                     ...pestInfo,
-                    conditions: conditions
+                    conditions: conditions,
+                    relevanceScore: relevanceScore,
+                    scoringDetails: scoringDetails,
+                    alertLevel: this.getAlertLevel(relevanceScore)
                 });
             }
         }
         
-        console.log('PestRiskAnalyzer: Detected pests:', detectedPests);
+        // Sort by relevance score (highest first)
+        detectedPests.sort((a, b) => b.relevanceScore - a.relevanceScore);
+        
+        console.log('PestRiskAnalyzer: Detected pests with scores:', detectedPests);
         return detectedPests;
+    }
+
+    /**
+     * Calculate pest relevance using multi-factor scoring
+     * Total Score = Weather(25) + Crop(30) + Season(25) + Zone(20)
+     * @param {string} pestKey - Pest database key
+     * @param {Object} pestInfo - Pest information object
+     * @param {Object} conditions - Current weather conditions
+     * @param {Object} locationContext - Location context
+     * @returns {Object} Scoring details and total score
+     */
+    calculatePestRelevance(pestKey, pestInfo, conditions, locationContext) {
+        const scoring = {
+            weatherScore: 0,
+            cropScore: 0,
+            seasonScore: 0,
+            zoneScore: 0,
+            totalScore: 0,
+            details: {}
+        };
+
+        // 1. Weather Suitability Score (0-25 points)
+        scoring.weatherScore = this.calculateWeatherScore(conditions, pestInfo.conditions);
+        scoring.details.weather = `${scoring.weatherScore}/25 - Conditions favor pest`;
+
+        // 2. Crop Relevance Score (0-30 points)
+        if (locationContext.zoneCrops && locationContext.zoneCrops.length > 0) {
+            scoring.cropScore = this.calculateCropScore(pestInfo.affectedCrops, locationContext.zoneCrops);
+            scoring.details.crop = `${scoring.cropScore}/30 - ${locationContext.zoneCrops.length} crops at risk`;
+        } else {
+            scoring.cropScore = 15; // Neutral score if no crop data
+            scoring.details.crop = `${scoring.cropScore}/30 - Default (no crop data)`;
+        }
+
+        // 3. Seasonal Timing Score (0-25 points)
+        if (locationContext.currentSeason && pestInfo.seasonalActivity) {
+            const seasonKey = locationContext.currentSeason.key;
+            const seasonalActivity = pestInfo.seasonalActivity[seasonKey] || 5;
+            scoring.seasonScore = (seasonalActivity / 10) * 25;
+            scoring.details.season = `${scoring.seasonScore}/25 - ${seasonKey} season activity`;
+        } else {
+            scoring.seasonScore = 12.5; // Neutral score
+            scoring.details.season = `${scoring.seasonScore}/25 - Default`;
+        }
+
+        // 4. Regional Prevalence Score (0-20 points)
+        if (locationContext.zone && this.zonePestPriorities[locationContext.zone]) {
+            const zonePriority = this.zonePestPriorities[locationContext.zone][pestKey] || 0;
+            scoring.zoneScore = (zonePriority / 10) * 20;
+            scoring.details.zone = `${scoring.zoneScore}/20 - ${locationContext.zone} priority`;
+        } else {
+            scoring.zoneScore = 10; // Neutral score
+            scoring.details.zone = `${scoring.zoneScore}/20 - Default`;
+        }
+
+        // Calculate total
+        scoring.totalScore = Math.round(
+            scoring.weatherScore + scoring.cropScore + scoring.seasonScore + scoring.zoneScore
+        );
+
+        return scoring;
+    }
+
+    /**
+     * Calculate weather suitability score
+     * @param {Object} current - Current conditions
+     * @param {Object} requirements - Pest requirements
+     * @returns {number} Score 0-25
+     */
+    calculateWeatherScore(current, requirements) {
+        let matchCount = 0;
+        let totalConditions = Object.keys(requirements).length;
+
+        for (const [condition, range] of Object.entries(requirements)) {
+            const value = current[condition];
+            if (value >= range.min && value <= range.max) {
+                // Calculate how optimal the condition is (closer to middle of range = higher score)
+                const midpoint = (range.min + range.max) / 2;
+                const rangeSize = range.max - range.min;
+                const deviation = Math.abs(value - midpoint);
+                const optimality = 1 - (deviation / (rangeSize / 2));
+                matchCount += Math.max(0, optimality);
+            }
+        }
+
+        return Math.round((matchCount / totalConditions) * 25);
+    }
+
+    /**
+     * Calculate crop relevance score
+     * @param {Array} affectedCrops - Crops affected by pest
+     * @param {Array} zoneCrops - Crops grown in zone
+     * @returns {number} Score 0-30
+     */
+    calculateCropScore(affectedCrops, zoneCrops) {
+        if (!affectedCrops || !zoneCrops || zoneCrops.length === 0) {
+            return 15; // Neutral score
+        }
+
+        // Count how many zone crops are affected
+        const zoneCropNames = zoneCrops.map(c => c.name || c);
+        const matchedCrops = affectedCrops.filter(crop => 
+            zoneCropNames.some(zoneCrop => 
+                zoneCrop.toLowerCase().includes(crop.toLowerCase()) ||
+                crop.toLowerCase().includes(zoneCrop.toLowerCase())
+            )
+        );
+
+        if (matchedCrops.length === 0) return 5; // Low relevance
+        if (matchedCrops.length === 1) return 20; // Moderate relevance
+        return 30; // High relevance - multiple crops affected
+    }
+
+    /**
+     * Get alert level based on relevance score
+     * @param {number} score - Relevance score 0-100
+     * @returns {string} Alert level
+     */
+    getAlertLevel(score) {
+        if (score >= 80) return 'CRITICAL';
+        if (score >= 60) return 'HIGH';
+        if (score >= 40) return 'MODERATE';
+        return 'LOW';
     }
 
     /**

@@ -488,27 +488,36 @@ class CropRecommendationEngine {
 
             const mappedCropName = cropMapping[cropName] || cropName.toLowerCase();
 
-            // Try Method 1: Local Backend API (if running)
+            // Try Method 1: Vercel Backend API (Secure & Real)
             try {
-                const localResponse = await fetch(`/api/prices`);
-                if (localResponse.ok) {
-                    const data = await localResponse.json();
-                    if (data[mappedCropName]) {
-                        const priceData = data[mappedCropName].data;
-                        const currentPrice = priceData[priceData.length - 1]; // Get latest price
-                        console.log(`✅ Got price from local API for ${cropName}: ₹${currentPrice}`);
+                // Use the realprice endpoint which acts as a secure proxy to data.gov.in
+                const response = await fetch(`/api/realprice/${mappedCropName}?state=Maharashtra`);
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (data.success && data.current_price) {
+                        console.log(`✅ Got price from Backend API for ${cropName}: ₹${data.current_price}`);
                         return {
-                            currentPrice: currentPrice / 100, // Convert quintal to kg
-                            lastUpdated: data.lastUpdated || new Date().toISOString(),
-                            source: 'Local API'
+                            currentPrice: data.current_price, // Already in kg
+                            lastUpdated: data.timestamp || new Date().toISOString(),
+                            source: 'SmartSheti API',
+                            market: data.market_comparison && data.market_comparison.length > 0 ? data.market_comparison[0].market : 'Maharashtra'
+                        };
+                    } else if (data.modal_price) {
+                        // Handle direct proxy response structure
+                        console.log(`✅ Got price from Backend Proxy for ${cropName}: ₹${data.modal_price}`);
+                        return {
+                            currentPrice: data.modal_price / 100, // Convert quintal to kg
+                            lastUpdated: new Date().toISOString(),
+                            source: 'SmartSheti APIProxy'
                         };
                     }
                 }
-            } catch (localError) {
-                console.log('Local API not available, trying alternatives...');
+            } catch (apiError) {
+                console.log('Backend API call failed:', apiError.message);
             }
 
-            // Try Method 2: Direct prices.json file
+            // Method 2: Fallback to static prices.json if available
             try {
                 const fileResponse = await fetch('../../backend/prices.json');
                 if (fileResponse.ok) {
@@ -526,32 +535,6 @@ class CropRecommendationEngine {
                 }
             } catch (fileError) {
                 console.log('Price file not accessible');
-            }
-
-            // Try Method 3: Government Open API (data.gov.in)
-            try {
-                // Using public AGMARKNET data API
-                const apiUrl = `https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b&format=json&filters[commodity]=${cropName}&filters[state]=Maharashtra&limit=1`;
-
-                const apiResponse = await fetch(apiUrl);
-                if (apiResponse.ok) {
-                    const data = await apiResponse.json();
-                    if (data.records && data.records.length > 0) {
-                        const record = data.records[0];
-                        const modalPrice = parseFloat(record.modal_price);
-                        if (!isNaN(modalPrice)) {
-                            console.log(`✅ Got price from Gov API for ${cropName}: ₹${modalPrice}`);
-                            return {
-                                currentPrice: modalPrice / 100,
-                                lastUpdated: record.arrival_date || new Date().toISOString(),
-                                source: 'Government API',
-                                market: record.market
-                            };
-                        }
-                    }
-                }
-            } catch (apiError) {
-                console.log('Government API failed:', apiError.message);
             }
 
             // Fallback: Use static estimates

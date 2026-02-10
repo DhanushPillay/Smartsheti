@@ -1,10 +1,11 @@
 """
 Vercel Serverless API for SmartSheti Market Prices
-Fetches real agricultural prices from data.gov.in API
+Multi-source price aggregation with fallback chain
 
 This serverless function handles:
-- /api/live-price/<crop> - Real-time price fetching
-- /api/realprice/<crop> - Proxy to data.gov.in API
+- /api/realprice/<crop> - Multi-source prices with intelligent fallback
+- /api/prices/bulk - Fetch multiple crops at once
+- /api/prices/markets - Get available markets for crop
 - /api/health - Health check endpoint
 """
 
@@ -12,9 +13,21 @@ from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import json
 import os
-import requests
+import sys
 from datetime import datetime
 from typing import Dict, Optional, List
+
+# Add backend path to enable imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend', 'python'))
+
+try:
+    from multi_source_price_scraper import MultiSourcePriceScraper, get_crop_price
+    MULTI_SOURCE_AVAILABLE = True
+except ImportError:
+    MULTI_SOURCE_AVAILABLE = False
+    print("⚠️ Multi-source scraper not available, using basic fallback")
+
+import requests
 
 # Data.gov.in API Configuration
 DATA_GOV_IN_API_KEY = os.environ.get(
@@ -165,7 +178,17 @@ def generate_historical_trend(current_price: float, num_points: int = 8) -> List
 
 
 class handler(BaseHTTPRequestHandler):
-    """Vercel serverless handler"""
+    """Vercel serverless handler with multi-source support"""
+    
+    # Class-level scraper instance for reuse (reduces cold starts)
+    scraper = None
+    
+    @classmethod
+    def get_scraper(cls):
+        """Get or create scraper instance"""
+        if cls.scraper is None and MULTI_SOURCE_AVAILABLE:
+            cls.scraper = MultiSourcePriceScraper()
+        return cls.scraper
     
     def do_GET(self):
         """Handle GET requests"""
@@ -179,6 +202,7 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Cache-Control', 'public, max-age=1800')  # 30 min cache
         self.end_headers()
         
         response_data = {}
@@ -187,65 +211,191 @@ class handler(BaseHTTPRequestHandler):
         if path == '/api/health':
             response_data = {
                 'status': 'healthy',
-                'service': 'SmartSheti Price API',
+                'service': 'SmartSheti Multi-Source Price API',
+                'version': '2.0',
+                'multi_source_enabled': MULTI_SOURCE_AVAILABLE,
                 'timestamp': datetime.now().isoformat(),
                 'realScraperAvailable': True
             }
         
-        # Live price endpoint: /api/live-price/<crop>
-        elif path.startswith('/api/live-price/'):
-            crop = path.split('/api/live-price/')[-1]
-            state = query.get('state', ['Maharashtra'])[0]
-            
-            price_data = fetch_price_from_api(crop, state)
-            
-            if price_data:
-                response_data = {
-                    'success': True,
-                    'data': price_data,
-                    'isRealData': True,
-                    'timestamp': datetime.now().isoformat()
-                }
-            else:
-                # Fallback to basic response
-                response_data = {
-                    'success': False,
-                    'error': f'No real data found for {crop}',
-                    'crop': crop,
-                    'timestamp': datetime.now().isoformat()
-                }
-        
-        # Real price proxy: /api/realprice/<crop>
+        # Multi-source price endpoint: /api/realprice/<crop>
         elif path.startswith('/api/realprice/'):
             crop = path.split('/api/realprice/')[-1]
             state = query.get('state', ['Maharashtra'])[0]
             
-            price_data = fetch_price_from_api(crop, state)
+            try:
+                if MULTI_SOURCE_AVAILABLE:
+                    # Use multi-source scraper
+                    scraper = self.get_scraper()
+                    price_data = scraper.get_price(crop, state)
+                    
+                    # Format response with enhanced metadata
+                    response_data = {
+                        'success': True,
+                        'crop': price_data.get('crop', crop),
+                        'current_price': price_data.get('price', 0),
+                        'change_percentage': self._calculate_change(price_data.get('historical_prices', [])),
+                        'historical_prices': price_data.get('historical_prices', []),
+                        'market_comparison': price_data.get('market_comparison', []),
+                        'timestamp': price_data.get('timestamp', datetime.now().isoformat()),
+                        'source': price_data.get('data_source', 'Unknown'),
+                        'source_badge': self._get_source_badge(price_data),
+                        'confidence': price_data.get('confidence', 50),
+                        'state': state,
+                        'market': price_data.get('market', 'Multiple Markets'),
+                        'is_fallback': price_data.get('is_fallback', False)
+                    }
+                else:
+                    # Fallback to old method
+                    price_data = fetch_price_from_api(crop, state)
+                    if price_data:
+                        response_data = price_data
+                    else:
+                        response_data = self._get_fallback_data(crop, state)
             
-            if price_data:
-                response_data = price_data
-            else:
+            except Exception as e:
+                print(f"Error fetching price for {crop}: {e}")
+                response_data = self._get_fallback_data(crop, state)
+        
+        # Bulk prices endpoint: /api/prices/bulk
+        elif path == '/api/prices/bulk':
+            crops_param = query.get('crops', [''])[0]
+            crops = crops_param.split(',') if crops_param else ['wheat', 'rice', 'cotton']
+            state = query.get('state', ['Maharashtra'])[0]
+            
+            try:
+                if MULTI_SOURCE_AVAILABLE:
+                    scraper = self.get_scraper()
+                    bulk_data = scraper.get_bulk_prices(crops, state)
+                    response_data = {
+                        'success': True,
+                        'crops': bulk_data,
+                        'count': len(bulk_data),
+                        'timestamp': datetime.now().isoformat()
+                    }
+                else:
+                    response_data = {'success': False, 'error': 'Bulk fetching not available'}
+            except Exception as e:
+                response_data = {'success': False, 'error': str(e)}
+        
+        # Markets endpoint: /api/prices/markets/<crop>
+        elif path.startswith('/api/prices/markets/'):
+            crop = path.split('/api/prices/markets/')[-1]
+            state = query.get('state', ['Maharashtra'])[0]
+            
+            try:
+                if MULTI_SOURCE_AVAILABLE:
+                    scraper = self.get_scraper()
+                    markets = scraper.get_markets_for_crop(crop, state)
+                    response_data = {
+                        'success': True,
+                        'crop': crop,
+                        'markets': markets,
+                        'count': len(markets)
+                    }
+                else:
+                    response_data = {'success': False, 'error': 'Markets endpoint not available'}
+            except Exception as e:
+                response_data = {'success': False, 'error': str(e)}
+        
+        # Legacy endpoint support: /api/live-price/<crop>
+        elif path.startswith('/api/live-price/'):
+            crop = path.split('/api/live-price/')[-1]
+            state = query.get('state', ['Maharashtra'])[0]
+            
+            # Redirect to realprice endpoint
+            if MULTI_SOURCE_AVAILABLE:
+                scraper = self.get_scraper()
+                price_data = scraper.get_price(crop, state)
                 response_data = {
-                    'success': False,
-                    'message': f'No records found for {crop}',
-                    'crop': crop,
-                    'state': state
+                    'success': True,
+                    'data': price_data,
+                    'isRealData': not price_data.get('is_fallback', False),
+                    'timestamp': datetime.now().isoformat()
+                }
+            else:
+                price_data = fetch_price_from_api(crop, state)
+                response_data = {
+                    'success': price_data is not None,
+                    'data': price_data if price_data else {},
+                    'timestamp': datetime.now().isoformat()
                 }
         
-        # Default response
+        # Default API info
         else:
             response_data = {
-                'service': 'SmartSheti Price API',
-                'version': '1.0',
+                'service': 'SmartSheti Multi-Source Price API',
+                'version': '2.0',
+                'multi_source_enabled': MULTI_SOURCE_AVAILABLE,
                 'endpoints': {
                     '/api/health': 'Health check',
-                    '/api/live-price/<crop>': 'Get real-time price for crop',
-                    '/api/realprice/<crop>': 'Proxy to data.gov.in API'
-                }
+                    '/api/realprice/<crop>': 'Multi-source price with fallback (recommended)',
+                    '/api/prices/bulk?crops=wheat,rice,cotton': 'Fetch multiple crops',
+                    '/api/prices/markets/<crop>': 'Get available markets for crop',
+                    '/api/live-price/<crop>': 'Legacy endpoint (deprecated)'
+                },
+                'supported_states': ['Maharashtra', 'Karnataka', 'Gujarat', 'Madhya Pradesh'],
+                'data_sources': ['data.gov.in API', 'MandiPrices.com', 'AgMarkNet', 'MSP Fallback']
             }
         
         # Send response
         self.wfile.write(json.dumps(response_data).encode())
+    
+    def _calculate_change(self, historical_prices: List[float]) -> str:
+        """Calculate price change percentage"""
+        if len(historical_prices) < 2:
+            return "+0.0%"
+        current = historical_prices[-1]
+        previous = historical_prices[-2]
+        change = ((current - previous) / previous) * 100
+        return f"{'+' if change >= 0 else ''}{change:.1f}%"
+    
+    def _get_source_badge(self, price_data: Dict) -> str:
+        """Get display badge for data source"""
+        if price_data.get('is_fallback'):
+            return '⚪ MSP/Estimate'
+        
+        confidence = price_data.get('confidence', 0)
+        source = price_data.get('data_source', '').lower()
+        
+        if 'data.gov' in source or confidence >= 90:
+            return '🟢 LIVE Data'
+        elif confidence >= 70:
+            return '🔵 Recent Data'
+        elif confidence >= 50:
+            return '🟡 Cached Data'
+        else:
+            return '⚪ Estimated'
+    
+    def _get_fallback_data(self, crop: str, state: str) -> Dict:
+        """Generate basic fallback data when all sources fail"""
+        msp_prices = {
+            'wheat': 24.25, 'rice': 23.20, 'cotton': 75.21,
+            'tomato': 35, 'onion': 22, 'potato': 18,
+            'mango': 80, 'banana': 40
+        }
+        
+        base_price = msp_prices.get(crop.lower(), 25)
+        
+        return {
+            'success': True,
+            'crop': crop,
+            'current_price': base_price,
+            'change_percentage': '+0.0%',
+            'historical_prices': [base_price] * 8,
+            'market_comparison': [
+                {'market': 'Mumbai APMC', 'price': round(base_price * 1.1), 'change': '+2.0%'},
+                {'market': 'Pune APMC', 'price': base_price, 'change': '0.0%'},
+                {'market': 'Nashik APMC', 'price': round(base_price * 0.95), 'change': '-1.5%'},
+            ],
+            'timestamp': datetime.now().isoformat(),
+            'source': 'Fallback MSP',
+            'source_badge': '⚪ Estimated',
+            'confidence': 30,
+            'state': state,
+            'market': 'Estimated',
+            'is_fallback': True
+        }
     
     def do_OPTIONS(self):
         """Handle OPTIONS for CORS preflight"""
@@ -254,3 +404,32 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
+
+if __name__ == '__main__':
+    from http.server import HTTPServer
+    
+    port = int(os.environ.get('PORT', 5000))
+    server_address = ('', port)
+    httpd = HTTPServer(server_address, handler)
+    
+    print(f"""
+    ╔══════════════════════════════════════════════════════════╗
+    ║         SmartSheti Vercel API (Local Mode)               ║
+    ║                                                          ║
+    ║  🌾 Serving real-time agricultural market prices        ║
+    ║                                                          ║
+    ║  API Endpoints:                                          ║
+    ║  • http://localhost:{port}/api/health                     ║
+    ║  • http://localhost:{port}/api/live-price/<crop>          ║
+    ║  • http://localhost:{port}/api/realprice/<crop>           ║
+    ║                                                          ║
+    ║  Press Ctrl+C to stop the server                        ║
+    ╚══════════════════════════════════════════════════════════╝
+    """)
+    print(f"🚀 Starting server on http://localhost:{port}")
+    
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\n🛑 Server stopped by user")
+        httpd.server_close()

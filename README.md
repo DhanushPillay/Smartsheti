@@ -32,13 +32,28 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 - Provides basic pest risk indicators based on weather conditions
 - Location search functionality for Maharashtra districts and villages
 
-### Market Price Tracking
-- **Live internet prices** from data.gov.in (Government of India API)
-- Direct API calls - no backend scraping required
-- Shows price trend visualization (8-week historical data)
-- Covers major crops: wheat, rice, cotton, onions, tomatoes, and 25+ more
-- Compares prices across major APMC markets in Maharashtra
-- Visual indicator shows when using live internet data
+### Market Price Tracking ⚡ **NEW: Multi-Source System**
+- **✨ 4-source price aggregation** with intelligent fallback
+  1. 🥇 data.gov.in API (Government authoritative data) - Priority 1
+  2. 🥈 MandiPrices.com (Web scraping) - Priority 2
+  3. 🥉 AgMarkNet HTML (Direct scraping fallback) - Priority 3
+  4. 🔄 MSP Fallback (Minimum Support Price) - Last resort
+- **⏰ Automated hourly updates** via Vercel cron jobs
+- **📊 Confidence scoring** (0-100%) based on source reliability
+- **🎯 Price prediction** using moving average algorithms
+- Shows 8-week historical price trends with interactive charts
+- Covers 20+ major crops: wheat, rice, cotton, onions, tomatoes, fruits
+- Compares prices across 5+ APMC markets in Maharashtra
+- **Real-time status badges:**
+  - 🟢 LIVE Data (Confidence ≥90%)
+  - 🔵 Recent Data (70-89%)
+  - 🟡 Cached Data (50-69%)
+  - ⚪ MSP/Estimate (<50%)
+
+**📚 Documentation:**
+- [Complete Overhaul Guide](MARKET_PRICE_OVERHAUL.md) - Full implementation details
+- [Quick Start Guide](QUICK_START.md) - 5-minute deployment
+- [API Documentation](#api-endpoints-new) - Endpoint reference
 
 ### Progressive Web App (PWA)
 - Installable on mobile devices and desktop browsers
@@ -93,15 +108,77 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 
 ---
 
+## API Endpoints (NEW)
+
+SmartSheti now provides a robust multi-source API for agricultural market prices.
+
+### Base URL
+```
+Production: https://smartsheti-rho.vercel.app/api
+Local: http://localhost:5000/api
+```
+
+### Endpoints
+
+#### 1. Get Price for Single Crop
+```http
+GET /api/realprice/{crop}?state=Maharashtra
+```
+**Parameters:**
+- `crop` (path) - Crop name (e.g., wheat, rice, tomato)
+- `state` (query) - State name (default: Maharashtra)
+
+**Response:**
+```json
+{
+  "success": true,
+  "crop": "wheat",
+  "current_price": 24.5,
+  "change_percentage": "+2.3%",
+  "historical_prices": [22, 23, 23.5, 24, 24.5],
+  "market_comparison": [...],
+  "source": "data.gov.in API",
+  "source_badge": "🟢 LIVE Data",
+  "confidence": 95,
+  "timestamp": "2026-02-10T09:30:00",
+  "is_fallback": false
+}
+```
+
+#### 2. Get Bulk Prices
+```http
+GET /api/prices/bulk?crops=wheat,rice,cotton&state=Maharashtra
+```
+
+#### 3. Get Markets for Crop
+```http
+GET /api/prices/markets/{crop}?state=Maharashtra
+```
+
+#### 4. Health Check
+```http
+GET /api/health
+```
+
+**Full API documentation:** See [MARKET_PRICE_OVERHAUL.md](MARKET_PRICE_OVERHAUL.md)
+
+---
+
 ## Setup and Installation
+
+### Quick Start (Recommended)
+
+**See [QUICK_START.md](QUICK_START.md) for 5-minute deployment guide**
 
 ### Prerequisites
 ```bash
-Python 3.8 or higher
+Python 3.8 or higher (Python 3.13+ recommended)
+pip (Python package manager)
 Git
+Node.js (for Vercel deployment only)
 ```
 
-### Local Development
+### Installation
 
 1. **Clone the repository**
 ```bash
@@ -111,25 +188,67 @@ cd farmer
 
 2. **Install Python dependencies**
 ```bash
-cd backend
 pip install -r requirements.txt
 ```
 
-3. **Run the backend API** (optional for local testing)
+**Dependencies include:**
+- `requests` - HTTP client for API calls
+- `beautifulsoup4` - HTML parsing for web scraping
+- `Flask` - API framework (local development)
+- `Flask-CORS` - CORS handling
+
+3. **Initialize price data**
 ```bash
-python api/simple_price_api.py
+# Fetch initial prices from all sources
+python consolidate_prices.py
 ```
 
-4. **Serve the frontend**
+4. **Test the multi-source scraper**
+```bash
+# Windows: Set UTF-8 encoding first
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# Test scraper
+python backend\python\multi_source_price_scraper.py wheat rice tomato
+```
+
+5. **Run backend API locally** (optional for testing)
+```bash
+python api/index.py
+# API available at http://localhost:5000
+```
+
+6. **Serve the frontend**
 ```bash
 # From the root directory
 python -m http.server 8080
+# Or use any static server
 ```
 
-5. **Access the application**
+7. **Access the application**
 ```
 Open browser: http://localhost:8080
+Market Prices: http://localhost:8080/frontend/html/market-demand.html
 ```
+
+### Vercel Deployment
+
+```bash
+# Install Vercel CLI
+npm install -g vercel
+
+# Deploy to production
+vercel --prod
+
+# Your app will be live at: https://your-project.vercel.app
+```
+
+**Post-deployment:**
+1. Verify cron job is enabled in Vercel dashboard
+2. Check `/api/health` returns success
+3. Test `/api/realprice/wheat` shows real prices
+4. Monitor Vercel function logs for any errors
 
 ---
 

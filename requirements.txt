@@ -1,0 +1,22 @@
+# SmartSheti Backend Requirements
+# Python dependencies for price scraping and APIs
+
+# Web scraping
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==5.1.0
+
+# Web framework
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# Data processing
+pandas==2.1.4
+numpy==1.26.2
+
+# Utilities
+python-dateutil==2.8.2
+pytz==2023.3
+
+# For Vercel serverless functions
+# (Vercel automatically includes these in the runtime)

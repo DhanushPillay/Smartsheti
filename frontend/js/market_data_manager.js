@@ -19,19 +19,19 @@ class MarketDataManager {
      */
     async init() {
         console.log('📊 Initializing Market Data Manager...');
-        
+
         // Try to load fresh data, fallback to mock data if scraper data not available
         await this.loadMarketData();
-        
+
         // Set up filter event listeners
         this.setupFilters();
-        
+
         // Set up auto-refresh
         this.setupAutoRefresh();
-        
+
         // Update the UI with loaded data
         this.updateMarketDisplay();
-        
+
         console.log('✅ Market Data Manager initialized successfully');
     }
 
@@ -53,7 +53,7 @@ class MarketDataManager {
                 this.dataCache.set('price_data', priceData);
                 this.dataCache.set('summary_data', summaryData);
                 this.lastUpdateTime = new Date();
-                
+
                 console.log('📈 Market data loaded from scraper');
             } else {
                 // Fallback to enhanced mock data
@@ -88,50 +88,50 @@ class MarketDataManager {
         // Replace select with input field
         const searchContainer = document.createElement('div');
         searchContainer.className = 'relative';
-        
+
         const searchInput = document.createElement('input');
         searchInput.type = 'text';
         searchInput.id = 'cropSearchInput';
         searchInput.className = 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent';
         searchInput.placeholder = 'Type crop name (e.g., rice, tomato, mango)...';
         searchInput.autocomplete = 'off';
-        
+
         const suggestionsList = document.createElement('div');
         suggestionsList.id = 'cropSuggestions';
         suggestionsList.className = 'absolute z-50 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg hidden';
-        
+
         searchContainer.appendChild(searchInput);
         searchContainer.appendChild(suggestionsList);
-        
+
         // Replace the select element
         cropSelect.parentNode.replaceChild(searchContainer, cropSelect);
-        
+
         // Set up event listeners
         searchInput.addEventListener('input', (e) => this.handleCropSearch(e.target.value));
         searchInput.addEventListener('focus', () => this.showAllCropSuggestions());
-        
+
         // Use a flag to prevent blur from hiding suggestions when clicking
         let isClickingOnSuggestion = false;
-        
+
         searchInput.addEventListener('blur', () => {
             // Only hide if not clicking on a suggestion
             if (!isClickingOnSuggestion) {
                 setTimeout(() => this.hideCropSuggestions(), 150);
             }
         });
-        
+
         // Set the flag when mousedown on suggestions container
         suggestionsList.addEventListener('mousedown', () => {
             isClickingOnSuggestion = true;
         });
-        
+
         // Reset the flag after a short delay
         suggestionsList.addEventListener('mouseup', () => {
             setTimeout(() => {
                 isClickingOnSuggestion = false;
             }, 10);
         });
-        
+
         // Add Enter key support
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -148,7 +148,7 @@ class MarketDataManager {
                 searchInput.blur();
             }
         });
-        
+
         // Set default value
         searchInput.value = this.capitalizeFirst(this.selectedCrop);
     }
@@ -186,7 +186,7 @@ class MarketDataManager {
 
         const queryLower = query.toLowerCase();
         const exactMatches = allCrops.filter(crop => crop.toLowerCase().startsWith(queryLower));
-        const partialMatches = allCrops.filter(crop => 
+        const partialMatches = allCrops.filter(crop =>
             crop.toLowerCase().includes(queryLower) && !crop.toLowerCase().startsWith(queryLower)
         );
 
@@ -211,7 +211,7 @@ class MarketDataManager {
             const item = document.createElement('div');
             item.className = 'px-4 py-2 hover:bg-green-50 cursor-pointer border-b border-gray-100 last:border-b-0';
             item.dataset.cropName = crop; // Add data attribute for easier access
-            
+
             const cropData = this.getCropBaseData(crop);
             item.innerHTML = `
                 <div class="flex justify-between items-center">
@@ -225,7 +225,7 @@ class MarketDataManager {
                     </div>
                 </div>
             `;
-            
+
             // Use mousedown for reliable click detection
             item.addEventListener('mousedown', (e) => {
                 e.preventDefault(); // Prevent blur
@@ -233,7 +233,7 @@ class MarketDataManager {
                 console.log('🖱️ Mousedown on suggestion:', crop);
                 this.selectCrop(crop);
             });
-            
+
             // Backup click handler
             item.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -241,7 +241,7 @@ class MarketDataManager {
                 console.log('🖱️ Click on suggestion:', crop);
                 this.selectCrop(crop);
             });
-            
+
             // Add hover effect for keyboard navigation
             item.addEventListener('mouseenter', () => {
                 // Remove highlight from other items
@@ -250,11 +250,11 @@ class MarketDataManager {
                 });
                 item.classList.add('highlighted', 'bg-green-50');
             });
-            
+
             item.addEventListener('mouseleave', () => {
                 item.classList.remove('highlighted', 'bg-green-50');
             });
-            
+
             suggestionsList.appendChild(item);
         });
 
@@ -277,9 +277,9 @@ class MarketDataManager {
     handleEnterKey() {
         const input = document.getElementById('cropSearchInput');
         const suggestionsList = document.getElementById('cropSuggestions');
-        
+
         if (!input || !suggestionsList) return;
-        
+
         // Check if there's a highlighted suggestion
         const highlighted = suggestionsList.querySelector('.highlighted');
         if (highlighted) {
@@ -287,18 +287,18 @@ class MarketDataManager {
             this.selectCrop(cropName);
             return;
         }
-        
+
         // If no highlight, try to find exact match or first suggestion
         const inputValue = input.value.trim().toLowerCase();
         const suggestions = this.getCropSuggestions(inputValue);
-        
+
         if (suggestions.length > 0) {
             // Look for exact match first
-            const exactMatch = suggestions.find(crop => 
-                crop.toLowerCase() === inputValue || 
+            const exactMatch = suggestions.find(crop =>
+                crop.toLowerCase() === inputValue ||
                 this.capitalizeFirst(crop).toLowerCase() === inputValue
             );
-            
+
             if (exactMatch) {
                 this.selectCrop(exactMatch);
             } else {
@@ -314,13 +314,13 @@ class MarketDataManager {
     navigateSuggestions(direction) {
         const suggestionsList = document.getElementById('cropSuggestions');
         if (!suggestionsList || suggestionsList.classList.contains('hidden')) return;
-        
+
         const items = suggestionsList.querySelectorAll('[data-crop-name]');
         if (items.length === 0) return;
-        
+
         const currentHighlighted = suggestionsList.querySelector('.highlighted');
         let newIndex = 0;
-        
+
         if (currentHighlighted) {
             const currentIndex = Array.from(items).indexOf(currentHighlighted);
             if (direction === 'down') {
@@ -330,10 +330,10 @@ class MarketDataManager {
             }
             currentHighlighted.classList.remove('highlighted', 'bg-green-50');
         }
-        
+
         const newHighlighted = items[newIndex];
         newHighlighted.classList.add('highlighted', 'bg-green-50');
-        
+
         // Scroll into view if needed
         newHighlighted.scrollIntoView({ block: 'nearest' });
     }
@@ -355,30 +355,76 @@ class MarketDataManager {
     /**
      * Select a crop from suggestions
      */
-    selectCrop(crop) {
+    async selectCrop(crop) {
         console.log('🌾 Selecting crop:', crop);
         this.selectedCrop = crop;
-        
+
         const input = document.getElementById('cropSearchInput');
         if (input) {
             input.value = this.capitalizeFirst(crop);
             console.log('✏️ Updated search input to:', input.value);
         }
-        
+
         this.hideCropSuggestions();
-        
-        // Force regenerate data if needed
-        if (!this.dataCache.has('market_data')) {
-            console.log('📊 Regenerating market data...');
-            this.generateEnhancedMockData();
+
+        // Show loading state
+        this.showLoadingIndicator();
+
+        try {
+            // Fetch real data for this crop
+            console.log(`🔄 Fetching real api data for ${crop}...`);
+            const response = await fetch(`/api/realprice/${crop}?state=${this.selectedState}`);
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success || data.modal_price) {
+                    // We got real data!
+                    console.log('✅ Received real data:', data);
+
+                    // Helper to normalize data
+                    let price = 0;
+                    let trend = "+0%";
+
+                    if (data.current_price) {
+                        price = data.current_price * 100; // Convert back to quintal for display
+                        trend = data.change_percentage || "+0%";
+                    } else if (data.modal_price) {
+                        price = data.modal_price;
+                        trend = "+0%"; // We might not have trend data in raw format
+                    }
+
+                    // Update the cache/mock data for this specific crop so display works
+                    // This is a bit of a hack to integrate with the existing mock-heavy structure
+                    // without rewriting the entire UI logic
+                    const mockData = this.dataCache.get('market_data') || [];
+
+                    // Update all market entries for this crop with the real average price
+                    // In a real app we'd have per-market data, but here we might just have one average
+                    mockData.forEach(item => {
+                        if (item.commodity.toLowerCase() === crop.toLowerCase()) {
+                            item.modal_price = price;
+                            item.min_price = price * 0.9;
+                            item.max_price = price * 1.1;
+                            item.trend = trend;
+                            item.date = new Date().toISOString().split('T')[0];
+                        }
+                    });
+
+                    this.dataCache.set('market_data', mockData);
+                }
+            }
+        } catch (e) {
+            console.error("Error fetching real crop data:", e);
+        } finally {
+            this.hideLoadingIndicator();
         }
-        
+
         // Force update the display immediately
         console.log('🔄 Starting display update for:', this.selectedCrop);
-        
+
         // Update the market display with new crop data
         this.updateMarketDisplay();
-        
+
         console.log('✅ Crop selection complete for:', crop);
     }
 
@@ -426,10 +472,10 @@ class MarketDataManager {
         };
 
         const markets = marketsByState[this.selectedState] || marketsByState['Maharashtra'];
-        
+
         // Clear existing options except the first one
         marketSelect.innerHTML = '<option data-translate="selectMarket">Select Market</option>';
-        
+
         // Add new market options
         markets.forEach(market => {
             const option = document.createElement('option');
@@ -496,25 +542,25 @@ class MarketDataManager {
             // Cash Crops
             'cotton', 'sugarcane',
             // Vegetables
-            'tomato', 'tomato (hybrid)', 'onion', 'onion (white)', 'potato', 'cauliflower', 
+            'tomato', 'tomato (hybrid)', 'onion', 'onion (white)', 'potato', 'cauliflower',
             'cabbage', 'carrot', 'beetroot', 'green chilli', 'brinjal', 'okra', 'spinach',
             // Fruits
-            'mango', 'mango (kesar)', 'banana', 'banana (grand naine)', 'apple', 'orange', 
+            'mango', 'mango (kesar)', 'banana', 'banana (grand naine)', 'apple', 'orange',
             'grapes', 'pomegranate', 'papaya', 'watermelon', 'guava',
             // Pulses
             'chickpea', 'pigeon pea', 'black gram', 'green gram'
         ];
-        
+
         const markets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
-        
+
         const mockMarketData = [];
-        
+
         crops.forEach(crop => {
             markets.forEach((market, marketIndex) => {
                 const baseData = this.getCropBaseData(crop);
                 const marketMultiplier = this.getMarketMultiplier(market);
                 const marketTrend = this.getMarketTrend(crop, marketIndex);
-                
+
                 mockMarketData.push({
                     commodity: crop,
                     variety: baseData.variety,
@@ -551,11 +597,11 @@ class MarketDataManager {
             'rice': { min_price: 3100, max_price: 3600, modal_price: 3350, variety: "Common", grade: "FAQ", arrivals: 320, trend: "+2%", demand_level: "Medium" },
             'rice (basmati)': { min_price: 4500, max_price: 5200, modal_price: 4850, variety: "Basmati", grade: "Grade A", arrivals: 200, trend: "+8%", demand_level: "Very High" },
             'maize': { min_price: 1800, max_price: 2200, modal_price: 2000, variety: "Yellow", grade: "FAQ", arrivals: 600, trend: "+3%", demand_level: "Medium" },
-            
+
             // Cash Crops
             'cotton': { min_price: 5800, max_price: 6200, modal_price: 6000, variety: "Local", grade: "Grade I", arrivals: 280, trend: "+7%", demand_level: "Very High" },
             'sugarcane': { min_price: 280, max_price: 320, modal_price: 300, variety: "Local", grade: "Grade I", arrivals: 520, trend: "+3%", demand_level: "Medium" },
-            
+
             // Vegetables
             'tomato': { min_price: 800, max_price: 1200, modal_price: 1000, variety: "Local", grade: "Grade I", arrivals: 380, trend: "+8%", demand_level: "Very High" },
             'tomato (hybrid)': { min_price: 1200, max_price: 1600, modal_price: 1400, variety: "Hybrid", grade: "Grade A", arrivals: 250, trend: "+12%", demand_level: "Very High" },
@@ -570,7 +616,7 @@ class MarketDataManager {
             'brinjal': { min_price: 800, max_price: 1400, modal_price: 1100, variety: "Purple", grade: "Grade I", arrivals: 300, trend: "+8%", demand_level: "High" },
             'okra': { min_price: 1500, max_price: 2200, modal_price: 1850, variety: "Green", grade: "Grade I", arrivals: 250, trend: "+10%", demand_level: "High" },
             'spinach': { min_price: 600, max_price: 1000, modal_price: 800, variety: "Local", grade: "Grade I", arrivals: 180, trend: "+4%", demand_level: "Medium" },
-            
+
             // Fruits
             'mango': { min_price: 4000, max_price: 6000, modal_price: 5000, variety: "Alphonso", grade: "Grade A", arrivals: 120, trend: "+20%", demand_level: "Very High" },
             'mango (kesar)': { min_price: 3500, max_price: 5000, modal_price: 4250, variety: "Kesar", grade: "Grade A", arrivals: 100, trend: "+18%", demand_level: "Very High" },
@@ -583,14 +629,14 @@ class MarketDataManager {
             'papaya': { min_price: 800, max_price: 1400, modal_price: 1100, variety: "Red Lady", grade: "Grade I", arrivals: 250, trend: "+5%", demand_level: "Medium" },
             'watermelon': { min_price: 400, max_price: 800, modal_price: 600, variety: "Sugar Baby", grade: "Grade I", arrivals: 500, trend: "+3%", demand_level: "Medium" },
             'guava': { min_price: 1500, max_price: 2200, modal_price: 1850, variety: "Allahabad", grade: "Grade I", arrivals: 180, trend: "+8%", demand_level: "High" },
-            
+
             // Pulses
             'chickpea': { min_price: 4500, max_price: 5200, modal_price: 4850, variety: "Desi", grade: "FAQ", arrivals: 200, trend: "+4%", demand_level: "High" },
             'pigeon pea': { min_price: 5000, max_price: 5800, modal_price: 5400, variety: "Local", grade: "FAQ", arrivals: 150, trend: "+6%", demand_level: "High" },
             'black gram': { min_price: 6000, max_price: 7000, modal_price: 6500, variety: "Local", grade: "FAQ", arrivals: 120, trend: "+5%", demand_level: "High" },
             'green gram': { min_price: 5500, max_price: 6500, modal_price: 6000, variety: "Local", grade: "FAQ", arrivals: 100, trend: "+7%", demand_level: "High" }
         };
-        
+
         return cropData[crop] || cropData.wheat;
     }
 
@@ -620,11 +666,11 @@ class MarketDataManager {
             'rice': ["+3%", "+1%", "-2%", "+2%", "+4%"],
             'rice (basmati)': ["+10%", "+6%", "+3%", "+8%", "+12%"],
             'maize': ["+4%", "+2%", "-1%", "+3%", "+5%"],
-            
+
             // Cash crops - moderate volatility
             'cotton': ["+8%", "+6%", "+3%", "+7%", "+9%"],
             'sugarcane': ["+4%", "+3%", "+1%", "+5%", "+6%"],
-            
+
             // Vegetables - high volatility
             'tomato': ["+12%", "+8%", "+5%", "+10%", "+15%"],
             'tomato (hybrid)': ["+15%", "+10%", "+7%", "+12%", "+18%"],
@@ -639,7 +685,7 @@ class MarketDataManager {
             'brinjal': ["+10%", "+6%", "+3%", "+8%", "+12%"],
             'okra': ["+12%", "+8%", "+5%", "+10%", "+15%"],
             'spinach': ["+5%", "+3%", "0%", "+4%", "+6%"],
-            
+
             // Fruits - premium pricing
             'mango': ["+25%", "+18%", "+12%", "+22%", "+30%"],
             'mango (kesar)': ["+22%", "+16%", "+10%", "+20%", "+28%"],
@@ -652,14 +698,14 @@ class MarketDataManager {
             'papaya': ["+6%", "+4%", "+1%", "+5%", "+7%"],
             'watermelon': ["+4%", "+2%", "0%", "+3%", "+5%"],
             'guava': ["+10%", "+7%", "+4%", "+8%", "+12%"],
-            
+
             // Pulses - steady demand
             'chickpea': ["+6%", "+3%", "+1%", "+4%", "+7%"],
             'pigeon pea': ["+8%", "+5%", "+2%", "+6%", "+9%"],
             'black gram': ["+7%", "+4%", "+2%", "+5%", "+8%"],
             'green gram': ["+9%", "+6%", "+3%", "+7%", "+10%"]
         };
-        
+
         const variations = baseVariations[crop] || ["+2%", "+1%", "0%", "+1%", "+3%"];
         return variations[marketIndex] || "+2%";
     }
@@ -677,7 +723,7 @@ class MarketDataManager {
     getFilteredData() {
         const marketData = this.dataCache.get('market_data') || [];
         console.log('🔍 Filtering data for crop:', this.selectedCrop, 'from', marketData.length, 'total items');
-        
+
         const filtered = marketData.filter(item => {
             const matchesCrop = item.commodity === this.selectedCrop;
             const matchesMarket = !this.selectedMarket || this.selectedMarket === 'Select Market' || item.market === this.selectedMarket;
@@ -686,7 +732,7 @@ class MarketDataManager {
             }
             return matchesCrop && matchesMarket;
         });
-        
+
         console.log('📊 Filtered results:', filtered.length, 'items');
         return filtered;
     }
@@ -697,7 +743,7 @@ class MarketDataManager {
     getCurrentCropData() {
         const filteredData = this.getFilteredData();
         const selectedMarketData = filteredData.find(item => item.market === this.selectedMarket) || filteredData[0];
-        
+
         if (!selectedMarketData) {
             // Fallback to base data if no filtered data found
             const baseData = this.getCropBaseData(this.selectedCrop);
@@ -709,7 +755,7 @@ class MarketDataManager {
                 market: this.selectedMarket
             };
         }
-        
+
         return selectedMarketData;
     }
 
@@ -720,14 +766,14 @@ class MarketDataManager {
         const trends = [];
         const baseData = this.getCropBaseData(crop);
         const basePrice = baseData.modal_price;
-        
+
         for (let i = 0; i < 7; i++) {
             const date = new Date();
             date.setDate(date.getDate() - (6 - i));
-            
+
             const priceVariation = (-50 + (i * 20)) + (i * 15); // Fixed variation pattern instead of random
             const price = basePrice + priceVariation;
-            
+
             trends.push({
                 date: date.toISOString().split('T')[0],
                 price: Math.round(price),
@@ -735,7 +781,7 @@ class MarketDataManager {
                 week: `${i + 1}W`
             });
         }
-        
+
         return trends;
     }
 
@@ -744,7 +790,7 @@ class MarketDataManager {
      */
     generateSummaryForCrop(crop) {
         const baseData = this.getCropBaseData(crop);
-        
+
         return {
             selected_crop: crop,
             demand_level: baseData.demand_level,
@@ -756,14 +802,14 @@ class MarketDataManager {
     generateMockPriceTrends() {
         const trends = [];
         const basePrice = 2500;
-        
+
         for (let i = 0; i < 7; i++) {
             const date = new Date();
             date.setDate(date.getDate() - (6 - i));
-            
+
             const priceVariation = (-50 + (i * 20)) + (i * 15); // Fixed variation pattern instead of random
             const price = basePrice + priceVariation;
-            
+
             trends.push({
                 date: date.toISOString().split('T')[0],
                 price: Math.round(price),
@@ -771,7 +817,7 @@ class MarketDataManager {
                 week: `${i + 1}W`
             });
         }
-        
+
         return trends;
     }
 
@@ -804,7 +850,7 @@ class MarketDataManager {
     updateMarketDisplay() {
         console.log('🔄 Updating market display for crop:', this.selectedCrop);
         console.log('🔍 Current state - State:', this.selectedState, 'Market:', this.selectedMarket);
-        
+
         const currentCropData = this.getCurrentCropData();
         const filteredData = this.getFilteredData();
         const priceData = this.generatePriceTrendsForCrop(this.selectedCrop);
@@ -859,8 +905,8 @@ class MarketDataManager {
         const trendElement = priceTrendCard.querySelector('.text-green-600, .text-red-600');
         if (trendElement) {
             trendElement.textContent = cropData.trend;
-            trendElement.className = cropData.trend.startsWith('+') ? 
-                'text-sm text-green-600 font-semibold' : 
+            trendElement.className = cropData.trend.startsWith('+') ?
+                'text-sm text-green-600 font-semibold' :
                 'text-sm text-red-600 font-semibold';
         }
 
@@ -885,9 +931,9 @@ class MarketDataManager {
         for (let i = 0; i < Math.min(bars.length, priceData.length); i++) {
             const bar = bars[i];
             const priceData_i = priceData[i];
-            const normalizedHeight = priceRange > 0 ? 
+            const normalizedHeight = priceRange > 0 ?
                 ((priceData_i.price - minPrice) / priceRange) * 80 + 20 : 50;
-            
+
             const barElement = bar.querySelector('.bg-green-300');
             if (barElement) {
                 barElement.style.height = `${normalizedHeight}px`;
@@ -909,7 +955,7 @@ class MarketDataManager {
 
         // Get all market data for the selected crop
         const allMarketData = this.dataCache.get('market_data') || [];
-        const cropMarketData = allMarketData.filter(item => 
+        const cropMarketData = allMarketData.filter(item =>
             item.commodity === this.selectedCrop
         );
 
@@ -929,28 +975,28 @@ class MarketDataManager {
             console.log(`📍 Adding market ${index + 1}:`, item.market, '- ₹' + item.modal_price);
             const row = document.createElement('div');
             row.className = 'flex justify-between items-center py-1';
-            
+
             const marketCell = document.createElement('div');
             marketCell.className = 'text-left';
             marketCell.textContent = item.market;
-            
+
             const priceCell = document.createElement('div');
             priceCell.className = 'text-center';
             priceCell.innerHTML = `₹${item.modal_price.toLocaleString()}/<span data-translate="quintal">quintal</span>`;
-            
+
             const trendCell = document.createElement('div');
-            trendCell.className = item.trend.startsWith('+') ? 
-                'text-right text-green-600' : 
+            trendCell.className = item.trend.startsWith('+') ?
+                'text-right text-green-600' :
                 'text-right text-red-600';
             trendCell.textContent = item.trend;
-            
+
             row.appendChild(marketCell);
             row.appendChild(priceCell);
             row.appendChild(trendCell);
-            
+
             comparisonSection.appendChild(row);
         });
-        
+
         console.log('✅ Mandi comparison updated with', cropMarketData.length, 'entries');
     }
 
@@ -968,15 +1014,15 @@ class MarketDataManager {
         const demandElement = demandCard.querySelector('.text-2xl');
         if (demandElement) {
             demandElement.textContent = `${demandLevel} Demand`;
-            
+
             // Update color based on demand level
-            demandElement.className = demandLevel.includes('Very High') ? 
+            demandElement.className = demandLevel.includes('Very High') ?
                 'text-2xl font-bold text-red-600' :
-                demandLevel.includes('High') ? 
-                'text-2xl font-bold text-green-700' :
-                demandLevel.includes('Medium') ?
-                'text-2xl font-bold text-yellow-600' :
-                'text-2xl font-bold text-blue-600';
+                demandLevel.includes('High') ?
+                    'text-2xl font-bold text-green-700' :
+                    demandLevel.includes('Medium') ?
+                        'text-2xl font-bold text-yellow-600' :
+                        'text-2xl font-bold text-blue-600';
         }
 
         // Update current demand text to show selected crop
@@ -1001,23 +1047,23 @@ class MarketDataManager {
         for (let i = 0; i < Math.min(cards.length, demandItems.length); i++) {
             const card = cards[i];
             const item = demandItems[i];
-            
+
             const nameElement = card.querySelector('.font-semibold');
             const demandElement = card.querySelector('.text-sm.text-gray-500');
-            
+
             if (nameElement && demandElement) {
                 nameElement.setAttribute('data-translate', item.commodity.toLowerCase());
                 nameElement.textContent = item.commodity;
-                
+
                 demandElement.setAttribute('data-translate', this.getDemandTranslationKey(item.demand_level));
                 demandElement.textContent = item.demand_level;
-                
+
                 // Update demand level color
                 demandElement.className = item.demand_level === 'Very High' ?
                     'text-sm text-red-600' :
                     item.demand_level === 'High' ?
-                    'text-sm text-green-600' :
-                    'text-sm text-gray-500';
+                        'text-sm text-green-600' :
+                        'text-sm text-gray-500';
             }
         }
     }
@@ -1046,7 +1092,7 @@ class MarketDataManager {
         if (!updateIndicator) {
             updateIndicator = document.createElement('div');
             updateIndicator.className = 'last-updated-indicator text-xs text-gray-500 text-right mt-2';
-            
+
             const mainContainer = document.querySelector('.container.mx-auto.px-4.py-8');
             if (mainContainer) {
                 mainContainer.appendChild(updateIndicator);
@@ -1113,16 +1159,16 @@ class MarketDataManager {
 // Initialize market data manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Starting Market Data Manager...');
-    
+
     // Wait for translations to be available
     if (typeof translatePage === 'function') {
         translatePage();
     }
-    
+
     // Initialize market data manager
     window.marketDataManager = new MarketDataManager();
     await window.marketDataManager.init();
-    
+
     // Add refresh button to header
     addRefreshButton();
 });
@@ -1138,11 +1184,11 @@ function addRefreshButton() {
     refreshButton.className = 'text-gray-600 hover:text-green-600 p-2 rounded-lg transition-all duration-300';
     refreshButton.innerHTML = '<span class="material-icons">refresh</span>';
     refreshButton.title = 'Refresh Market Data';
-    
+
     refreshButton.addEventListener('click', async () => {
         if (window.marketDataManager) {
             await window.marketDataManager.forceRefresh();
-            
+
             // Show success feedback
             refreshButton.innerHTML = '<span class="material-icons text-green-600">check_circle</span>';
             setTimeout(() => {

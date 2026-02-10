@@ -210,11 +210,20 @@
                     <span id="currentPrice" class="text-4xl font-bold text-gray-800">₹25/kg</span>
                     <span id="priceChange" class="text-sm text-green-600 font-semibold">+5%</span>
                 </div>
+                <!-- Price type indicator -->
+                <div class="text-xs text-gray-500 mb-1">
+                    <span>🏪 Wholesale APMC Price</span>
+                    <span class="mx-1">•</span>
+                    <span id="priceUnit">per Kg</span>
+                    <span class="mx-1">•</span>
+                    <span id="priceQuintal" class="text-gray-400">(₹0/quintal)</span>
+                </div>
                 <!-- Source indicator badge -->
                 <div class="flex justify-center items-center space-x-2 mb-2">
                     <span id="priceSourceBadge" class="text-xs px-3 py-1 rounded-full bg-gray-200 text-gray-600">
                         Loading...
                     </span>
+                    <span id="priceMarket" class="text-xs text-gray-500">Maharashtra</span>
                 </div>
                 <p class="text-sm text-gray-500" data-translate="last60Days">Last 60 Days</p>
             </div>
@@ -436,419 +445,67 @@
             console.log(`[${timestamp}] ${prefix} ${message}`);
         }
 
-        // Real-Time Price API Integration
-        class RealTimePriceAPI {
+        // Simplified Price Fetcher - Uses multi-source API backend
+        class SimplePriceFetcher {
             constructor() {
-                this.apiUrl = '/api/prices';
-                this.livePriceUrl = '/api/live-price'; // NEW: Real scraper endpoint
-                this.dataGovApiKey = '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
-                this.dataGovUrl = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
-                this.apiAvailable = false;
-                this.realScraperAvailable = false;
-                this.priceCache = {};
-                // Distinguish fruits (need fruit market price, not seed/MSP)
-                this.fruitCrops = new Set([
-                    'mango', 'banana', 'apple', 'orange', 'grapes', 'pomegranate', 'papaya', 'watermelon', 'guava', 'chiku', 'sapota', 'pear', 'plum'
-                ]);
-
-                // Fallback base prices (per kg)
-                this.fallbackPrices = {
-                    // Cereals (MSP rates per quintal / 100)
-                    'wheat': 24.25, 'rice': 23.20, 'maize': 21.75, 'bajra': 23.50,
-                    // Cash crops
-                    'cotton': 75.21, 'sugarcane': 3.15, 'soybean': 48.41,
-                    // Vegetables (market rates per kg)
-                    'tomato': 35, 'onion': 22, 'potato': 18, 'cabbage': 15,
-                    // Fruits (base reference – mango will be seasonal adjusted below)
-                    'mango': 80, 'banana': 40, 'apple': 120, 'pomegranate': 90,
-                    // Pulses (MSP per quintal / 100)
-                    'tur': 72.00, 'moong': 84.45, 'urad': 69.50, 'chana': 54.41,
-                    // Oilseeds
-                    'groundnut': 63.13, 'sunflower': 65.00, 'mustard': 56.00
-                };
-
-                this.checkAPIAvailability();
-                debugLog('Real-time price API initialized with data.gov.in', 'success');
+                this.apiUrl = '/api/realprice'; // Multi-source endpoint
+                debugLog('SimplePriceFetcher initialized with multi-source API','success');
             }
 
-            // Check if Price API is available
-            async checkAPIAvailability() {
-                try {
-                    const response = await fetch('/api/health', {
-                        method: 'GET',
-                        signal: AbortSignal.timeout(2000)
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        this.apiAvailable = true;
-                        this.realScraperAvailable = data.realScraperAvailable || false;
-
-                        if (this.realScraperAvailable) {
-                            debugLog('✅ Real AGMARKNET Scraper is available - fetching LIVE data!', 'success');
-                            this.showLiveIndicator();
-                        } else {
-                            debugLog('✅ Price API is online - using cached/proxy data', 'success');
-                        }
-                    }
-                } catch (error) {
-                    this.apiAvailable = false;
-                    debugLog('ℹ️ Price API offline - using fallback MSP data', 'warning');
-                }
-            }
-
-            // Show live data indicator
-            showLiveIndicator() {
-                const existingIndicator = document.getElementById('liveDataIndicator');
-                if (existingIndicator) return;
-
-                const indicator = document.createElement('div');
-                indicator.id = 'liveDataIndicator';
-                indicator.className = 'fixed top-20 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center space-x-2 z-50 animate-pulse';
-                indicator.innerHTML = `
-                    <span class="inline-block w-2 h-2 bg-white rounded-full animate-ping"></span>
-                    <span class="text-sm font-medium">🔴 LIVE</span>
-                    <span class="text-xs opacity-80">Real Market Data</span>
-                `;
-                document.body.appendChild(indicator);
-
-                // Auto-hide after 5 seconds
-                setTimeout(() => {
-                    indicator.classList.remove('animate-pulse');
-                    indicator.classList.add('opacity-75');
-                }, 5000);
-            }
-
-            // Get real-time price data
+            // Fetch price data from multi-source API
             async generatePriceData(crop, state, market) {
-                debugLog(`Fetching price data for ${crop} in ${state}, ${market}`, 'info');
+                debugLog(`Fetching ${crop} price from /api/realprice`, 'info');
 
                 try {
-                    // Always try to fetch from API first
-                    const apiData = await this.fetchFromAPI(crop, state);
-                    if (apiData) {
-                        debugLog(`✅ Using real data: ₹${apiData.current_price}/kg from ${apiData.source}`, 'success');
-                        return apiData;
+                    const url = `${this.apiUrl}/${crop}?state=${encodeURIComponent(state)}`;
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        signal: AbortSignal.timeout(10000)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API returned ${response.status}`);
                     }
 
-                    // Fallback to MSP data
-                    debugLog('⚠️ No API data found, using fallback MSP data', 'warning');
-                    return this.generateFallbackData(crop, state, market);
+                    const data = await response.json();
+                    
+                    if (data.success || data.current_price) {
+                        debugLog(`✅ Got price: ₹${data.current_price}/kg from ${data.source}`, 'success');
+                        return data;
+                    } else {
+                        throw new Error(data.message || 'No price data');
+                    }
 
                 } catch (error) {
-                    debugLog(`❌ Error fetching price data: ${error.message}`, 'error');
-                    return this.generateFallbackData(crop, state, market);
+                    debugLog(`❌ API fetch failed: ${error.message}`, 'error');
+                    // Return basic fallback
+                    return this.getFallbackData(crop, state);
                 }
             }
 
-            // Fetch DIRECTLY from data.gov.in API (no scraper/backend needed)
-            async fetchFromAPI(crop, state = 'Maharashtra') {
-                // Crop name mappings for better API matching
-                const cropMappings = {
-                    'wheat': ['Wheat', 'Wheat (Dara)'],
-                    'rice': ['Rice', 'Paddy(Dhan)(Common)', 'Paddy'],
-                    'cotton': ['Cotton', 'Kapas'],
-                    'tomato': ['Tomato', 'Tomato Hybrid'],
-                    'onion': ['Onion', 'Onion Red'],
-                    'potato': ['Potato', 'Potato Red'],
-                    'soyabean': ['Soyabean', 'Soybean'],
-                    'maize': ['Maize', 'Corn'],
-                    'jowar': ['Jowar(Sorghum)', 'Jowar'],
-                    'bajra': ['Bajra(Pearl Millet)', 'Bajra'],
-                    'groundnut': ['Groundnut', 'Peanut'],
-                    'tur': ['Arhar (Tur/Red Gram)(Whole)', 'Tur'],
-                    'sugarcane': ['Sugarcane'],
-                    'chilli': ['Chillies (Green)', 'Chilli Red'],
-                    'turmeric': ['Turmeric'],
-                    'garlic': ['Garlic'],
-                    'ginger': ['Ginger(Green)', 'Ginger'],
-                    'banana': ['Banana'],
-                    'mango': ['Mango'],
-                    'grapes': ['Grapes'],
-                    'orange': ['Orange', 'Santra'],
-                    'pomegranate': ['Pomegranate'],
-                    'apple': ['Apple'],
-                    'cabbage': ['Cabbage'],
-                    'cauliflower': ['Cauliflower'],
-                    'brinjal': ['Brinjal', 'Eggplant'],
-                    'okra': ['Bhindi(Ladies Finger)', 'Okra']
+            getFallbackData(crop, state) {
+                const mspPrices = {
+                    'wheat': 24, 'rice': 23, 'cotton': 75,
+                    'tomato': 35, 'onion': 22, 'potato': 18,
+                    'mango': 80, 'banana': 40, 'sugarcane': 3
                 };
-
-                // Get possible names for this crop
-                const cropNames = cropMappings[crop.toLowerCase()] || [crop.charAt(0).toUpperCase() + crop.slice(1)];
-
-                for (const commodityName of cropNames) {
-                    try {
-                        // Build API URL - DIRECT call to data.gov.in
-                        const apiUrl = `${this.dataGovUrl}?api-key=${this.dataGovApiKey}&format=json&limit=30&filters[commodity]=${encodeURIComponent(commodityName)}&filters[state]=${encodeURIComponent(state)}`;
-
-                        debugLog(`🌐 INTERNET: Fetching ${commodityName} prices from data.gov.in...`, 'info');
-
-                        const response = await fetch(apiUrl, {
-                            method: 'GET',
-                            signal: AbortSignal.timeout(10000)
-                        });
-
-                        if (!response.ok) {
-                            debugLog(`⚠️ API returned ${response.status}`, 'warning');
-                            continue;
-                        }
-
-                        const data = await response.json();
-                        const records = data.records || [];
-
-                        if (records.length === 0) {
-                            debugLog(`⚠️ No records for ${commodityName}`, 'warning');
-                            continue;
-                        }
-
-                        debugLog(`✅ Found ${records.length} LIVE records from internet!`, 'success');
-
-                        // Process records - convert to per kg prices
-                        const prices = [];
-                        const markets = [];
-
-                        for (const record of records) {
-                            const modalPrice = parseFloat(record.modal_price);
-                            if (isNaN(modalPrice) || modalPrice <= 0) continue;
-
-                            const unit = (record.unit || '').toLowerCase();
-                            let pricePerKg = modalPrice;
-
-                            // Convert to per kg
-                            if (unit.includes('quintal') && modalPrice > 100) {
-                                pricePerKg = Math.round(modalPrice / 100);
-                            } else if (unit.includes('ton')) {
-                                pricePerKg = Math.round(modalPrice / 1000);
-                            }
-
-                            if (pricePerKg > 0 && pricePerKg < 10000) {
-                                prices.push(pricePerKg);
-                                markets.push({
-                                    name: record.market || record.district || 'Market',
-                                    price: pricePerKg,
-                                    state: record.state
-                                });
-                            }
-                        }
-
-                        if (prices.length === 0) continue;
-
-                        // Current price = average of top 5 prices
-                        const currentPrice = Math.round(prices.slice(0, 5).reduce((a, b) => a + b, 0) / Math.min(prices.length, 5));
-
-                        // Historical prices (8 points)
-                        const historicalPrices = prices.length >= 8
-                            ? prices.slice(0, 8).reverse()
-                            : this.generateHistoricalPrices(currentPrice, 0.05, 0.02, 8);
-
-                        // Calculate change
-                        const prevPrice = historicalPrices[historicalPrices.length - 2] || currentPrice;
-                        const changePercent = ((currentPrice - prevPrice) / prevPrice) * 100;
-
-                        // Get unique markets for comparison
-                        const uniqueMarkets = [];
-                        const seen = new Set();
-                        for (const m of markets) {
-                            if (!seen.has(m.name) && uniqueMarkets.length < 5) {
-                                uniqueMarkets.push({
-                                    market: m.name,
-                                    price: m.price,
-                                    change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 3 + 1).toFixed(1)}%`
-                                });
-                                seen.add(m.name);
-                            }
-                        }
-
-                        // Fill with fallback markets if needed
-                        while (uniqueMarkets.length < 5) {
-                            const fallbackMarkets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
-                            const name = fallbackMarkets[uniqueMarkets.length];
-                            uniqueMarkets.push({
-                                market: name,
-                                price: Math.round(currentPrice * (0.95 + Math.random() * 0.1)),
-                                change: `${Math.random() > 0.5 ? '+' : '-'}${(Math.random() * 2).toFixed(1)}%`
-                            });
-                        }
-
-                        const latestRecord = records[0];
-                        return {
-                            success: true,
-                            crop: crop,
-                            current_price: currentPrice,
-                            change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                            historical_prices: historicalPrices,
-                            market_comparison: uniqueMarkets,
-                            timestamp: latestRecord.arrival_date || new Date().toISOString(),
-                            source: 'INTERNET_API',
-                            source_badge: '🟢 LIVE',
-                            market: latestRecord.market,
-                            state: latestRecord.state,
-                            district: latestRecord.district
-                        };
-
-                    } catch (error) {
-                        debugLog(`❌ Internet API error for ${commodityName}: ${error.message}`, 'error');
-                        continue;
-                    }
-                }
-
-                // No data found from internet
-                debugLog(`⚠️ No internet data for ${crop}, using estimate`, 'warning');
-                return null;
-            }
-
-            // Generate market comparison from real data
-            generateRealMarketComparison(records, crop, basePrice) {
-                const marketMap = {};
-
-                // Group by market/district
-                records.forEach(record => {
-                    const marketName = record.market || record.district || 'Unknown';
-                    const modalPrice = parseFloat(record.modal_price);
-                    const unit = record.unit?.toLowerCase() || '';
-
-                    // Convert to per kg
-                    let price = modalPrice;
-                    if (unit.includes('quintal')) {
-                        price = Math.round(modalPrice / 100);
-                    } else if (unit.includes('ton')) {
-                        price = Math.round(modalPrice / 1000);
-                    }
-
-                    if (!marketMap[marketName] || price > 0) {
-                        marketMap[marketName] = price;
-                    }
-                });
-
-                // Convert to array and take top 5
-                const markets = Object.entries(marketMap)
-                    .map(([name, price]) => ({ name, price }))
-                    .slice(0, 5);
-
-                // If less than 5 markets, fill with variations of base price
-                while (markets.length < 5) {
-                    const variation = 0.9 + (Math.random() * 0.2); // 90% to 110%
-                    markets.push({
-                        name: `Market ${markets.length + 1}`,
-                        price: Math.round(basePrice * variation)
-                    });
-                }
-
-                return markets;
-            }
-
-            // Generate fallback data using MSP rates
-            generateFallbackData(crop, state, market) {
-                const seasonal = this.getSeasonalFallbackPrice(crop.toLowerCase());
-                const basePrice = seasonal !== null ? seasonal : (this.fallbackPrices[crop.toLowerCase()] || 25);
-                const historicalPrices = this.generateHistoricalPrices(basePrice, 0.08, 0.04, 8);
-                const previousPrice = historicalPrices[historicalPrices.length - 2];
-                const changePercent = ((basePrice - previousPrice) / previousPrice) * 100;
-
-                // Badge and source differentiation: Fruit vs MSP/Crop
-                let source = 'MSP_FALLBACK';
-                let source_badge = '⚪ MSP Rate';
-                if (this.fruitCrops.has(crop.toLowerCase())) {
-                    source = 'FRUIT_FALLBACK';
-                    source_badge = '🍉 Fruit Market';
-                }
-
+                const price = mspPrices[crop.toLowerCase()] || 25;
+                
                 return {
                     success: true,
                     crop: crop,
-                    state: state,
-                    market: market,
-                    current_price: Math.round(basePrice),
-                    change_percentage: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(1)}%`,
-                    historical_prices: historicalPrices,
-                    market_comparison: this.generateMarketComparison(crop, state, basePrice),
+                    current_price: price,
+                    change_percentage: '+0.0%',
+                    historical_prices: Array(8).fill(price),
+                    market_comparison: [
+                        {market: 'Pune APMC', price: price, change: '+0%'},
+                        {market: 'Mumbai APMC', price: Math.round(price*1.1), change: '+2%'}
+                    ],
                     timestamp: new Date().toISOString(),
-                    source,
-                    source_badge
+                    source: 'Fallback',
+                    source_badge: '⚪ Estimate',
+                    state: state
                 };
-            }
-
-            // Seasonal adjustment for certain fruits
-            getSeasonalFallbackPrice(crop) {
-                const month = new Date().getMonth() + 1; // 1-12
-                // Mango season (bulk arrivals) roughly March–July (3–7)
-                if (crop === 'mango') {
-                    if (month >= 3 && month <= 7) {
-                        // Peak season wholesale (mixed varieties) ~₹45–65/kg => choose midpoint
-                        return 55;
-                    } else {
-                        // Off-season limited supply, higher price ~₹85–110/kg => choose midpoint
-                        return 95;
-                    }
-                }
-                return null; // No seasonal override
-            }
-
-            // Get source badge
-            getSourceBadge(source) {
-                const badges = {
-                    'live': '🟢 Live',
-                    'cached': '🔵 Recent',
-                    'government': '🟣 Official',
-                    'msp': '⚪ MSP'
-                };
-                return badges[source?.toLowerCase()] || '🔵 Data';
-            }
-
-            // Generate historical prices using Python-style algorithm
-            generateHistoricalPrices(currentPrice, volatility, trend, weeks) {
-                const prices = [];
-
-                for (let i = weeks - 1; i >= 0; i--) {
-                    if (i === 0) {
-                        prices.push(currentPrice);
-                    } else {
-                        // Apply reverse trend
-                        const trendEffect = trend * i * currentPrice;
-
-                        // Use deterministic variation based on week index
-                        const randomNormal = Math.sin(i * 0.7) * Math.cos(i * 0.3); // Deterministic "random"
-                        const volatilityEffect = randomNormal * volatility * currentPrice * 0.5;
-
-                        // Seasonal patterns
-                        const seasonalEffect = Math.sin(i * 0.5) * (volatility * 0.3 * currentPrice);
-
-                        let historicalPrice = currentPrice - trendEffect + volatilityEffect + seasonalEffect;
-
-                        // Ensure reasonable bounds
-                        const minBound = currentPrice * 0.6;
-                        const maxBound = currentPrice * 1.4;
-                        historicalPrice = Math.max(minBound, Math.min(maxBound, historicalPrice));
-
-                        prices.push(Math.round(historicalPrice));
-                    }
-                }
-
-                return prices;
-            }
-
-            // Generate market comparison data
-            generateMarketComparison(crop, state, basePrice) {
-                const marketMultipliers = {
-                    'Mumbai APMC': 1.1, 'Pune APMC': 1.0, 'Nashik APMC': 0.95,
-                    'Nagpur APMC': 1.05, 'Aurangabad APMC': 1.08
-                };
-
-                const markets = ['Mumbai APMC', 'Pune APMC', 'Nashik APMC', 'Nagpur APMC', 'Aurangabad APMC'];
-                return markets.map((market, index) => {
-                    const multiplier = marketMultipliers[market] || 1.0;
-                    const variation = ((index * 0.05) % 0.1 - 0.05) * 0.1; // Deterministic variation
-                    const price = Math.round(basePrice * multiplier * (1 + variation));
-
-                    const changePercent = (index * 2 - 4); // Deterministic change: -4%, -2%, 0%, 2%, 4%
-                    const changeStr = `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(0)}%`;
-
-                    return {
-                        market: market,
-                        price: price,
-                        change: changeStr
-                    };
-                });
             }
         }
 
@@ -941,25 +598,48 @@
                 }
             }
 
-            updateMainPriceDisplay(price, change, source_badge = '') {
+            updateMainPriceDisplay(price, change, source_badge = '', market = 'Maharashtra', isFallback = false) {
                 document.getElementById('currentPrice').textContent = `₹${price.toLocaleString()}/kg`;
+                
+                // Update quintal price for verification
+                const quintalPrice = Math.round(price * 100);
+                const quintalElement = document.getElementById('priceQuintal');
+                if (quintalElement) {
+                    quintalElement.textContent = `₹${quintalPrice.toLocaleString()}/quintal`;
+                    quintalElement.title = 'Quintal = 100 kg (for verification with Google prices)';
+                }
+                
                 const changeElement = document.getElementById('priceChange');
                 const isPositive = change.includes('+');
                 changeElement.className = `text-sm font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`;
                 changeElement.textContent = change;
 
+                // Update market display
+                const marketElement = document.getElementById('priceMarket');
+                if (marketElement) {
+                    marketElement.textContent = market || 'Maharashtra';
+                    marketElement.title = 'APMC Market Location';
+                }
+
                 // Update source badge
                 const sourceBadge = document.getElementById('priceSourceBadge');
                 if (sourceBadge) {
-                    if (source_badge.includes('LIVE') || source_badge.includes('REAL') || source_badge.includes('INTERNET')) {
+                    if (isFallback) {
+                        sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-300 font-medium';
+                        sourceBadge.innerHTML = '⚠️ MSP Estimate';
+                        sourceBadge.title = 'Using government MSP rate - verify with local market';
+                    } else if (source_badge.includes('LIVE') || source_badge.includes('REAL') || source_badge.includes('🟢')) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 border border-green-300 font-medium';
-                        sourceBadge.innerHTML = '🟢 Live Internet Data';
-                    } else if (source_badge.includes('CACHE')) {
+                        sourceBadge.innerHTML = '🟢 Live Data';
+                        sourceBadge.title = 'Real-time data from government API';
+                    } else if (source_badge.includes('CACHE') || source_badge.includes('🔵')) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-300 font-medium';
                         sourceBadge.innerHTML = '🔵 Recent Data';
+                        sourceBadge.title = 'Cached data from last hour';
                     } else {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-300';
-                        sourceBadge.innerHTML = '📊 Estimated Price';
+                        sourceBadge.innerHTML = '📊 Estimated';
+                        sourceBadge.title = 'Estimated wholesale price';
                     }
                 }
             }
@@ -995,7 +675,7 @@
         }
 
         // Initialize application
-        let priceGenerator;
+        let priceFetcher;
         let chartRenderer;
 
         async function updateChart() {
@@ -1011,27 +691,40 @@
                 // Update crop name
                 document.getElementById('cropName').textContent = crop.charAt(0).toUpperCase() + crop.slice(1);
 
-                // Generate price data (now async with API)
-                const priceData = await priceGenerator.generatePriceData(crop, state, market);
+                // Fetch price data from multi-source API
+                const priceData = await priceFetcher.generatePriceData(crop, state, market);
 
-                // Show real data source info
-                if (priceData.source === 'DATA_GOV_IN') {
+                // Show real data source indicator with enhanced info
+                if (priceData.source && !priceData.is_fallback) {
                     const sourceInfo = document.createElement('div');
-                    sourceInfo.className = 'bg-green-50 border-l-4 border-green-500 p-4 mb-4 rounded';
+                    const bgClass = priceData.confidence >= 90 ? 'bg-green-50 border-green-500' : 'bg-blue-50 border-blue-500';
+                    const textClass = priceData.confidence >= 90 ? 'text-green-800' : 'text-blue-800';
+                    
+                    sourceInfo.className = `${bgClass} border-l-4 p-4 mb-4 rounded`;
                     sourceInfo.innerHTML = `
                         <div class="flex items-center">
-                            <span class="text-2xl mr-3">✅</span>
+                            <span class="text-2xl mr-3">${priceData.confidence >= 90 ? '✅' : 'ℹ️'}</span>
                             <div>
-                                <p class="font-bold text-green-800">Real Government Data</p>
-                                <p class="text-sm text-green-700">
-                                    Source: ${priceData.market || 'Market'}, ${priceData.district || priceData.state || 'India'} 
-                                    <span class="ml-2 text-xs">${priceData.timestamp || ''}</span>
+                                <p class="font-bold ${textClass}">Real Market Data</p>
+                                <p class="text-s,
+                    priceData.market || 'Maharashtra',
+                    priceData.is_fallback || falsem ${textClass}">
+                                    Source: ${priceData.source} • ${priceData.market || 'Multiple Markets'} 
+                                    <span class="ml-2 text-xs">Confidence: ${priceData.confidence}%</span>
                                 </p>
                             </div>
                         </div>
                     `;
-                    const container = document.querySelector('.demand-analysis-card');
-                    container.insertBefore(sourceInfo, container.firstChild);
+                    
+                    // Remove old source info if exists
+                    const oldInfo = document.querySelector('.source-info-banner');
+                    if (oldInfo) oldInfo.remove();
+                    
+                    sourceInfo.classList.add('source-info-banner');
+                    const container = document.querySelector('.market-card');
+                    if (container) {
+                        container.insertBefore(sourceInfo, container.firstChild);
+                    }
                 }
 
                 // Update displays
@@ -1266,15 +959,15 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             debugLog('Initializing SmartSheti Market Demand page', 'info');
 
             // Setup smooth navigation
             setupSmoothNavigation();
 
             try {
-                // Initialize components
-                priceGenerator = new RealTimePriceAPI();
+                // Initialize components with new simplified fetcher
+                priceFetcher = new SimplePriceFetcher();
                 chartRenderer = new ChartRenderer();
 
                 // Initialize crop autocomplete
@@ -1286,12 +979,12 @@
                 document.getElementById('stateSelect').addEventListener('change', updateChart);
                 document.getElementById('marketSelect').addEventListener('change', updateChart);
 
-                // Initial chart load
-                updateChart();
+                // Initial chart load - AWAIT to ensure data loads before hiding transition
+                await updateChart();
 
                 debugLog('Application initialized successfully', 'success');
 
-                // Hide page transition and show content
+                // Hide page transition and show content AFTER data loads
                 setTimeout(() => {
                     const transition = document.getElementById('pageTransition');
                     const header = document.querySelector('header');

@@ -23,17 +23,25 @@ function initializePestRiskSystem() {
 /**
  * Get simple pest risks for display
  * @param {Object} weatherData - Weather data object
+ * @param {Object} locationContext - Location context from MaharashtraWeatherContext (optional)
  * @returns {Array} Array of simple risk descriptions
  */
-function getSimplePestRisks(weatherData) {
+function getSimplePestRisks(weatherData, locationContext = null) {
     if (!pestAnalyzer) {
         console.warn('Pest analyzer not initialized, using fallback system');
         return getFallbackPestRisks(weatherData);
     }
     
     try {
-        const detectedPests = pestAnalyzer.analyzePestRisks(weatherData);
-        return detectedPests.map(pest => `${pest.icon} ${pest.name} risk - ${pest.description}`);
+        const detectedPests = pestAnalyzer.analyzePestRisks(weatherData, locationContext);
+        
+        // Format with relevance score if available
+        return detectedPests.map(pest => {
+            if (pest.relevanceScore !== undefined) {
+                return `${pest.icon} ${pest.name} (${pest.alertLevel}: ${pest.relevanceScore}/100) - ${pest.description}`;
+            }
+            return `${pest.icon} ${pest.name} risk - ${pest.description}`;
+        });
     } catch (error) {
         console.error('Error in pest analysis:', error);
         return getFallbackPestRisks(weatherData);
@@ -171,33 +179,45 @@ function formatPestRisksForDisplay(risks, language = 'en') {
  * @param {string} elementId - ID of the element to update
  * @param {Object} weatherData - Weather data
  * @param {string} language - Language code
+ * @param {Object} locationContext - Location context from MaharashtraWeatherContext (optional)
  */
-function updatePestRiskUI(elementId, weatherData, language = 'en') {
+function updatePestRiskUI(elementId, weatherData, language = 'en', locationContext = null) {
     const element = document.getElementById(elementId);
     if (!element) {
         console.warn(`Element with ID ${elementId} not found`);
         return;
     }
 
-    const risks = getSimplePestRisks(weatherData);
+    const risks = getSimplePestRisks(weatherData, locationContext);
     const displayData = formatPestRisksForDisplay(risks, language);
     
     element.className = displayData.className;
     
+    // Add location context info if available
+    let locationInfo = '';
+    if (locationContext && locationContext.zone) {
+        locationInfo = `<div class="text-xs text-gray-600 mb-2">
+            📍 ${locationContext.locationName || 'Maharashtra'} 
+            (${locationContext.zone})${locationContext.currentSeason ? ' - ' + locationContext.currentSeason.name : ''}
+        </div>`;
+    }
+    
     if (displayData.hasRisks) {
         element.innerHTML = `
             <div class="space-y-3">
+                ${locationInfo}
                 <div class="flex items-center">
                     <span class="material-icons text-red-500 mr-2">warning</span>
                     <h3 class="font-semibold text-gray-800">${displayData.title}</h3>
                 </div>
                 <p class="text-sm text-gray-600">${displayData.message}</p>
                 <ul class="list-disc list-inside space-y-1">
-                    ${displayData.risks.map(risk => `<li class="text-gray-700">${risk}</li>`).join('')}
+                    ${displayData.risks.map(risk => `<li class="text-gray-700 text-sm">${risk}</li>`).join('')}
                 </ul>
                 <div class="mt-3 p-2 bg-blue-50 border-l-2 border-blue-400 rounded">
                     <p class="text-xs text-blue-700">
                         <strong>Recommendation:</strong> Monitor your fields closely and take preventive measures as needed.
+                        ${locationContext ? 'Risks are prioritized for your specific location and season.' : ''}
                     </p>
                 </div>
             </div>
@@ -205,14 +225,17 @@ function updatePestRiskUI(elementId, weatherData, language = 'en') {
     } else {
         const conditions = weatherData.main || {};
         element.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <span class="text-green-600 text-2xl">✅</span>
-                <div>
-                    <h3 class="font-semibold text-gray-800">${displayData.title}</h3>
-                    <p class="text-sm text-gray-600">${displayData.message}</p>
-                    <p class="text-xs text-gray-500 mt-1">
-                        Conditions: ${Math.round(conditions.temp || 0)}°C, ${conditions.humidity || 0}% humidity
-                    </p>
+            <div>
+                ${locationInfo}
+                <div class="flex items-center space-x-3">
+                    <span class="text-green-600 text-2xl">✅</span>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">${displayData.title}</h3>
+                        <p class="text-sm text-gray-600">${displayData.message}</p>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Conditions: ${Math.round(conditions.temp || 0)}°C, ${conditions.humidity || 0}% humidity
+                        </p>
+                    </div>
                 </div>
             </div>
         `;

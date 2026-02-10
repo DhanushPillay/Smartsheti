@@ -22,6 +22,15 @@
     </script>
     <script src="../js/translations.js"></script>
     <script src="../js/install-app.js" defer></script>
+    <!-- Maharashtra Weather Intelligence Modules -->
+    <script src="../js/maharashtra-locations.js"></script>
+    <script src="../js/maharashtra_weather_context.js"></script>
+    <script src="../js/agroclimatic_advisor.js"></script>
+    <script src="../js/seasonal_calendar.js"></script>
+    <script src="../js/maharashtra_alerts.js"></script>
+    <script src="../js/crop_weather_advisor.js"></script>
+    <script src="../js/farm_operations_planner.js"></script>
+    <script src="../js/water_management.js"></script>
 
 </head>
 
@@ -258,6 +267,100 @@
                     based on current weather conditions.</p>
             </div>
         </div>
+
+        <!-- Maharashtra Weather Intelligence Sections -->
+        
+        <!-- Location Context -->
+        <div id="locationContextSection" class="mt-10 hidden">
+            <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <span class="material-icons text-green-600 text-3xl mr-3">place</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-translate="locationContext">Location Context</h2>
+                </div>
+                <div id="locationContextContent" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Monsoon & Seasonal Calendar -->
+        <div id="seasonalSection" class="mt-10 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Monsoon Tracker -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-blue-600 text-3xl mr-3">wb_cloudy</span>
+                        <h2 class="text-2xl font-bold text-gray-800" data-translate="monsoonTracker">Monsoon Tracker</h2>
+                    </div>
+                    <div id="monsoonTrackerContent">
+                        <!-- Content will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Seasonal Calendar -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <span class="material-icons text-green-600 text-3xl mr-3">event</span>
+                        <h2 class="text-2xl font-bold text-gray-800" data-translate="seasonalCalendar">Seasonal Calendar</h2>
+                    </div>
+                    <div id="seasonalCalendarContent">
+                        <!-- Content will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regional Alerts -->
+        <div id="regionalAlertsSection" class="mt-10 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <span class="material-icons text-red-600 text-3xl mr-3">error_outline</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-translate="regionalAlerts">Regional Alerts</h2>
+                </div>
+                <div id="regionalAlertsContent" class="space-y-4">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop Advisories -->
+        <div id="cropAdvisoriesSection" class="mt-10 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <span class="material-icons text-amber-600 text-3xl mr-3">agriculture</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-translate="cropAdvisory">Crop Advisory</h2>
+                </div>
+                <div id="cropAdvisoriesContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Farm Operations Planner -->
+        <div id="farmOperationsSection" class="mt-10 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <span class="material-icons text-purple-600 text-3xl mr-3">agriculture</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-translate="sevenDayPlanner">7-Day Operations Planner</h2>
+                </div>
+                <div id="farmOperationsContent">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Water Management -->
+        <div id="waterManagementSection" class="mt-10 hidden">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <span class="material-icons text-cyan-600 text-3xl mr-3">water_drop</span>
+                    <h2 class="text-2xl font-bold text-gray-800" data-translate="waterManagement">Water Management</h2>
+                </div>
+                <div id="waterManagementContent">
+                    <!-- Content will be populated dynamically -->
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -306,8 +409,19 @@
     <script src="../js/pest_risk_analyzer.js"></script>
     <script src="../js/pest_utils.js"></script>
     <script>
+        // Maharashtra Weather Intelligence - Global Variables
+        let maharashtraContext = null;
+        let agroclimaticAdvisor = null;
+        let seasonalCalendar = null;
+        let maharashtraAlerts = null;
+        let cropWeatherAdvisor = null;
+        let farmOpsPlanner = null;
+        let waterManager = null;
+        let currentLocationContext = null;
+        let currentForecastData = null; // Store forecast data globally
+
         // Initialize translation when page loads
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             console.log('DOM loaded, initializing weather page...');
 
             // Initialize DOM elements
@@ -316,9 +430,35 @@
             // Setup event listeners
             setupEventListeners();
 
+            // Initialize Maharashtra Weather Intelligence
+            await initializeMaharashtraIntelligence();
+
             // Test API key and load default weather
             initializeWeatherData();
         });
+
+        // Initialize Maharashtra Weather Intelligence modules
+        async function initializeMaharashtraIntelligence() {
+            console.log('Initializing Maharashtra Weather Intelligence...');
+            
+            try {
+                // Initialize context manager
+                maharashtraContext = new MaharashtraWeatherContext();
+                await maharashtraContext.initialize();
+                
+                // Initialize other modules
+                agroclimaticAdvisor = new AgroclimaticAdvisor(maharashtraContext);
+                seasonalCalendar = new SeasonalCalendar(maharashtraContext);
+                maharashtraAlerts = new MaharashtraAlerts(maharashtraContext);
+                cropWeatherAdvisor = new CropWeatherAdvisor(maharashtraContext);
+                farmOpsPlanner = new FarmOperationsPlanner();
+                waterManager = new WaterManagement(maharashtraContext);
+                
+                console.log('✅ Maharashtra Weather Intelligence initialized successfully');
+            } catch (error) {
+                console.error('Error initializing Maharashtra Intelligence:', error);
+            }
+        }
 
         // Use translation functions from global system
         function getCurrentLanguage() {
@@ -578,6 +718,11 @@
                 // Update irrigation advice
                 updateAgriculturalAdvice(data);
 
+                // Update Maharashtra Weather Intelligence sections
+                if (maharashtraContext && data.name) {
+                    updateMaharashtraIntelligenceSections(data);
+                }
+
                 console.log('Weather UI updated successfully');
             } catch (error) {
                 console.error('Error updating weather UI:', error);
@@ -818,7 +963,9 @@
 
             // Use the new pest analysis system if available
             if (typeof updatePestRiskUI === 'function') {
-                updatePestRiskUI('pestRiskContent', weatherData, getCurrentLanguage());
+                // Pass location context if available for location-aware pest filtering
+                const locationContext = window.currentLocationContext || null;
+                updatePestRiskUI('pestRiskContent', weatherData, getCurrentLanguage(), locationContext);
                 return;
             }
 
@@ -1454,6 +1601,7 @@
                 console.log('Weather data received:', weatherData);
 
                 currentLocation = weatherData.current;
+                currentForecastData = weatherData.forecast; // Store forecast globally
                 updateWeatherUI(weatherData.current);
                 updateForecastUI(weatherData.forecast);
 
@@ -1515,6 +1663,423 @@
                     weatherDescription.textContent = 'Enter a location to see weather';
                 }
             }
+        }
+
+        // ==================== Maharashtra Weather Intelligence Update Functions ====================
+
+        async function updateMaharashtraIntelligenceSections(weatherData) {
+            if (!maharashtraContext) {
+                console.warn('Maharashtra context not initialized');
+                return;
+            }
+
+            try {
+                // Get location context
+                currentLocationContext = maharashtraContext.getLocationContext(weatherData.name);
+                window.currentLocationContext = currentLocationContext; // Make globally accessible
+                
+                // Show sections only if location is in Maharashtra
+                if (currentLocationContext && currentLocationContext.district !== 'Unknown') {
+                    // Update all sections
+                    updateLocationContextUI(currentLocationContext);
+                    updateSeasonalSectionUI(weatherData, currentLocationContext);
+                    updateRegionalAlertsUI(weatherData, currentLocationContext);
+                    updateCropAdvisoriesUI(weatherData, currentLocationContext);
+                    updateWaterManagementUI(weatherData, currentLocationContext);
+                    
+                    // Update farm operations with forecast data if available
+                    if (currentForecastData) {
+                        updateFarmOperationsSectionUI(weatherData, currentForecastData, currentLocationContext);
+                    }
+                    
+                    console.log(' Maharashtra sections updated for:', weatherData.name);
+                } else {
+                    // Hide Maharashtra-specific sections for non-Maharashtra locations
+                    hideMarahaashtraSections();
+                    console.log('Location outside Maharashtra - sections hidden');
+                }
+            } catch (error) {
+                console.error('Error updating Maharashtra sections:', error);
+            }
+        }
+
+        function updateLocationContextUI(context) {
+            const section = document.getElementById('locationContextSection');
+            const content = document.getElementById('locationContextContent');
+            
+            if (!section || !content ||  !context) return;
+            
+            section.classList.remove('hidden');
+            
+            const zoneInfo = context.zone_info || {};
+            const commonCropsText = context.common_crops && context.common_crops.length > 0 
+                ? context.common_crops.slice(0, 5).map(c => c.name).join(', ')
+                : 'Not specified';
+            
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-4 border border-green-200">
+                    <div class="flex items-center mb-2">
+                        <span class="material-icons text-green-600 mr-2">location_city</span>
+                        <h3 class="font-bold text-gray-800" data-translate="district">District</h3>
+                    </div>
+                    <p class="text-lg text-gray-700">${context.district}</p>
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-blue-200">
+                    <div class="flex items-center mb-2">
+                        <span class="material-icons text-blue-600 mr-2">terrain</span>
+                        <h3 class="font-bold text-gray-800" data-translate="agroclimaticZone">Agroclimatic Zone</h3>
+                    </div>
+                    <p class="text-lg text-gray-700">${context.agroclimatic_zone}</p>
+                    ${zoneInfo description ? `<p class="text-sm text-gray-600 mt-1">${zoneInfo.description}</p>` : ''}
+                </div>
+                <div class="bg-white rounded-lg p-4 border border-amber-200">
+                    <div class="flex items-center mb-2">
+                        <span class="material-icons text-amber-600 mr-2">spa</span>
+                        <h3 class="font-bold text-gray-800" data-translate="commonCrops">Common Crops</h3>
+                    </div>
+                    <p class="text-sm text-gray-700">${commonCropsText}</p>
+                </div>
+            `;
+        }
+
+        function updateSeasonalSectionUI(weatherData, context) {
+            const section = document.getElementById('seasonalSection');
+            if (!section || !seasonalCalendar) return;
+            
+            section.classList.remove('hidden');
+            
+            // Get current season and monsoon status
+            const currentSeason = maharashtraContext.getCurrentSeason();
+            const monsoonStatus = seasonalCalendar.getMonsoonStatus();
+            const seasonal = maharashtraContext.getSeasonalContext(new Date(), context.agroclimatic_zone);
+            
+            // Update monsoon tracker
+            const monsoonContent = document.getElementById('monsoonTrackerContent');
+            if (monsoonContent && currentSeason) {
+                let monsoonHTML = '';
+                
+                if (monsoonStatus.is_monsoon_season) {
+                    monsoonHTML = `
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-3xl">${monsoonStatus.icon}</span>
+                                <span class="text-sm font-semibold px-3 py-1 rounded-full ${
+                                    monsoonStatus.phase === 'active' ? 'bg-blue-100 text-blue-800' :
+                                    monsoonStatus.phase === 'onset' ? 'bg-green-100 text-green-800' : 
+                                    'bg-gray-100 text-gray-800'
+                                }">${monsoonStatus.phase_name}</span>
+                            </div>
+                            <p class="text-gray-700 mb-2">${monsoonStatus.phase_description}</p>
+                            ${monsoonStatus.rainfall_status ? `
+                                <div class="mt-3 p-3 rounded-lg ${
+                                    monsoonStatus.rainfall_status.status === 'adequate' ? 'bg-green-50' :
+                                    monsoonStatus.rainfall_status.status === 'deficient' ? 'bg-yellow-50' :
+                                    monsoonStatus.rainfall_status.status === 'excess' ? 'bg-blue-50' :
+                                    'bg-red-50'
+                                }">
+                                    <p class="text-sm font-medium">${monsoonStatus.rainfall_status.icon} ${monsoonStatus.rainfall_status.message}</p>
+                                    <p class="text-xs text-gray-600 mt-1">${monsoonStatus.rainfall_status.concern}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    if (monsoonStatus.alerts && monsoonStatus.alerts.length > 0) {
+                        monsoonHTML += `<div class="space-y-2 mt-4">`;
+                        monsoonStatus.alerts.forEach(alert => {
+                            monsoonHTML += `
+                                <div class="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-500">
+                                    <p class="text-sm font-medium text-blue-900">${alert.icon} ${alert.message}</p>
+                                </div>
+                            `;
+                        });
+                        monsoonHTML += `</div>`;
+                    }
+                } else {
+                    monsoonHTML = `
+                        <div class="text-gray-600">
+                            <p class="mb-2">☀️ Outside monsoon season</p>
+                            <p class="text-sm">Monsoon expected: June-October</p>
+                        </div>
+                    `;
+                }
+                
+                monsoonContent.innerHTML = monsoonHTML;
+            }
+            
+            // Update seasonal calendar
+            const calendarContent = document.getElementById('seasonalCalendarContent');
+            if (calendarContent && seasonal && seasonal.season) {
+                let calendarHTML = `
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${seasonal.season.name} Season</h3>
+                        <p class="text-sm text-gray-600">${seasonal.season.description}</p>
+                        <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
+                            <div>
+                                <span class="font-medium">Sowing:</span> ${seasonal.season.sowing_period}
+                            </div>
+                            <div>
+                                <span class="font-medium">Harvest:</span> ${seasonal.season.harvest_period}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                if (seasonal.activities && seasonal.activities.length > 0) {
+                    calendarHTML += `<div class="space-y-2">`;
+                    calendarHTML += `<h4 class="font-medium text-gray-800 text-sm">Current Activities:</h4>`;
+                    seasonal.activities.forEach(activity => {
+                        calendarHTML += `
+                            <div class="bg-green-50 p-2 rounded text-sm">
+                                <p class="font-medium text-green-900">${activity.description}</p>
+                            </div>
+                        `;
+                    });
+                    calendarHTML += `</div>`;
+                }
+                
+                calendarContent.innerHTML = calendarHTML;
+            }
+        }
+
+        function updateRegionalAlertsUI(weatherData, context) {
+            const section = document.getElementById('regionalAlertsSection');
+            const content = document.getElementById('regionalAlertsContent');
+            
+            if (!section || !content || !maharashtraAlerts) return;
+            
+            const weather = {
+                temp: weatherData.main.temp,
+                humidity: weatherData.main.humidity,
+                wind_speed: weatherData.wind ? weatherData.wind.speed : 0,
+                rain: weatherData.rain
+            };
+            
+            const alerts = maharashtraAlerts.generateAlerts(weather, context);
+            
+            if (alerts && alerts.length > 0) {
+                section.classList.remove('hidden');
+                
+                let alertsHTML = '';
+                alerts.forEach(alert => {
+                    const severityColor = 
+                        alert.severity === 'critical' ? 'red' :
+                        alert.severity === 'high' ? 'orange' :
+                        alert.severity === 'moderate' ? 'yellow' :
+                        'blue';
+                    
+                    alertsHTML += `
+                        <div class="bg-${severityColor}-50 border-l-4 border-${severityColor}-500 p-4 rounded-r">
+                            <div class="flex items-start">
+                                <span class="text-2xl mr-3">${alert.icon}</span>
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-${severityColor}-900 mb-1">${alert.title}</h3>
+                                    <p class="text-sm text-${severityColor}-800 mb-2">${alert.message}</p>
+                                    ${alert.recommendations && alert.recommendations.length > 0 ? `
+                                        <ul class="text-sm text-${severityColor}-700 space-y-1 list-disc list-inside">
+                                            ${alert.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                                        </ul>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                content.innerHTML = alertsHTML;
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+
+        function updateCropAdvisoriesUI(weatherData, context) {
+            const section = document.getElementById('cropAdvisoriesSection');
+            const content = document.getElementById('cropAdvisoriesContent');
+            
+            if (!section || !content || !cropWeatherAdvisor) return;
+            
+            const weather = {
+                temp: weatherData.main.temp,
+                humidity: weatherData.main.humidity,
+                rain: weatherData.rain
+            };
+            
+            const advisories = cropWeatherAdvisor.getCropAdvisories(weather, context);
+            
+            if (advisories && advisories.advisories && advisories.advisories.length > 0) {
+                section.classList.remove('hidden');
+                
+                let advisoriesHTML = '';
+                advisories.advisories.slice(0, 6).forEach(advisory => {
+                    const statusColor = 
+                        advisory.overall_status === 'suitable' ? 'green' :
+                        advisory.overall_status === 'caution' ? 'yellow' :
+                        'red';
+                    
+                    advisoriesHTML += `
+                        <div class="bg-white border-2 border-${statusColor}-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-bold text-gray-800">${advisory.crop_name}</h3>
+                                <span class="text-2xl">${advisory.status_icon}</span>
+                            </div>
+                            ${advisory.issues && advisory.issues.length > 0 ? `
+                                <div class="text-sm text-gray-700 mb-2">
+                                    ${advisory.issues.map(issue => `<p>⚠️ ${issue}</p>`).join('')}
+                                </div>
+                            ` : ''}
+                            ${advisory.recommendations && advisory.recommendations.length > 0 ? `
+                                <div class="text-xs text-gray-600 space-y-1">
+                                    ${advisory.recommendations.slice(0, 2).map(rec => `<p>• ${rec}</p>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                
+                content.innerHTML = advisoriesHTML;
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+
+        function updateWaterManagementUI(weatherData, context) {
+            const section = document.getElementById('waterManagementSection');
+            const content = document.getElementById('waterManagementContent');
+            
+            if (!section || !content || !waterManager) return;
+            
+            section.classList.remove('hidden');
+            
+            const weather = {
+                temp: weatherData.main.temp,
+                humidity: weatherData.main.humidity,
+                wind_speed: weatherData.wind ? weatherData.wind.speed : 0,
+                rain: weatherData.rain
+            };
+            
+            const irrigation = waterManager.getIrrigationRecommendation(weather, context);
+            const waterStress = waterManager.assessWaterStress(weather, context.agroclimatic_zone);
+            
+            let waterHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-800 mb-2">💧 Irrigation Status</h3>
+                        <div class="space-y-2 text-sm">
+                            <p><span class="font-medium">ET0:</span> ${irrigation.et0} mm/day</p>
+                            <p><span class="font-medium">Crop Water Need:</span> ${irrigation.crop_et} mm/day</p>
+                            <p class="text-xs text-gray-600">Rainfall: ${irrigation.rainfall} mm</p>
+                        </div>
+                        ${irrigation.irrigation_needed === 'yes' ? `
+                            <div class="mt-3 p-2 rounded ${
+                                irrigation.urgency === 'critical' ? 'bg-red-100 text-red-800' :
+                                irrigation.urgency === 'high' ? 'bg-orange-100 text-orange-800' :
+                                'bg-yellow-100 text-yellow-800'
+                            }">
+                                <p class="font-medium text-sm">Irrigation Needed: ${irrigation.recommended_amount_mm} mm</p>
+                                <p class="text-xs mt-1">Best time: ${irrigation.best_time}</p>
+                            </div>
+                        ` : `
+                            <div class="mt-3 p-2 rounded bg-green-100 text-green-800">
+                                <p class="font-medium text-sm">✓ No irrigation needed</p>
+                            </div>
+                        `}
+                    </div>
+                    <div class="bg-cyan-50 p-4 rounded-lg">
+                        <h3 class="font-bold text-gray-800 mb-2">${waterStress.icon} Water Stress Level</h3>
+                        <p class="text-sm mb-2">${waterStress.message}</p>
+                        <div class="flex justify-between text-xs text-gray-600">
+                            <span>ET0: ${waterStress.et0} mm</span>
+                            <span>Rain: ${waterStress.rainfall} mm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-medium text-gray-800 mb-2">💡 Recommendations</h4>
+                    <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
+                        ${irrigation.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            content.innerHTML = waterHTML;
+        }
+
+        async function updateFarmOperationsSectionUI(weatherData, forecastData, context) {
+            const section = document.getElementById('farmOperationsSection');
+            const content = document.getElementById('farmOperationsContent');
+            
+            if (!section || !content || !farmOpsPlanner) return;
+            
+            section.classList.remove('hidden');
+            
+            // Prepare forecast data for the planner
+            if (!forecastData || !forecastData.list || forecastData.list.length === 0) {
+                content.innerHTML = '<p class="text-gray-600">Forecast data not available</p>';
+                return;
+            }
+            
+            const analysis = farmOpsPlanner.analyzeForecast(forecastData.list, context);
+            
+            let operationsHTML = `
+                <div class="space-y-4">
+                    ${analysis.map((day, index) => `
+                        <div class="border-l-4 ${
+                            day.overall === 'excellent' ? 'border-green-500 bg-green-50' :
+                            day.overall === 'good' ? 'border-blue-500 bg-blue-50' :
+                            day.overall === 'moderate' ? 'border-yellow-500 bg-yellow-50' :
+                            'border-red-500 bg-red-50'
+                        } p-4 rounded-r-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="font-bold text-gray-800">${day.date}</h3>
+                                    <p class="text-xs text-gray-600">${day.summary}</p>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-xs font-medium ${
+                                    day.overall === 'excellent' ? 'bg-green-200 text-green-800' :
+                                    day.overall === 'good' ? 'bg-blue-200 text-blue-800' :
+                                    day.overall === 'moderate' ? 'bg-yellow-200 text-yellow-800' :
+                                    'bg-red-200 text-red-800'
+                                }">
+                                    ${day.overall.toUpperCase()}
+                                </span>
+                            </div>
+                            
+                            ${day.recommended.length > 0 ? `
+                                <div class="mb-2">
+                                    <p class="text-xs font-semibold text-green-700 mb-1">✓ Recommended:</p>
+                                    <div class="text-xs text-gray-700 space-y-1">
+                                        ${day.recommended.slice(0, 3).map(act => 
+                                            `<span class="inline-block bg-white px-2 py-1 rounded mr-1 mb-1">${act.activity} (${act.score}/10)</span>`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${day.avoid.length > 0 ? `
+                                <div>
+                                    <p class="text-xs font-semibold text-red-700 mb-1">✗ Avoid:</p>
+                                    <div class="text-xs text-gray-700 space-y-1">
+                                        ${day.avoid.slice(0, 2).map(act => 
+                                            `<span class="inline-block bg-white px-2 py-1 rounded mr-1">${act.activity}</span>`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            content.innerHTML = operationsHTML;
+        }
+
+        function hideMarahaashtraSections() {
+            document.getElementById('locationContextSection')?.classList.add('hidden');
+            document.getElementById('seasonalSection')?.classList.add('hidden');
+            document.getElementById('regionalAlertsSection')?.classList.add('hidden');
+            document.getElementById('cropAdvisoriesSection')?.classList.add('hidden');
+            document.getElementById('farmOperationsSection')?.classList.add('hidden');
+            document.getElementById('waterManagementSection')?.classList.add('hidden');
         }
 
         // Language handling is now managed by the global translation system

@@ -49,7 +49,10 @@
       "rainfall_requirement_mm": [500, 1000],
       "best_soil_types": ["Deep black cotton soil with good water holding capacity", "Well-drained alluvial soil", "Medium to heavy textured soil with pH 6.0-8.0"],
       "agroclimatic_zones": ["Central Vidarbha", "Marathwada", "Scarcity Zone"],
-      "cultivation_tips": "Requires long frost-free period and adequate moisture"
+      "cultivation_tips": "Requires long frost-free period and adequate moisture",
+      "duration_days": "150-180",
+      "fertilizer_recommendation": "N:P:K 120:60:60 kg/ha",
+      "common_pests": ["Bollworm", "Whitefly", "Aphids", "Thrips", "Spider Mites"]
     },
     {
       "name": "Wheat",
@@ -59,7 +62,10 @@
       "rainfall_requirement_mm": [300, 800],
       "best_soil_types": ["Well-drained loamy soil with good fertility", "Alluvial soil with pH 6.0-7.5", "Deep clay loam with adequate nitrogen"],
       "agroclimatic_zones": ["Marathwada", "Western Maharashtra"],
-      "cultivation_tips": "Requires cool weather during grain filling stage"
+      "cultivation_tips": "Requires cool weather during grain filling stage",
+      "duration_days": "120-150",
+      "fertilizer_recommendation": "N:P:K 120:60:40 kg/ha",
+      "common_pests": ["Aphids", "Armyworm", "Stem Borer"]
     },
     {
       "name": "Sugarcane",
@@ -69,7 +75,10 @@
       "rainfall_requirement_mm": [1000, 2500],
       "best_soil_types": ["Deep alluvial soil with high organic matter", "Well-drained heavy loam", "Fertile soil with pH 6.0-7.5 and good water retention"],
       "agroclimatic_zones": ["Western Maharashtra", "Konkan"],
-      "cultivation_tips": "Requires abundant water and long growing season"
+      "cultivation_tips": "Requires abundant water and long growing season",
+      "duration_days": "365-540",
+      "fertilizer_recommendation": "N:P:K 250:115:115 kg/ha",
+      "common_pests": ["Stem Borer", "Whitefly", "Aphids", "Woolly Aphid"]
     },
     {
       "name": "Onion",
@@ -79,7 +88,10 @@
       "rainfall_requirement_mm": [400, 700],
       "best_soil_types": ["Well-drained sandy loam with good organic matter", "Fertile alluvial soil with pH 6.0-7.5", "Medium textured soil with adequate phosphorus"],
       "agroclimatic_zones": ["Western Maharashtra", "Marathwada"],
-      "cultivation_tips": "Requires well-drained soil to prevent bulb rot"
+      "cultivation_tips": "Requires well-drained soil to prevent bulb rot",
+      "duration_days": "120-150",
+      "fertilizer_recommendation": "N:P:K 100:50:50 kg/ha",
+      "common_pests": ["Thrips", "Stem Borer", "Cutworm", "Aphids"]
     },
     {
       "name": "Tomato",
@@ -89,7 +101,10 @@
       "rainfall_requirement_mm": [600, 1200],
       "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Sandy loam with pH 6.0-7.0", "Deep fertile soil with good water retention"],
       "agroclimatic_zones": ["Konkan", "Marathwada", "Western Ghats"],
-      "cultivation_tips": "Sensitive to waterlogging and extreme temperatures"
+      "cultivation_tips": "Sensitive to waterlogging and extreme temperatures",
+      "duration_days": "60-90",
+      "fertilizer_recommendation": "N:P:K 150:100:100 kg/ha",
+      "common_pests": ["Whitefly", "Aphids", "Leaf Miner", "Fruit Borer", "Thrips"]
     },
     {
       "name": "Grapes",
@@ -99,7 +114,10 @@
       "rainfall_requirement_mm": [500, 700],
       "best_soil_types": ["Well-drained deep loamy soil", "Sandy loam with good drainage and pH 6.5-7.5", "Alluvial soil with adequate calcium and potassium"],
       "agroclimatic_zones": ["Nashik Region", "Deccan Plateau"],
-      "cultivation_tips": "Requires precise irrigation and pruning management"
+      "cultivation_tips": "Requires precise irrigation and pruning management",
+      "duration_days": "Perennial - harvest after 2-3 years",
+      "fertilizer_recommendation": "N:P:K 500:250:500 kg/ha",
+      "common_pests": ["Thrips", "Mealybug", "Flea Beetle", "Spider Mites"]
     },
     {
       "name": "Banana",
@@ -109,7 +127,10 @@
       "rainfall_requirement_mm": [1200, 2000],
       "best_soil_types": ["Deep alluvial soil with high organic content", "Well-drained loamy soil with pH 6.0-7.5", "Fertile soil with good water holding capacity"],
       "agroclimatic_zones": ["Jalgaon Region", "Western Maharashtra"],
-      "cultivation_tips": "Requires consistent moisture and wind protection"
+      "cultivation_tips": "Requires consistent moisture and wind protection",
+      "duration_days": "Perennial - harvest after 12 months",
+      "fertilizer_recommendation": "N:P:K 200:60:200 kg/ha",
+      "common_pests": ["Aphids", "Thrips", "Stem Borer", "Banana Weevil"]
     },
     {
       "name": "Orange",
@@ -119,7 +140,10 @@
       "rainfall_requirement_mm": [750, 1000],
       "best_soil_types": ["Well-drained sandy loam with good depth", "Alluvial soil with pH 6.0-7.5", "Deep soil with adequate drainage and organic matter"],
       "agroclimatic_zones": ["Nagpur Region", "Eastern Vidarbha"],
-      "cultivation_tips": "Requires good drainage to prevent root rot"
+      "cultivation_tips": "Requires good drainage to prevent root rot",
+      "duration_days": "Perennial - harvest after 3-4 years",
+      "fertilizer_recommendation": "N:P:K 500:250:300 kg/ha",
+      "common_pests": ["Leaf Miner", "Aphids", "Whitefly", "Citrus Psylla"]
     },
     {
       "name": "Pomegranate",
@@ -129,7 +153,10 @@
       "rainfall_requirement_mm": [500, 800],
       "best_soil_types": ["Well-drained sandy loam soil", "Deep alluvial soil with pH 6.5-7.5", "Medium textured soil with good organic content"],
       "agroclimatic_zones": ["Solapur", "Ahmednagar", "Marathwada"],
-      "cultivation_tips": "Drought tolerant but needs irrigation during fruit development"
+      "cultivation_tips": "Drought tolerant but needs irrigation during fruit development",
+      "duration_days": "Perennial - harvest after 2.5 years",
+      "fertilizer_recommendation": "N:P:K 300:150:150 kg/ha",
+      "common_pests": ["Aphids", "Whitefly", "Thrips", "Fruit Borer"]
     },
     {
       "name": "Maize",
@@ -139,7 +166,10 @@
       "rainfall_requirement_mm": [500, 800],
       "best_soil_types": ["Well-drained loamy soil with good fertility", "Deep alluvial soil with pH 6.0-7.5", "Sandy loam with adequate organic matter"],
       "agroclimatic_zones": ["Transition Zone I", "Central Maharashtra Plateau"],
-      "cultivation_tips": "Requires adequate drainage and balanced nutrition"
+      "cultivation_tips": "Requires adequate drainage and balanced nutrition",
+      "duration_days": "90-120",
+      "fertilizer_recommendation": "N:P:K 120:60:40 kg/ha",
+      "common_pests": ["Stem Borer", "Armyworm", "Aphids", "Shoot Fly"]
     },
     {
       "name": "Groundnut",
@@ -149,7 +179,10 @@
       "rainfall_requirement_mm": [500, 1000],
       "best_soil_types": ["Well-drained sandy loam soil", "Light textured soil with pH 6.0-7.0", "Red sandy soil with good calcium content"],
       "agroclimatic_zones": ["Scarcity Zone", "Western Maharashtra"],
-      "cultivation_tips": "Requires loose soil for proper peg penetration"
+      "cultivation_tips": "Requires loose soil for proper peg penetration",
+      "duration_days": "100-140",
+      "fertilizer_recommendation": "N:P:K 25:50:75 kg/ha",
+      "common_pests": ["Aphids", "Thrips", "Leaf Miner", "Whitefly"]
     },
     {
       "name": "Tur (Pigeon Pea)",
@@ -159,7 +192,10 @@
       "rainfall_requirement_mm": [600, 1000],
       "best_soil_types": ["Medium to deep black cotton soil", "Well-drained loamy soil with pH 6.5-7.5", "Red lateritic soil with good organic matter"],
       "agroclimatic_zones": ["Central Vidarbha", "Transition Zone II"],
-      "cultivation_tips": "Drought tolerant legume that improves soil fertility"
+      "cultivation_tips": "Drought tolerant legume that improves soil fertility",
+      "duration_days": "150-180",
+      "fertilizer_recommendation": "N:P:K 25:50:25 kg/ha",
+      "common_pests": ["Stem Borer", "Bollworm", "Aphids"]
     },
     {
       "name": "Chilli",
@@ -169,7 +205,10 @@
       "rainfall_requirement_mm": [600, 1000],
       "best_soil_types": ["Well-drained sandy loam with high organic matter", "Deep black soil with good drainage", "Fertile alluvial soil with pH 6.0-7.0"],
       "agroclimatic_zones": ["Marathwada", "Central Vidarbha"],
-      "cultivation_tips": "Sensitive to waterlogging and requires good drainage"
+      "cultivation_tips": "Sensitive to waterlogging and requires good drainage",
+      "duration_days": "150-210",
+      "fertilizer_recommendation": "N:P:K 150:75:75 kg/ha",
+      "common_pests": ["Thrips", "Aphids", "Whitefly", "Fruit Borer"]
     },
     {
       "name": "Turmeric",
@@ -179,7 +218,10 @@
       "rainfall_requirement_mm": [1000, 2000],
       "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Deep alluvial soil with pH 6.0-7.5", "Sandy loam with good water retention"],
       "agroclimatic_zones": ["Sangli", "Kolhapur", "Western Ghats"],
-      "cultivation_tips": "Requires shade and high organic matter content"
+      "cultivation_tips": "Requires shade and high organic matter content",
+      "duration_days": "210-270",
+      "fertilizer_recommendation": "N:P:K 60:40:120 kg/ha",
+      "common_pests": ["Stem Borer", "Leaf Roller", "Thrips"]
     },
     {
       "name": "Garlic",
@@ -189,7 +231,10 @@
       "rainfall_requirement_mm": [500, 800],
       "best_soil_types": ["Well-drained sandy loam soil", "Fertile alluvial soil with pH 6.0-7.0", "Light textured soil with good organic content"],
       "agroclimatic_zones": ["Western Maharashtra", "Transition Zone I"],
-      "cultivation_tips": "Requires well-drained soil and cool weather for bulb formation"
+      "cultivation_tips": "Requires well-drained soil and cool weather for bulb formation",
+      "duration_days": "150-180",
+      "fertilizer_recommendation": "N:P:K 100:50:50 kg/ha",
+      "common_pests": ["Thrips", "Aphids", "Stem Borer"]
     },
     {
       "name": "Cabbage",
@@ -199,7 +244,10 @@
       "rainfall_requirement_mm": [500, 1000],
       "best_soil_types": ["Well-drained loamy soil rich in organic matter", "Deep fertile soil with pH 6.0-7.0", "Sandy loam with adequate nitrogen"],
       "agroclimatic_zones": ["Pune", "Nashik", "Western Ghats"],
-      "cultivation_tips": "Requires cool weather and consistent moisture"
+      "cultivation_tips": "Requires cool weather and consistent moisture",
+      "duration_days": "80-120",
+      "fertilizer_recommendation": "N:P:K 120:60:60 kg/ha",
+      "common_pests": ["Aphids", "Whitefly", "Diamondback Moth"]
     },
     {
       "name": "Cauliflower",
@@ -209,7 +257,10 @@
       "rainfall_requirement_mm": [500, 800],
       "best_soil_types": ["Well-drained fertile loamy soil", "Deep soil with high organic matter and pH 6.0-7.0", "Sandy loam with good water retention"],
       "agroclimatic_zones": ["Pune Division", "Konkan"],
-      "cultivation_tips": "Sensitive to temperature fluctuations during curd formation"
+      "cultivation_tips": "Sensitive to temperature fluctuations during curd formation",
+      "duration_days": "60-100",
+      "fertilizer_recommendation": "N:P:K 120:60:60 kg/ha",
+      "common_pests": ["Aphids", "Whitefly", "Diamondback Moth"]
     },
     {
       "name": "Brinjal (Eggplant)",

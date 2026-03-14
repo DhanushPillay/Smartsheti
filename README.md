@@ -51,8 +51,8 @@ SmartSheti is a student project developed as part of Project Based Learning at M
   - ⚪ MSP/Estimate (<50%)
 
 **📚 Documentation:**
-- [Complete Overhaul Guide](MARKET_PRICE_OVERHAUL.md) - Full implementation details
-- [Quick Start Guide](QUICK_START.md) - 5-minute deployment
+- [Complete Overhaul Guide](docs/MARKET_PRICE_OVERHAUL.md) - Full implementation details
+- [Quick Start Guide](docs/QUICK_START.md) - 5-minute deployment
 - [API Documentation](#api-endpoints-new) - Endpoint reference
 
 ### Progressive Web App (PWA)
@@ -160,7 +160,7 @@ GET /api/prices/markets/{crop}?state=Maharashtra
 GET /api/health
 ```
 
-**Full API documentation:** See [MARKET_PRICE_OVERHAUL.md](MARKET_PRICE_OVERHAUL.md)
+**Full API documentation:** See [MARKET_PRICE_OVERHAUL.md](docs/MARKET_PRICE_OVERHAUL.md)
 
 ---
 
@@ -168,7 +168,7 @@ GET /api/health
 
 ### Quick Start (Recommended)
 
-**See [QUICK_START.md](QUICK_START.md) for 5-minute deployment guide**
+**See [QUICK_START.md](docs/QUICK_START.md) for 5-minute deployment guide**
 
 ### Prerequisites
 ```bash
@@ -200,7 +200,7 @@ pip install -r requirements.txt
 3. **Initialize price data**
 ```bash
 # Fetch initial prices from all sources
-python consolidate_prices.py
+python scripts/python/consolidate_prices.py
 ```
 
 4. **Test the multi-source scraper**

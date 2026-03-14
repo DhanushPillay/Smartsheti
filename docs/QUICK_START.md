@@ -31,7 +31,7 @@ python backend\python\multi_source_price_scraper.py wheat rice tomato
 
 ```powershell
 # Fetch and save prices for all crops
-python consolidate_prices.py
+python scripts/python/consolidate_prices.py
 
 # This creates/updates: data/json/prices.json
 ```
@@ -174,7 +174,7 @@ curl "https://your-app.vercel.app/api/cron/update-prices"
 - `backend/python/multi_source_price_scraper.py` (800 lines)
 - `backend/python/price_predictor.py` (280 lines)
 - `api/cron/update-prices.py` (170 lines)
-- `consolidate_prices.py` (140 lines)
+- `scripts/python/consolidate_prices.py` (140 lines)
 - `requirements.txt`
 - `MARKET_PRICE_OVERHAUL.md` (full documentation)
 - `QUICK_START.md` (this file)
@@ -231,7 +231,7 @@ Future optimizations:
 A: data.gov.in API has rate limits and occasional downtime. This is expected - MSP fallback ensures price always displays.
 
 **Q: Can I add more crops?**  
-A: Yes! Edit `PRIORITY_CROPS` in `consolidate_prices.py` and `api/cron/update-prices.py`
+A: Yes! Edit `PRIORITY_CROPS` in `scripts/python/consolidate_prices.py` and `api/cron/update-prices.py`
 
 **Q: How to change update frequency?**  
 A: Edit `vercel.json` cron schedule. Current: `"0 * * * *"` (hourly)

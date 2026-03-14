@@ -373,7 +373,7 @@ Each discovery led to specific implementation:
 python backend\python\multi_source_price_scraper.py wheat
 
 # Consolidate prices
-python consolidate_prices.py
+python scripts/python/consolidate_prices.py
 
 # Start local API
 python api\index.py
@@ -383,8 +383,8 @@ vercel --prod
 ```
 
 ### Essential Links
-- **Documentation:** [MARKET_PRICE_OVERHAUL.md](MARKET_PRICE_OVERHAUL.md)
-- **Quick Start:** [QUICK_START.md](QUICK_START.md)
+- **Documentation:** [MARKET_PRICE_OVERHAUL.md](../../MARKET_PRICE_OVERHAUL.md)
+- **Quick Start:** [QUICK_START.md](../../QUICK_START.md)
 - **API Reference:** See updated [README.md](README.md#api-endpoints-new)
 
 ### Essential Files

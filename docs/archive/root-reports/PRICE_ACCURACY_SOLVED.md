@@ -47,7 +47,7 @@ So it fell back to **government MSP rates** which are:
 - 95% confidence rating
 - Shows breakdown by market (Mumbai, Pune, Nagpur, etc.)
 
-#### 2. **Price Verification Tool** (`verify_maharashtra_prices.py`)
+#### 2. **Price Verification Tool** (`scripts/python/verify_maharashtra_prices.py`)
 - Interactive tool to compare with Google
 - Shows price conversions (kg ↔ quintal ↔ ton)
 - Explains why prices might differ
@@ -73,7 +73,7 @@ So it fell back to **government MSP rates** which are:
 
 ```powershell
 cd "e:\Personal Projects\farmer"
-python test_real_prices.py
+python tests/test_real_prices.py
 ```
 
 **Expected output:**
@@ -119,10 +119,10 @@ Our **₹33/kg** is **wholesale** (what farmers get at APMC).
 python backend\python\agmarknet_scraper.py wheat
 
 # Test multiple crops
-python test_real_prices.py
+python tests/test_real_prices.py
 
 # Interactive verification
-python verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py wheat
 ```
 
 ### 2. Update Frontend to Use New Source
@@ -142,8 +142,8 @@ You can:
 ```powershell
 # Add new files to git
 git add backend/python/agmarknet_scraper.py
-git add verify_maharashtra_prices.py
-git add test_real_prices.py
+git add scripts/python/verify_maharashtra_prices.py
+git add tests/test_real_prices.py
 git add MAHARASHTRA_PRICE_FIX.md
 
 # Commit
@@ -252,10 +252,10 @@ Run these commands to verify:
 
 ```powershell
 # Quick test
-python test_real_prices.py
+python tests/test_real_prices.py
 
 # Detailed verification with Google comparison
-python verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py wheat
 
 # Test specific crop
 python backend\python\agmarknet_scraper.py tomato

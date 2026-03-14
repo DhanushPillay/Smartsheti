@@ -41,7 +41,7 @@ Created **AgMarkNet Direct Scraper** that gets **real Maharashtra APMC wholesale
 ### 1. Run Verification Tool
 
 ```powershell
-python verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py wheat
 ```
 
 This will show:
@@ -157,7 +157,7 @@ When you Google "wheat price maharashtra", you might see different prices becaus
 
 ### Step 1: Check Our Data
 ```powershell
-python verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py wheat
 ```
 
 Look for:
@@ -231,7 +231,7 @@ The system now uses this priority order:
    - Handles Maharashtra-specific data
    - Returns real market prices with 95% confidence
 
-2. **`verify_maharashtra_prices.py`**
+2. **`scripts/python/verify_maharashtra_prices.py`**
    - Interactive verification tool
    - Compares our prices with Google
    - Shows price conversions and market breakdown
@@ -254,7 +254,7 @@ The system now uses this priority order:
 ### 1. Test the Verification Tool
 ```powershell
 cd "e:\Personal Projects\farmer"
-python verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py wheat
 ```
 
 Compare with Google:
@@ -265,10 +265,10 @@ Compare with Google:
 
 ### 2. Test Multiple Crops
 ```powershell
-python verify_maharashtra_prices.py tomato
-python verify_maharashtra_prices.py onion
-python verify_maharashtra_prices.py wheat
-python verify_maharashtra_prices.py rice
+python scripts/python/verify_maharashtra_prices.py tomato
+python scripts/python/verify_maharashtra_prices.py onion
+python scripts/python/verify_maharashtra_prices.py wheat
+python scripts/python/verify_maharashtra_prices.py rice
 ```
 
 ### 3. Update Deployment
@@ -278,7 +278,7 @@ The AgMarkNet scraper is ready to deploy to Vercel:
 ```powershell
 # Make sure new files are in git
 git add backend/python/agmarknet_scraper.py
-git add verify_maharashtra_prices.py
+git add scripts/python/verify_maharashtra_prices.py
 git add backend/api/maharashtra_price_api.py
 
 # Deploy to Vercel
@@ -327,7 +327,7 @@ Before reporting price discrepancies:
 - [ ] Verify you're comparing wholesale vs wholesale (not retail)
 - [ ] Confirm both prices are for Maharashtra
 - [ ] Check dates (daily prices vs weekly average)
-- [ ] Run verification tool: `python verify_maharashtra_prices.py <crop>`
+- [ ] Run verification tool: `python scripts/python/verify_maharashtra_prices.py <crop>`
 - [ ] Compare with official AgMarkNet.gov.in
 - [ ] Check if badge shows "🟢 LIVE" or "⚠️ MSP Estimate"
 

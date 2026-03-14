@@ -500,8 +500,10 @@ class CropRecommendationEngine {
                         return {
                             currentPrice: data.current_price, // Already in kg
                             lastUpdated: data.timestamp || new Date().toISOString(),
-                            source: 'SmartSheti API',
-                            market: data.market_comparison && data.market_comparison.length > 0 ? data.market_comparison[0].market : 'Maharashtra'
+                            source: data.source || 'SmartSheti API',
+                            sourceBadge: data.source_badge || '',
+                            market: data.market || (data.market_comparison && data.market_comparison.length > 0 ? data.market_comparison[0].market : 'Maharashtra'),
+                            isEstimate: Boolean(data.is_estimate)
                         };
                     } else if (data.modal_price) {
                         // Handle direct proxy response structure

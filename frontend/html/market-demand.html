@@ -452,12 +452,54 @@
                 debugLog('SimplePriceFetcher initialized with multi-source API','success');
             }
 
+            buildRequestUrl(crop, state, market) {
+                const params = new URLSearchParams({ state });
+                if (market && market.trim() && !market.toLowerCase().includes('all')) {
+                    params.set('market', market);
+                }
+                return `${this.apiUrl}/${encodeURIComponent(crop)}?${params.toString()}`;
+            }
+
+            normalizePriceData(data, crop, state, market) {
+                const currentPrice = Number(data.current_price || 0);
+                const historicalPrices = Array.isArray(data.historical_prices)
+                    ? data.historical_prices.map(price => Number(price || 0)).filter(price => price > 0)
+                    : [];
+                const safeHistory = historicalPrices.length > 0 ? historicalPrices : Array(8).fill(currentPrice || 0);
+                const marketComparison = Array.isArray(data.market_comparison)
+                    ? data.market_comparison.map(entry => ({
+                        market: entry.market || entry.name || 'Unknown Market',
+                        price: Number(entry.price || entry.price_per_kg || currentPrice || 0),
+                        change: entry.change || '+0.0%'
+                    }))
+                    : [];
+
+                return {
+                    success: true,
+                    crop: data.crop || crop,
+                    current_price: currentPrice,
+                    change_percentage: data.change_percentage || '+0.0%',
+                    historical_prices: safeHistory,
+                    market_comparison: marketComparison,
+                    timestamp: data.timestamp || new Date().toISOString(),
+                    source: data.source || 'Unknown',
+                    source_badge: data.source_badge || '📊 Estimated',
+                    confidence: Number(data.confidence || 0),
+                    state: data.state || state,
+                    market: data.market || market || state,
+                    market_requested: data.market_requested || market || '',
+                    market_matched: data.market_matched !== false,
+                    is_fallback: Boolean(data.is_fallback),
+                    is_estimate: Boolean(data.is_estimate)
+                };
+            }
+
             // Fetch price data from multi-source API
             async generatePriceData(crop, state, market) {
                 debugLog(`Fetching ${crop} price from /api/realprice`, 'info');
 
                 try {
-                    const url = `${this.apiUrl}/${crop}?state=${encodeURIComponent(state)}`;
+                    const url = this.buildRequestUrl(crop, state, market);
                     const response = await fetch(url, {
                         method: 'GET',
                         signal: AbortSignal.timeout(10000)
@@ -469,42 +511,49 @@
 
                     const data = await response.json();
                     
-                    if (data.success || data.current_price) {
-                        debugLog(`✅ Got price: ₹${data.current_price}/kg from ${data.source}`, 'success');
-                        return data;
+                    if (data.success && Number(data.current_price) > 0) {
+                        const normalized = this.normalizePriceData(data, crop, state, market);
+                        debugLog(`✅ Got price: ₹${normalized.current_price}/kg from ${normalized.source}`, 'success');
+                        return normalized;
                     } else {
                         throw new Error(data.message || 'No price data');
                     }
 
                 } catch (error) {
                     debugLog(`❌ API fetch failed: ${error.message}`, 'error');
-                    // Return basic fallback
-                    return this.getFallbackData(crop, state);
+                    return this.getFallbackData(crop, state, market);
                 }
             }
 
-            getFallbackData(crop, state) {
+            getFallbackData(crop, state, market) {
                 const mspPrices = {
                     'wheat': 24, 'rice': 23, 'cotton': 75,
                     'tomato': 35, 'onion': 22, 'potato': 18,
                     'mango': 80, 'banana': 40, 'sugarcane': 3
                 };
                 const price = mspPrices[crop.toLowerCase()] || 25;
+                const comparison = [
+                    {market: market || 'Pune APMC', price: price, change: '+0.0%'},
+                    {market: 'Mumbai APMC', price: Math.round(price * 1.08), change: '+8.0%'}
+                ];
                 
                 return {
                     success: true,
                     crop: crop,
                     current_price: price,
                     change_percentage: '+0.0%',
-                    historical_prices: Array(8).fill(price),
-                    market_comparison: [
-                        {market: 'Pune APMC', price: price, change: '+0%'},
-                        {market: 'Mumbai APMC', price: Math.round(price*1.1), change: '+2%'}
-                    ],
+                    historical_prices: [price * 0.96, price * 0.98, price * 0.99, price, price * 1.01, price * 0.99, price * 1.02, price].map(value => Number(value.toFixed(2))),
+                    market_comparison: comparison,
                     timestamp: new Date().toISOString(),
                     source: 'Fallback',
                     source_badge: '⚪ Estimate',
+                    confidence: 30,
                     state: state
+                    ,market: market || state
+                    ,market_requested: market || ''
+                    ,market_matched: Boolean(market)
+                    ,is_fallback: true
+                    ,is_estimate: true
                 };
             }
         }
@@ -527,11 +576,11 @@
                     const minPrice = Math.min(...prices);
                     const maxPrice = Math.max(...prices);
                     const range = maxPrice - minPrice;
-                    const padding = range * 0.1;
+                    const padding = range === 0 ? Math.max(minPrice * 0.05, 1) : range * 0.1;
 
                     const chartMin = Math.floor(minPrice - padding);
                     const chartMax = Math.ceil(maxPrice + padding);
-                    const chartRange = chartMax - chartMin;
+                    const chartRange = Math.max(chartMax - chartMin, 1);
 
                     // Update Y-axis labels
                     document.getElementById('maxPrice').textContent = `₹${chartMax.toLocaleString()}`;
@@ -598,7 +647,7 @@
                 }
             }
 
-            updateMainPriceDisplay(price, change, source_badge = '', market = 'Maharashtra', isFallback = false) {
+            updateMainPriceDisplay(price, change, source_badge = '', market = 'Maharashtra', isEstimate = false) {
                 document.getElementById('currentPrice').textContent = `₹${price.toLocaleString()}/kg`;
                 
                 // Update quintal price for verification
@@ -624,7 +673,7 @@
                 // Update source badge
                 const sourceBadge = document.getElementById('priceSourceBadge');
                 if (sourceBadge) {
-                    if (isFallback) {
+                    if (isEstimate) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-300 font-medium';
                         sourceBadge.innerHTML = '⚠️ MSP Estimate';
                         sourceBadge.title = 'Using government MSP rate - verify with local market';
@@ -632,10 +681,10 @@
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 border border-green-300 font-medium';
                         sourceBadge.innerHTML = '🟢 Live Data';
                         sourceBadge.title = 'Real-time data from government API';
-                    } else if (source_badge.includes('CACHE') || source_badge.includes('🔵')) {
+                    } else if (source_badge.includes('CACHE') || source_badge.includes('RECENT') || source_badge.includes('🔵') || source_badge.includes('🟡')) {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-300 font-medium';
                         sourceBadge.innerHTML = '🔵 Recent Data';
-                        sourceBadge.title = 'Cached data from last hour';
+                        sourceBadge.title = 'Recent cached market data from the price pipeline';
                     } else {
                         sourceBadge.className = 'text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 border border-gray-300';
                         sourceBadge.innerHTML = '📊 Estimated';
@@ -648,15 +697,21 @@
                 const container = document.getElementById('marketComparison');
                 container.innerHTML = '';
 
+                if (!Array.isArray(marketData) || marketData.length === 0) {
+                    container.innerHTML = '<div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-500">No market comparison data available for this crop.</div>';
+                    return;
+                }
+
                 marketData.forEach(market => {
                     const row = document.createElement('div');
                     row.className = 'grid grid-cols-3 items-center bg-gray-50 rounded-lg p-4';
 
-                    const isPositive = market.change.includes('+');
+                    const changeText = market.change || '+0.0%';
+                    const isPositive = changeText.includes('+');
                     row.innerHTML = `
-                        <span class="text-gray-800">${market.market}</span>
-                        <span class="text-center text-gray-800">₹${market.price.toLocaleString()}/kg</span>
-                        <span class="text-right font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}">${market.change}</span>
+                        <span class="text-gray-800">${market.market || market.name || 'Unknown Market'}</span>
+                        <span class="text-center text-gray-800">₹${Number(market.price || 0).toLocaleString()}/kg</span>
+                        <span class="text-right font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}">${changeText}</span>
                     `;
 
                     container.appendChild(row);
@@ -678,6 +733,60 @@
         let priceFetcher;
         let chartRenderer;
 
+        function removeSourceBanner() {
+            const oldInfo = document.querySelector('.source-info-banner');
+            if (oldInfo) {
+                oldInfo.remove();
+            }
+        }
+
+        function renderSourceBanner(priceData) {
+            removeSourceBanner();
+
+            const container = document.querySelector('.market-card');
+            if (!container || !priceData.source) {
+                return;
+            }
+
+            const sourceInfo = document.createElement('div');
+            let bgClass = 'bg-blue-50 border-blue-500';
+            let textClass = 'text-blue-800';
+            let title = 'Recent Market Data';
+            let icon = 'ℹ️';
+
+            if (priceData.is_estimate) {
+                bgClass = 'bg-yellow-50 border-yellow-500';
+                textClass = 'text-yellow-800';
+                title = 'Estimated Market Data';
+                icon = '⚠️';
+            } else if ((priceData.source_badge || '').includes('LIVE')) {
+                bgClass = 'bg-green-50 border-green-500';
+                textClass = 'text-green-800';
+                title = 'Real Market Data';
+                icon = '✅';
+            }
+
+            const marketStatus = priceData.market_requested && !priceData.market_matched
+                ? `Requested: ${priceData.market_requested} • showing ${priceData.market}`
+                : (priceData.market || 'Multiple Markets');
+
+            sourceInfo.className = `${bgClass} border-l-4 p-4 mb-4 rounded source-info-banner`;
+            sourceInfo.innerHTML = `
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">${icon}</span>
+                    <div>
+                        <p class="font-bold ${textClass}">${title}</p>
+                        <p class="text-sm ${textClass}">
+                            Source: ${priceData.source} • ${marketStatus}
+                            <span class="ml-2 text-xs">Confidence: ${priceData.confidence || 0}%</span>
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            container.insertBefore(sourceInfo, container.firstChild);
+        }
+
         async function updateChart() {
             const crop = document.getElementById('cropSelect').value;
             const state = document.getElementById('stateSelect').value;
@@ -693,48 +802,18 @@
 
                 // Fetch price data from multi-source API
                 const priceData = await priceFetcher.generatePriceData(crop, state, market);
-
-                // Show real data source indicator with enhanced info
-                if (priceData.source && !priceData.is_fallback) {
-                    const sourceInfo = document.createElement('div');
-                    const bgClass = priceData.confidence >= 90 ? 'bg-green-50 border-green-500' : 'bg-blue-50 border-blue-500';
-                    const textClass = priceData.confidence >= 90 ? 'text-green-800' : 'text-blue-800';
-                    
-                    sourceInfo.className = `${bgClass} border-l-4 p-4 mb-4 rounded`;
-                    sourceInfo.innerHTML = `
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-3">${priceData.confidence >= 90 ? '✅' : 'ℹ️'}</span>
-                            <div>
-                                <p class="font-bold ${textClass}">Real Market Data</p>
-                                <p class="text-s,
-                    priceData.market || 'Maharashtra',
-                    priceData.is_fallback || falsem ${textClass}">
-                                    Source: ${priceData.source} • ${priceData.market || 'Multiple Markets'} 
-                                    <span class="ml-2 text-xs">Confidence: ${priceData.confidence}%</span>
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Remove old source info if exists
-                    const oldInfo = document.querySelector('.source-info-banner');
-                    if (oldInfo) oldInfo.remove();
-                    
-                    sourceInfo.classList.add('source-info-banner');
-                    const container = document.querySelector('.market-card');
-                    if (container) {
-                        container.insertBefore(sourceInfo, container.firstChild);
-                    }
-                }
+                renderSourceBanner(priceData);
 
                 // Update displays
                 chartRenderer.updateMainPriceDisplay(
                     priceData.current_price,
                     priceData.change_percentage,
-                    priceData.source_badge || ''
+                    priceData.source_badge || '',
+                    priceData.market || market || state,
+                    priceData.is_estimate || false
                 );
                 chartRenderer.renderChart(priceData);
-                chartRenderer.updateMarketComparison(priceData.market_comparison);
+                chartRenderer.updateMarketComparison(priceData.market_comparison || []);
 
                 setTimeout(() => chartRenderer.hideLoading(), 500);
 

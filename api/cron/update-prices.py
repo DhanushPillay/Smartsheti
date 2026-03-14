@@ -33,6 +33,11 @@ PRIORITY_CROPS = [
     'pomegranate', 'grapes', 'orange', 'chilli', 'turmeric'
 ]
 
+HISTORY_LABELS = [
+    '7W ago', '6W ago', '5W ago', '4W ago',
+    '3W ago', '2W ago', '1W ago', 'Current'
+]
+
 
 class handler(BaseHTTPRequestHandler):
     """Cron job handler for automated price updates"""
@@ -78,12 +83,32 @@ class handler(BaseHTTPRequestHandler):
                     price_data = scraper.get_price(crop, 'Maharashtra')
                     
                     if price_data and price_data.get('price', 0) > 0:
+                        current_price = round(price_data['price'], 2)
+                        historical_prices = [
+                            round(float(value), 2)
+                            for value in price_data.get('historical_prices', [current_price])
+                            if float(value) > 0
+                        ]
+                        market_comparison = price_data.get('market_comparison', [])
+                        is_fallback = price_data.get('is_fallback', False)
+
                         results[crop] = {
-                            'price': price_data['price'],
+                            'price': current_price,
+                            'current_price': current_price,
+                            'historical_prices': historical_prices,
+                            'market_comparison': market_comparison,
+                            'market': price_data.get('market', 'Multiple Markets'),
+                            'state': price_data.get('state', 'Maharashtra'),
                             'source': price_data.get('data_source', 'Unknown'),
+                            'source_badge': '⚪ MSP/Estimate' if is_fallback else '🟢 LIVE Data',
                             'confidence': price_data.get('confidence', 0),
                             'timestamp': price_data.get('timestamp'),
-                            'is_fallback': price_data.get('is_fallback', False)
+                            'is_fallback': is_fallback,
+                            'is_estimate': is_fallback,
+                            'data_origin': 'estimate' if is_fallback else 'live',
+                            'labels': HISTORY_LABELS,
+                            'data': [round(value * 100, 2) for value in historical_prices],
+                            'unit': '₹/quintal'
                         }
                         successful += 1
                     else:
@@ -118,6 +143,9 @@ class handler(BaseHTTPRequestHandler):
                         'last_update_job': 'cron'
                     }
             
+            all_prices['lastUpdated'] = update_timestamp
+            all_prices['source'] = 'SmartSheti price pipeline cache'
+
             # Save updated prices
             with open(prices_file, 'w', encoding='utf-8') as f:
                 json.dump(all_prices, f, indent=2, ensure_ascii=False)

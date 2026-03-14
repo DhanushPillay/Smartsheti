@@ -482,7 +482,10 @@ class MultiSourcePriceScraper:
         
         # All sources failed
         logger.error(f"❌ All sources failed for {crop}. Errors: {errors}")
-        
+
+        if not use_fallback:
+            return None
+
         # Last resort - return MSP fallback anyway
         fallback_source = [s for s in self.sources if s.priority == 99][0]
         fallback_data = fallback_source.fetch_price(crop, state)

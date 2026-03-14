@@ -36,6 +36,8 @@ DATA_GOV_IN_API_KEY = os.environ.get(
 )
 BASE_URL = "https://api.data.gov.in/resource"
 RESOURCE_ID = "9ef84268-d588-465a-a308-a864a43d0070"  # Daily agricultural prices
+DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'json')
+CACHED_PRICES_FILE = os.path.join(DATA_DIR, 'prices.json')
 
 # Crop name mappings (common names to API names)
 CROP_MAPPINGS = {
@@ -53,6 +55,171 @@ CROP_MAPPINGS = {
     'groundnut': ['Groundnut', 'Moongfali', 'Peanut'],
     'tur': ['Arhar (Tur/Red Gram)(Whole)', 'Tur', 'Arhar'],
 }
+
+CROP_ALIASES = {
+    'soybean': ['soybean', 'soyabean'],
+    'soyabean': ['soyabean', 'soybean'],
+    'chili': ['chili', 'chilli'],
+    'chilli': ['chilli', 'chili'],
+}
+
+
+def get_crop_lookup_keys(crop: str) -> List[str]:
+    crop_key = crop.strip().lower()
+    keys = [crop_key]
+    for alias in CROP_ALIASES.get(crop_key, []):
+        if alias not in keys:
+            keys.append(alias)
+    return keys
+
+
+def safe_float(value, default: float = 0.0) -> float:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def clamp_history(history: List[float], current_price: float, desired_points: int = 8) -> List[float]:
+    normalized = [round(safe_float(price), 2) for price in history if safe_float(price) > 0]
+
+    if not normalized and current_price > 0:
+        normalized = generate_historical_trend(current_price, desired_points)
+
+    if normalized and len(normalized) < desired_points:
+        seed_price = normalized[-1]
+        generated = generate_historical_trend(seed_price, desired_points)
+        normalized = generated[:desired_points - len(normalized)] + normalized
+
+    if not normalized:
+        normalized = [round(current_price, 2)] * desired_points
+
+    return [round(price, 2) for price in normalized[-desired_points:]]
+
+
+def build_market_comparison_from_price(base_price: float) -> List[Dict]:
+    if base_price <= 0:
+        return []
+
+    market_defaults = [
+        ('Pune APMC', 1.00),
+        ('Mumbai APMC', 1.08),
+        ('Nashik APMC', 0.97),
+        ('Nagpur APMC', 1.03),
+        ('Aurangabad APMC', 0.99),
+    ]
+    comparison = []
+
+    for market_name, multiplier in market_defaults:
+        market_price = round(base_price * multiplier, 2)
+        change = ((market_price - base_price) / base_price) * 100 if base_price else 0
+        comparison.append({
+            'market': market_name,
+            'price': market_price,
+            'change': f"{'+' if change >= 0 else ''}{change:.1f}%"
+        })
+
+    return comparison
+
+
+def normalize_market_rows(markets: Optional[List[Dict]], current_price: float) -> List[Dict]:
+    normalized = []
+    seen = set()
+
+    for market in markets or []:
+        market_name = (
+            market.get('market')
+            or market.get('name')
+            or market.get('district')
+            or 'Unknown Market'
+        )
+        market_key = market_name.strip().lower()
+        if market_key in seen:
+            continue
+
+        price = safe_float(
+            market.get('price', market.get('price_per_kg', market.get('modal_price', current_price))),
+            current_price
+        )
+        if price <= 0:
+            continue
+
+        change_value = market.get('change')
+        if isinstance(change_value, str) and change_value:
+            change_text = change_value
+        else:
+            min_price = safe_float(market.get('min_price'), price)
+            max_price = safe_float(market.get('max_price'), price)
+            baseline = price or current_price or 1
+            change_pct = ((max_price - min_price) / baseline) * 100 if baseline else 0
+            change_text = f"{'+' if change_pct >= 0 else ''}{change_pct:.1f}%"
+
+        normalized.append({
+            'market': market_name,
+            'price': round(price, 2),
+            'change': change_text
+        })
+        seen.add(market_key)
+
+    if not normalized and current_price > 0:
+        normalized = build_market_comparison_from_price(current_price)
+
+    return normalized[:5]
+
+
+def resolve_market_selection(requested_market: str, market_rows: List[Dict], current_price: float, historical_prices: List[float]) -> Dict:
+    requested_market = (requested_market or '').strip()
+    if not requested_market:
+        resolved_market = market_rows[0]['market'] if market_rows else 'Multiple Markets'
+        return {
+            'market': resolved_market,
+            'current_price': round(current_price, 2),
+            'historical_prices': historical_prices,
+            'market_requested': '',
+            'market_matched': bool(market_rows)
+        }
+
+    requested_key = requested_market.lower()
+    selected_market = None
+
+    for market_row in market_rows:
+        market_name = market_row['market']
+        market_key = market_name.lower()
+        if market_key == requested_key or requested_key in market_key or market_key in requested_key:
+            selected_market = market_row
+            break
+
+    if selected_market:
+        selected_price = round(safe_float(selected_market.get('price'), current_price), 2)
+        delta = selected_price - current_price
+        adjusted_history = [round(price + delta, 2) for price in historical_prices] if historical_prices else [selected_price] * 8
+        return {
+            'market': selected_market['market'],
+            'current_price': selected_price,
+            'historical_prices': adjusted_history,
+            'market_requested': requested_market,
+            'market_matched': True
+        }
+
+    resolved_market = market_rows[0]['market'] if market_rows else requested_market
+    return {
+        'market': resolved_market,
+        'current_price': round(current_price, 2),
+        'historical_prices': historical_prices,
+        'market_requested': requested_market,
+        'market_matched': False
+    }
+
+
+def load_cached_prices() -> Dict:
+    if not os.path.exists(CACHED_PRICES_FILE):
+        return {}
+
+    try:
+        with open(CACHED_PRICES_FILE, 'r', encoding='utf-8') as file_handle:
+            return json.load(file_handle)
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
 def fetch_price_from_api(commodity: str, state: str = "Maharashtra") -> Optional[Dict]:
@@ -189,6 +356,111 @@ class handler(BaseHTTPRequestHandler):
         if cls.scraper is None and MULTI_SOURCE_AVAILABLE:
             cls.scraper = MultiSourcePriceScraper()
         return cls.scraper
+
+    def _canonicalize_price_data(
+        self,
+        crop: str,
+        state: str,
+        requested_market: str,
+        price_data: Optional[Dict],
+        data_origin: str,
+        default_source: str = 'Unknown'
+    ) -> Optional[Dict]:
+        if not price_data:
+            return None
+
+        history = price_data.get('historical_prices', [])
+        base_price = safe_float(price_data.get('current_price', price_data.get('price', 0)))
+        if 'data' in price_data and isinstance(price_data.get('data'), list):
+            price_series = [safe_float(value) for value in price_data.get('data', []) if safe_float(value) > 0]
+            unit = (price_data.get('unit') or '').lower()
+            if 'quintal' in unit:
+                history = [round(value / 100, 2) for value in price_series]
+            else:
+                history = [round(value, 2) for value in price_series]
+            if history:
+                base_price = history[-1]
+
+        if base_price <= 0 and history:
+            base_price = round(history[-1], 2)
+
+        if base_price <= 0:
+            return None
+
+        historical_prices = clamp_history(history, base_price)
+        current_price = round(base_price, 2)
+        market_rows = normalize_market_rows(
+            price_data.get('market_comparison', price_data.get('markets')),
+            current_price
+        )
+        market_resolution = resolve_market_selection(
+            requested_market,
+            market_rows,
+            current_price,
+            historical_prices
+        )
+
+        current_price = market_resolution['current_price']
+        historical_prices = clamp_history(market_resolution['historical_prices'], current_price)
+        change_percentage = self._calculate_change(historical_prices)
+        source = price_data.get('source', price_data.get('data_source', default_source))
+        confidence = int(round(safe_float(price_data.get('confidence', 0), 0)))
+        is_estimate = bool(price_data.get('is_estimate', False)) or data_origin == 'estimate'
+        is_fallback = bool(price_data.get('is_fallback', False)) or data_origin in ('cached', 'estimate')
+
+        canonical = {
+            'success': True,
+            'crop': price_data.get('crop', crop).lower(),
+            'current_price': round(current_price, 2),
+            'change_percentage': change_percentage,
+            'historical_prices': historical_prices,
+            'market_comparison': market_rows,
+            'timestamp': price_data.get('timestamp', price_data.get('last_updated', datetime.now().isoformat())),
+            'source': source,
+            'confidence': confidence,
+            'state': price_data.get('state', state),
+            'market': market_resolution['market'],
+            'market_requested': market_resolution['market_requested'],
+            'market_matched': market_resolution['market_matched'],
+            'is_fallback': is_fallback,
+            'is_estimate': is_estimate,
+            'data_origin': data_origin,
+        }
+        canonical['source_badge'] = self._get_source_badge(canonical)
+        return canonical
+
+    def _get_cached_price_data(self, crop: str, state: str, requested_market: str) -> Optional[Dict]:
+        cached_prices = load_cached_prices()
+        if not cached_prices:
+            return None
+
+        crop_entry = None
+        for crop_key in get_crop_lookup_keys(crop):
+            if crop_key in cached_prices:
+                crop_entry = cached_prices[crop_key]
+                break
+
+        if not isinstance(crop_entry, dict):
+            return None
+
+        cached_payload = {
+            **crop_entry,
+            'crop': crop,
+            'state': crop_entry.get('state', state),
+            'source': crop_entry.get('source', cached_prices.get('source', 'Cached Price Data')),
+            'timestamp': crop_entry.get('timestamp', crop_entry.get('last_updated', cached_prices.get('lastUpdated', datetime.now().isoformat()))),
+            'is_fallback': True,
+            'is_estimate': bool(crop_entry.get('is_estimate', False)),
+        }
+
+        return self._canonicalize_price_data(
+            crop,
+            state,
+            requested_market,
+            cached_payload,
+            data_origin='cached',
+            default_source='Cached Price Data'
+        )
     
     def do_GET(self):
         """Handle GET requests"""
@@ -222,40 +494,44 @@ class handler(BaseHTTPRequestHandler):
         elif path.startswith('/api/realprice/'):
             crop = path.split('/api/realprice/')[-1]
             state = query.get('state', ['Maharashtra'])[0]
+            requested_market = query.get('market', [''])[0]
             
             try:
                 if MULTI_SOURCE_AVAILABLE:
-                    # Use multi-source scraper
+                    # Use multi-source scraper without estimate fallback so cached real data stays preferred.
                     scraper = self.get_scraper()
-                    price_data = scraper.get_price(crop, state)
-                    
-                    # Format response with enhanced metadata
-                    response_data = {
-                        'success': True,
-                        'crop': price_data.get('crop', crop),
-                        'current_price': price_data.get('price', 0),
-                        'change_percentage': self._calculate_change(price_data.get('historical_prices', [])),
-                        'historical_prices': price_data.get('historical_prices', []),
-                        'market_comparison': price_data.get('market_comparison', []),
-                        'timestamp': price_data.get('timestamp', datetime.now().isoformat()),
-                        'source': price_data.get('data_source', 'Unknown'),
-                        'source_badge': self._get_source_badge(price_data),
-                        'confidence': price_data.get('confidence', 50),
-                        'state': state,
-                        'market': price_data.get('market', 'Multiple Markets'),
-                        'is_fallback': price_data.get('is_fallback', False)
-                    }
-                else:
-                    # Fallback to old method
+                    price_data = scraper.get_price(crop, state, use_fallback=False)
+                    response_data = self._canonicalize_price_data(
+                        crop,
+                        state,
+                        requested_market,
+                        price_data,
+                        data_origin='live',
+                        default_source='Multi-source scraper'
+                    )
+
+                if not response_data:
                     price_data = fetch_price_from_api(crop, state)
-                    if price_data:
-                        response_data = price_data
-                    else:
-                        response_data = self._get_fallback_data(crop, state)
+                    response_data = self._canonicalize_price_data(
+                        crop,
+                        state,
+                        requested_market,
+                        price_data,
+                        data_origin='live',
+                        default_source='data.gov.in'
+                    )
+
+                if not response_data:
+                    response_data = self._get_cached_price_data(crop, state, requested_market)
+
+                if not response_data:
+                    response_data = self._get_fallback_data(crop, state, requested_market)
             
             except Exception as e:
                 print(f"Error fetching price for {crop}: {e}")
-                response_data = self._get_fallback_data(crop, state)
+                response_data = self._get_cached_price_data(crop, state, requested_market)
+                if not response_data:
+                    response_data = self._get_fallback_data(crop, state, requested_market)
         
         # Bulk prices endpoint: /api/prices/bulk
         elif path == '/api/prices/bulk':
@@ -352,11 +628,14 @@ class handler(BaseHTTPRequestHandler):
     
     def _get_source_badge(self, price_data: Dict) -> str:
         """Get display badge for data source"""
-        if price_data.get('is_fallback'):
+        if price_data.get('is_estimate'):
             return '⚪ MSP/Estimate'
+
+        if price_data.get('data_origin') == 'cached':
+            return '🔵 Cached Real Data'
         
         confidence = price_data.get('confidence', 0)
-        source = price_data.get('data_source', '').lower()
+        source = price_data.get('source', price_data.get('data_source', '')).lower()
         
         if 'data.gov' in source or confidence >= 90:
             return '🟢 LIVE Data'
@@ -367,7 +646,7 @@ class handler(BaseHTTPRequestHandler):
         else:
             return '⚪ Estimated'
     
-    def _get_fallback_data(self, crop: str, state: str) -> Dict:
+    def _get_fallback_data(self, crop: str, state: str, requested_market: str = '') -> Dict:
         """Generate basic fallback data when all sources fail"""
         msp_prices = {
             'wheat': 24.25, 'rice': 23.20, 'cotton': 75.21,
@@ -376,25 +655,28 @@ class handler(BaseHTTPRequestHandler):
         }
         
         base_price = msp_prices.get(crop.lower(), 25)
+        historical_prices = clamp_history([], base_price)
+        market_comparison = build_market_comparison_from_price(base_price)
+        market_resolution = resolve_market_selection(requested_market, market_comparison, base_price, historical_prices)
         
         return {
             'success': True,
             'crop': crop,
-            'current_price': base_price,
-            'change_percentage': '+0.0%',
-            'historical_prices': [base_price] * 8,
-            'market_comparison': [
-                {'market': 'Mumbai APMC', 'price': round(base_price * 1.1), 'change': '+2.0%'},
-                {'market': 'Pune APMC', 'price': base_price, 'change': '0.0%'},
-                {'market': 'Nashik APMC', 'price': round(base_price * 0.95), 'change': '-1.5%'},
-            ],
+            'current_price': market_resolution['current_price'],
+            'change_percentage': self._calculate_change(market_resolution['historical_prices']),
+            'historical_prices': market_resolution['historical_prices'],
+            'market_comparison': market_comparison,
             'timestamp': datetime.now().isoformat(),
             'source': 'Fallback MSP',
             'source_badge': '⚪ Estimated',
             'confidence': 30,
             'state': state,
-            'market': 'Estimated',
-            'is_fallback': True
+            'market': market_resolution['market'],
+            'market_requested': requested_market,
+            'market_matched': market_resolution['market_matched'],
+            'is_fallback': True,
+            'is_estimate': True,
+            'data_origin': 'estimate'
         }
     
     def do_OPTIONS(self):

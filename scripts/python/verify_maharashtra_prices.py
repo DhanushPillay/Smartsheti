@@ -6,11 +6,11 @@ This helps identify discrepancies and validate data accuracy
 """
 
 import sys
-import os
-from datetime import datetime
+from pathlib import Path
 
-# Add backend path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'backend', 'python'))
+# Resolve project root from scripts/python and add backend path
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT / 'backend' / 'python'))
 
 try:
     from multi_source_price_scraper import MultiSourcePriceScraper

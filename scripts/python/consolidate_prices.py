@@ -10,8 +10,11 @@ import os
 from datetime import datetime
 from pathlib import Path
 
+# Resolve project root from scripts/python
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 # Add backend path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend', 'python'))
+sys.path.insert(0, str(PROJECT_ROOT / 'backend' / 'python'))
 
 try:
     from multi_source_price_scraper import MultiSourcePriceScraper
@@ -21,9 +24,8 @@ except ImportError:
     print("⚠️  Multi-source scraper not available")
 
 # Paths
-BASE_DIR = Path(__file__).parent
-DATA_DIR = BASE_DIR / 'data' / 'json'
-BACKEND_DIR = BASE_DIR / 'backend'
+DATA_DIR = PROJECT_ROOT / 'data' / 'json'
+BACKEND_DIR = PROJECT_ROOT / 'backend'
 
 # Priority crops to fetch
 PRIORITY_CROPS = [

@@ -9,6 +9,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 import json
+import os
 from functools import lru_cache
 import hashlib
 import logging
@@ -22,6 +23,28 @@ logger = logging.getLogger(__name__)
 
 # Translation cache to reduce API calls
 translation_cache = {}
+CACHE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'json', 'translation_cache.json')
+
+def load_cache():
+    global translation_cache
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                translation_cache = json.load(f)
+            logger.info(f"Loaded {len(translation_cache)} translations from files")
+        except Exception as e:
+            logger.error(f"Error loading cache: {e}")
+            translation_cache = {}
+
+def save_cache():
+    try:
+        os.makedirs(os.path.dirname(CACHE_FILE), exist_ok=True)
+        with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(translation_cache, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logger.error(f"Error saving cache: {e}")
+
+load_cache()
 
 class TranslationService:
     """Multi-provider translation service with fallback"""
@@ -110,6 +133,7 @@ class TranslationService:
         
         # Cache the result
         translation_cache[cache_key] = translated
+        save_cache()
         
         return translated
     
@@ -230,6 +254,7 @@ def clear_cache():
     global translation_cache
     old_size = len(translation_cache)
     translation_cache.clear()
+    save_cache()
     
     return jsonify({
         'success': True,

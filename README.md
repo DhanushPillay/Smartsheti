@@ -6,7 +6,7 @@
 
 > **Empowering Maharashtra Farmers with Smart Agricultural Insights**
 
-A comprehensive web-based platform that assists farmers with intelligent crop recommendations, real-time weather monitoring, and live market price information. Features multilingual support (English, Hindi, Marathi) and is accessible as a Progressive Web App for easy mobile access.
+A comprehensive web-based platform that assists farmers with intelligent crop recommendations, real-time weather monitoring, pest risk analysis, farm operations planning, and live market price information. Features multilingual support (English, Hindi, Marathi) and is accessible as a Progressive Web App for easy mobile access.
 
 **🌐 Live Website:** [https://smartsheti-rho.vercel.app](https://smartsheti-rho.vercel.app)
 
@@ -14,25 +14,30 @@ A comprehensive web-based platform that assists farmers with intelligent crop re
 
 ## Overview
 
-SmartSheti is a student project developed as part of Project Based Learning at MIT-ADT University. The platform integrates multiple agricultural data sources to provide farmers with crop recommendations, weather forecasts, and market price trends through a user-friendly web interface.
+SmartSheti is a student project developed as part of Project Based Learning at MIT-ADT University. The platform integrates multiple agricultural data sources to provide farmers with comprehensive crop planning, weather forecasts, and market price trends through a user-friendly web interface powered by an advanced predictive Python backend.
 
 ---
 
 ## Features
 
-### Crop Recommendation System
-- Provides crop suggestions based on user-inputted parameters (soil type, location, water availability)
-- Uses a rule-based algorithm to match crops with local conditions
-- Displays estimated profitability based on static market price data
-- Limited to common crops grown in Maharashtra region
+### Advanced Crop Recommendation Engine
+- Intelligent scoring based on temperature, soil compatibility, irrigation type, land size, and seasonal price factors
+- Ensures diverse crop recommendations to avoid monoculture
+- Calculates dynamic profitability using real-time market data (MSP or live market prices)
+- Region-specific adaptations for Maharashtra's agroclimatic zones
 
-### Weather Information
-- Integrates OpenWeatherMap API for current weather conditions
-- Displays temperature, humidity, precipitation, and wind data
-- Provides basic pest risk indicators based on weather conditions
-- Location search functionality for Maharashtra districts and villages
+### Comprehensive Pest Risk Analyzer (NEW)
+- Advanced rule-engine evaluating current weather conditions against pest survival profiles (temperature, humidity, wind, rainfall)
+- Assesses multi-factor relevance based on region, season, and affected crops
+- Detects risks for major pests (e.g., Aphids, Whitefly, Stem Borer, Bollworm, Armyworm)
+- Generates critical alerts and tailors prevention and treatment recommendations
 
-### Market Price Tracking ⚡ **NEW: Multi-Source System**
+### 7-Day Farm Operations Planner (NEW)
+- Analyzes upcoming weather forecasts to recommend optimal days for critical activities (plowing, sowing, spraying, irrigation, harvesting)
+- Uses precise weather constraints (e.g., wind speed for spraying, rainfall for harvesting)
+- Highlights operation warnings for prolonged rain or extreme heat
+
+### Market Price Tracking ⚡ **Multi-Source System**
 - **✨ 4-source price aggregation** with intelligent fallback
   1. 🥇 data.gov.in API (Government authoritative data) - Priority 1
   2. 🥈 MandiPrices.com (Web scraping) - Priority 2
@@ -44,16 +49,11 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 - Shows 8-week historical price trends with interactive charts
 - Covers 20+ major crops: wheat, rice, cotton, onions, tomatoes, fruits
 - Compares prices across 5+ APMC markets in Maharashtra
-- **Real-time status badges:**
-  - 🟢 LIVE Data (Confidence ≥90%)
-  - 🔵 Recent Data (70-89%)
-  - 🟡 Cached Data (50-69%)
-  - ⚪ MSP/Estimate (<50%)
 
-**📚 Documentation:**
-- [Complete Overhaul Guide](docs/MARKET_PRICE_OVERHAUL.md) - Full implementation details
-- [Quick Start Guide](docs/QUICK_START.md) - 5-minute deployment
-- [API Documentation](#api-endpoints-new) - Endpoint reference
+### Weather Information
+- Integrates OpenWeatherMap API for current weather conditions
+- Displays temperature, humidity, precipitation, and wind data
+- Location search functionality for Maharashtra districts and villages
 
 ### Progressive Web App (PWA)
 - Installable on mobile devices and desktop browsers
@@ -74,32 +74,30 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 - Tailwind CSS for styling
 - Leaflet.js for mapping
 - Material Icons
-- Direct API integration with data.gov.in
+
+**Backend & Data:**
+- Python 3 with Flask (API Endpoints & Data Aggregation)
+- SQLite (Local caching and data storage via `database.py`)
+- Vercel Serverless Functions
+- Web Scraping (BeautifulSoup4) for market prices
 
 **Deployment:**
-- Vercel (Static Hosting)
-- No backend required for core features
+- Vercel (Frontend & Serverless Backend)
 
 ---
 
 ## Known Limitations and Issues
 
 ### Data Accuracy
-- **Market prices** are fetched live from data.gov.in API (Government of India)
-- **Weather data** is limited to OpenWeatherMap's free tier accuracy
-- **Crop recommendations** use simplified rule-based logic rather than machine learning models
+- **Market prices** depend on external sources (data.gov.in, MandiPrices, AgMarkNet) which can have varying latency or availability
+- **Weather data** relies on OpenWeatherMap's free tier accuracy
+- **Price Predictions** utilize moving averages rather than deep learning models
 
 ### Technical Constraints
-- **API rate limits**: data.gov.in free API has request limitations
-- **No database**: User data is stored locally, limiting personalization
-- **Translation quality**: Automated translations may not be contextually accurate for agricultural terminology
-- **No user authentication**: Cannot save user preferences or track individual farms
-
-### User Experience
-- **Limited offline functionality**: Only cached pages work offline; dynamic data requires internet connection
-- **Mobile responsiveness**: Some pages may have layout issues on smaller screens
-- **No notification system**: Cannot alert users about price changes or weather warnings
-- **Limited crop database**: Covers only common Maharashtra crops, not region-specific varieties
+- **API rate limits**: external APIs like data.gov.in have request limits, mitigated via our caching layer
+- **Local Database**: Currently uses SQLite for data caching, limiting cross-user personalization without a dedicated cloud database
+- **Translation quality**: Automated translations may not be perfectly context-accurate for complex agricultural terminology
+- **No user authentication**: Cannot save persistent user preferences or track individual farms across devices
 
 ### Development Status
 - **Beta/Educational Project**: Built for learning purposes, not production-grade
@@ -108,9 +106,9 @@ SmartSheti is a student project developed as part of Project Based Learning at M
 
 ---
 
-## API Endpoints (NEW)
+## API Endpoints
 
-SmartSheti now provides a robust multi-source API for agricultural market prices.
+SmartSheti provides a robust multi-source API for agricultural market prices.
 
 ### Base URL
 ```
@@ -123,26 +121,6 @@ Local: http://localhost:5000/api
 #### 1. Get Price for Single Crop
 ```http
 GET /api/realprice/{crop}?state=Maharashtra
-```
-**Parameters:**
-- `crop` (path) - Crop name (e.g., wheat, rice, tomato)
-- `state` (query) - State name (default: Maharashtra)
-
-**Response:**
-```json
-{
-  "success": true,
-  "crop": "wheat",
-  "current_price": 24.5,
-  "change_percentage": "+2.3%",
-  "historical_prices": [22, 23, 23.5, 24, 24.5],
-  "market_comparison": [...],
-  "source": "data.gov.in API",
-  "source_badge": "🟢 LIVE Data",
-  "confidence": 95,
-  "timestamp": "2026-02-10T09:30:00",
-  "is_fallback": false
-}
 ```
 
 #### 2. Get Bulk Prices
@@ -191,12 +169,6 @@ cd farmer
 pip install -r requirements.txt
 ```
 
-**Dependencies include:**
-- `requests` - HTTP client for API calls
-- `beautifulsoup4` - HTML parsing for web scraping
-- `Flask` - API framework (local development)
-- `Flask-CORS` - CORS handling
-
 3. **Initialize price data**
 ```bash
 # Fetch initial prices from all sources
@@ -232,42 +204,25 @@ Open browser: http://localhost:8080
 Market Prices: http://localhost:8080/frontend/html/market-demand.html
 ```
 
-### Vercel Deployment
-
-```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Deploy to production
-vercel --prod
-
-# Your app will be live at: https://your-project.vercel.app
-```
-
-**Post-deployment:**
-1. Verify cron job is enabled in Vercel dashboard
-2. Check `/api/health` returns success
-3. Test `/api/realprice/wheat` shows real prices
-4. Monitor Vercel function logs for any errors
-
 ---
 
 ## Project Structure
 
 ```
 farmer/
+├── api/
+│   ├── index.py        # Vercel Serverless entry point
+│   └── cron/           # Scheduled automation tasks
 ├── frontend/
 │   ├── html/           # Web pages
 │   ├── css/            # Stylesheets
-│   ├── js/             # JavaScript modules
+│   ├── js/             # Core logic (Pest analysis, Crop Engine, etc.)
 │   └── assets/         # Images and static files
 ├── backend/
-│   ├── api/            # Flask API endpoints
-│   ├── python/         # Data scraping scripts
-│   └── prices.json     # Market price data store
-├── data/
-│   ├── json/           # Static data files
-│   └── csv/            # CSV data exports
+│   ├── database.py     # SQLite DB configurations
+│   └── python/         # Price predictors, scrapers, chart generators
+├── data/               # Persistent data (SQLite db, JSON caches)
+├── scripts/            # Consolidation and utility scripts
 ├── docs/               # Documentation files
 ├── index.html          # Main entry point
 ├── manifest.json       # PWA manifest
@@ -279,11 +234,9 @@ farmer/
 ## Data Sources
 
 - **Weather Data**: OpenWeatherMap API (free tier)
-- **Market Prices**: data.gov.in API (Government of India - live data)
+- **Market Prices**: data.gov.in API, MandiPrices, AgMarkNet
 - **Geographic Data**: Manual compilation of Maharashtra districts and talukas
 - **Translation**: MyMemory Translation API + custom dictionary
-
-**Note**: Market prices are fetched live from government API when internet is available.
 
 ---
 
@@ -312,16 +265,3 @@ This is an educational project developed for learning purposes. The agricultural
 ## License
 
 This project is developed for educational purposes. Please contact the developers for usage permissions.
-
----
-
-## Future Improvements Needed
-
-- Implement proper database for dynamic data management
-- Develop machine learning models for crop recommendations
-- Add user authentication and personalized farm profiles
-- Implement push notifications for price alerts
-- Expand crop database with regional varieties
-- Improve translation accuracy for agricultural terms
-- Add soil testing integration
-- Develop mobile native applications for better offline support

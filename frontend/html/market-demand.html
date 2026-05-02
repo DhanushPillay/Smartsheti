@@ -14,16 +14,9 @@
     <link rel="stylesheet" href="../css/Home page.css" />
     <link rel="stylesheet" href="../css/market_demand_fixed.css" />
     <link rel="stylesheet" href="../css/mobile-improvements.css" />
-    <link rel="manifest" href="/manifest.json">
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js');
-            });
-        }
-    </script>
+
     <script src="../js/translations.js"></script>
-    <script src="../js/install-app.js" defer></script>
+    
 </head>
 
 <body class="font-sans page-loading" style="background-color: #EBE4DB !important;" data-page-name="market-demand">
@@ -54,12 +47,7 @@
                     data-translate="marketDemand">Market Demand</a>
             </nav>
             <div class="hidden md:flex items-center space-x-2 action-buttons">
-                <!-- Download App Button -->
-                <button id="installAppBtn"
-                    class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center shadow-sm">
-                    <span class="material-icons text-sm mr-1">download</span>
-                    <span data-translate="downloadApp">Download App</span>
-                </button>
+                
                 <div class="relative">
                     <button id="translateBtn" class="flex items-center text-gray-600 hover:text-green-600"
                         title="Translate">
@@ -125,14 +113,7 @@
                     <span class="material-icons text-green-600 mr-3">trending_up</span>
                     <span data-translate="marketDemand">Market Demand</span>
                 </a>
-                <!-- Download App Button (Mobile) -->
-                <div class="px-2 pb-2">
-                    <button id="installAppBtnMobile"
-                        class="w-full bg-green-100 text-green-700 border border-green-200 px-4 py-2 rounded-lg font-medium hover:bg-green-200 transition-colors flex items-center justify-center">
-                        <span class="material-icons mr-2">download</span>
-                        <span data-translate="downloadApp">Download App</span>
-                    </button>
-                </div>
+                
                 <div class="border-t border-gray-100 my-2 pt-2"></div>
                 <div class="flex items-center justify-between px-2 py-2">
                     <button id="translateBtnMobile"

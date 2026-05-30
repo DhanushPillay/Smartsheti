@@ -1,11 +1,11 @@
 // VERIFIED Agricultural Crop Image Database - HD Quality & Botanically Accurate
 const CROP_IMAGE_DATABASE = {
     // --- Cereals & Grains ---
-    'Rice': 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?w=800&h=600&fit=crop&q=90',
-    'Wheat': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=800&h=600&fit=crop&q=90',
-    'Maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&h=600&fit=crop&q=90',
-    'Corn': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&h=600&fit=crop&q=90',
-    'Sweet Corn': 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=800&h=600&fit=crop&q=90',
+    'Rice': '../assets/images/crops/rice.jpg',
+    'Wheat': '../assets/images/crops/wheat.jpg',
+    'Maize': '../assets/images/crops/maize.jpg',
+    'Corn': '../assets/images/crops/maize.jpg',
+    'Sweet Corn': '../assets/images/crops/maize.jpg',
     // Wikimedia used for accuracy as Unsplash lacks specific field shots for these
     'Jowar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Sorghum_bicolor_field.jpg/1024px-Sorghum_bicolor_field.jpg',
     'Jowar (Sorghum)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Sorghum_bicolor_field.jpg/1024px-Sorghum_bicolor_field.jpg',
@@ -15,8 +15,8 @@ const CROP_IMAGE_DATABASE = {
 
     // --- Cash Crops ---
     'Cotton': 'https://images.unsplash.com/photo-1594488518020-d3a3399a9a0e?w=800&h=600&fit=crop&q=90',
-    'Sugarcane': 'https://images.unsplash.com/photo-1606132758957-37d425b07897?w=800&h=600&fit=crop&q=90',
-    'Soybean': 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=800&h=600&fit=crop&q=90',
+    'Sugarcane': '../assets/images/crops/sugarcane.jpg',
+    'Soybean': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Soybean_seeds.jpg/800px-Soybean_seeds.jpg',
     'Sunflower': 'https://images.unsplash.com/photo-1470509037663-253afd7f0f51?w=800&h=600&fit=crop&q=90',
     'Mustard': 'https://images.unsplash.com/photo-1678161555382-75f855d04847?w=800&h=600&fit=crop&q=90',
     'Sesame': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Sesamum_indicum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-130.jpg/800px-Sesamum_indicum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-130.jpg',
@@ -33,20 +33,20 @@ const CROP_IMAGE_DATABASE = {
     'Green Gram': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Mung_bean_field.jpg/1024px-Mung_bean_field.jpg',
     'Black Gram': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Vigna_mungo_pods.jpg/800px-Vigna_mungo_pods.jpg',
     'Peas': 'https://images.unsplash.com/photo-1592394533824-9440e5d68530?w=800&h=600&fit=crop&q=90',
-    'French Beans': 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=800&h=600&fit=crop&q=90',
+    'French Beans': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Green_beans_%28French_beans%29.jpg/800px-Green_beans_%28French_beans%29.jpg',
     'Cluster Bean': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Cyamopsis_tetragonoloba_plant.jpg/800px-Cyamopsis_tetragonoloba_plant.jpg',
 
     // --- Vegetables: Solanaceae ---
-    'Tomato': 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=800&h=600&fit=crop&q=90',
-    'Brinjal': 'https://images.unsplash.com/photo-1615485925694-a62322319489?w=800&h=600&fit=crop&q=90',
-    'Brinjal (Eggplant)': 'https://images.unsplash.com/photo-1615485925694-a62322319489?w=800&h=600&fit=crop&q=90',
-    'Eggplant': 'https://images.unsplash.com/photo-1615485925694-a62322319489?w=800&h=600&fit=crop&q=90',
+    'Tomato': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/800px-Tomato_je.jpg',
+    'Brinjal': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/800px-Solanum_melongena_24_08_2012_%281%29.JPG',
+    'Brinjal (Eggplant)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/800px-Solanum_melongena_24_08_2012_%281%29.JPG',
+    'Eggplant': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/800px-Solanum_melongena_24_08_2012_%281%29.JPG',
     'Chilli': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
     'Chili': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
-    'Potato': 'https://images.unsplash.com/photo-1596450523825-7243c3d5e27a?w=800&h=600&fit=crop&q=90',
+    'Potato': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/800px-Patates.jpg',
 
     // --- Vegetables: Alliums ---
-    'Onion': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&h=600&fit=crop&q=90',
+    'Onion': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Onion_on_White.JPG/800px-Onion_on_White.JPG',
     'Garlic': 'https://images.unsplash.com/photo-1598048143224-b1eb2ce05fc6?w=800&h=600&fit=crop&q=90',
 
     // --- Vegetables: Root/Tuber ---
@@ -66,7 +66,7 @@ const CROP_IMAGE_DATABASE = {
     'Okra': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
     'Spinach': 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&h=600&fit=crop&q=90',
     'Fenugreek': 'https://images.unsplash.com/photo-1644263643614-8cfe80d0c32e?w=800&h=600&fit=crop&q=90',
-    'Cabbage': 'https://images.unsplash.com/photo-1553978297-833d09932d31?w=800&h=600&fit=crop&q=90',
+    'Cabbage': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/800px-Cabbage_and_cross_section_on_white.jpg',
     'Cauliflower': 'https://images.unsplash.com/photo-1568584711271-055f9b1bb7b6?w=800&h=600&fit=crop&q=90',
     'Lettuce': 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=800&h=600&fit=crop&q=90',
 
@@ -82,7 +82,7 @@ const CROP_IMAGE_DATABASE = {
     // --- Plantation & Spices ---
     'Areca Nut': 'https://images.unsplash.com/photo-1622329380962-d27376a8d67c?w=800&h=600&fit=crop&q=90',
     'Coconut': 'https://images.unsplash.com/photo-1544376798-89aa6b82c6cd?w=800&h=600&fit=crop&q=90',
-    'Turmeric': 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=800&h=600&fit=crop&q=90',
+    'Turmeric': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Turmeric_rhizome.jpg/800px-Turmeric_rhizome.jpg',
     'Tamarind': 'https://images.unsplash.com/photo-1566659962687-7c841c797979?w=800&h=600&fit=crop&q=90',
     'Fennel': 'https://images.unsplash.com/photo-1600456899121-68eda5705257?w=800&h=600&fit=crop&q=90',
 
@@ -110,23 +110,23 @@ const CROP_IMAGE_DATABASE = {
     'Ganna': 'https://images.unsplash.com/photo-1606132758957-37d425b07897?w=800&h=600&fit=crop&q=90',
     'Sugar Cane': 'https://images.unsplash.com/photo-1606132758957-37d425b07897?w=800&h=600&fit=crop&q=90',
     // Soyabean
-    'Soyabean': 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=800&h=600&fit=crop&q=90',
-    'Soya Bean': 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=800&h=600&fit=crop&q=90',
+    'Soyabean': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Soybean_seeds.jpg/800px-Soybean_seeds.jpg',
+    'Soya Bean': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Soybean_seeds.jpg/800px-Soybean_seeds.jpg',
     // Maize
     'Makka': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=800&h=600&fit=crop&q=90',
     // Vegetables
-    'Tamatar': 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=800&h=600&fit=crop&q=90',
-    'Tomato Hybrid': 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=800&h=600&fit=crop&q=90',
-    'Pyaz': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&h=600&fit=crop&q=90',
-    'Onion Red': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&h=600&fit=crop&q=90',
-    'Aloo': 'https://images.unsplash.com/photo-1596450523825-7243c3d5e27a?w=800&h=600&fit=crop&q=90',
-    'Potato Red': 'https://images.unsplash.com/photo-1596450523825-7243c3d5e27a?w=800&h=600&fit=crop&q=90',
-    'Baingan': 'https://images.unsplash.com/photo-1615485925694-a62322319489?w=800&h=600&fit=crop&q=90',
+    'Tamatar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/800px-Tomato_je.jpg',
+    'Tomato Hybrid': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/800px-Tomato_je.jpg',
+    'Pyaz': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Onion_on_White.JPG/800px-Onion_on_White.JPG',
+    'Onion Red': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Onion_on_White.JPG/800px-Onion_on_White.JPG',
+    'Aloo': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/800px-Patates.jpg',
+    'Potato Red': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Patates.jpg/800px-Patates.jpg',
+    'Baingan': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Solanum_melongena_24_08_2012_%281%29.JPG/800px-Solanum_melongena_24_08_2012_%281%29.JPG',
     'Bhindi': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
     'Bhindi(Ladies Finger)': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
     'Lady Finger': 'https://images.unsplash.com/photo-1458938926217-10c2363e7703?w=800&h=600&fit=crop&q=90',
     'Phool Gobhi': 'https://images.unsplash.com/photo-1568584711271-055f9b1bb7b6?w=800&h=600&fit=crop&q=90',
-    'Patta Gobhi': 'https://images.unsplash.com/photo-1553978297-833d09932d31?w=800&h=600&fit=crop&q=90',
+    'Patta Gobhi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/800px-Cabbage_and_cross_section_on_white.jpg',
     'Kheera': 'https://images.unsplash.com/photo-1604173874749-983ceab562c5?w=800&h=600&fit=crop&q=90',
     'Kakdi': 'https://images.unsplash.com/photo-1604173874749-983ceab562c5?w=800&h=600&fit=crop&q=90',
     'Mirchi': 'https://images.unsplash.com/photo-1566802616235-9b2a7593c681?w=800&h=600&fit=crop&q=90',
@@ -139,7 +139,7 @@ const CROP_IMAGE_DATABASE = {
     'Moongfali': 'https://images.unsplash.com/photo-1567375698509-46e3775f8bb7?w=800&h=600&fit=crop&q=90',
     'Arhar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Cajanus_cajan_flower_and_pods.jpg/1024px-Cajanus_cajan_flower_and_pods.jpg',
     'Arhar (Tur/Red Gram)(Whole)': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Cajanus_cajan_flower_and_pods.jpg/1024px-Cajanus_cajan_flower_and_pods.jpg',
-    'Haldi': 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=800&h=600&fit=crop&q=90',
+    'Haldi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Turmeric_rhizome.jpg/800px-Turmeric_rhizome.jpg',
     // Fruits
     'Kela': 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=800&h=600&fit=crop&q=90',
     'Aam': 'https://images.unsplash.com/photo-1626296185854-44cc196c787a?w=800&h=600&fit=crop&q=90',

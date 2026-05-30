@@ -50,11 +50,11 @@ class handler(BaseHTTPRequestHandler):
         cron_secret = os.environ.get('CRON_SECRET', '')
         
         # In production, verify authorization
-        # if cron_secret and f'Bearer {cron_secret}' != auth_bearer:
-        #     self.send_response(401)
-        #     self.end_headers()
-        #     self.wfile.write(json.dumps({'error': 'Unauthorized'}).encode())
-        #     return
+        if cron_secret and f'Bearer {cron_secret}' != auth_bearer:
+            self.send_response(401)
+            self.end_headers()
+            self.wfile.write(json.dumps({'error': 'Unauthorized'}).encode())
+            return
         
         self.send_response(200)
         self.send_header('Content-type', 'application/json')

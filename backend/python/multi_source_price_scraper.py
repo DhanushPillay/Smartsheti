@@ -297,40 +297,6 @@ class MandiPricesSource(PriceDataSource):
             return None
 
 
-class AgMarkNetHTMLSource(PriceDataSource):
-    """Scrapes prices from AgMarkNet website (HTML fallback)"""
-    
-    def __init__(self):
-        super().__init__("AgMarkNet HTML", priority=3, cache_duration_minutes=60)
-        self.base_url = 'http://agmarknet.gov.in'
-        
-    def fetch_price(self, crop: str, state: str = 'Maharashtra') -> Optional[Dict]:
-        """Scrape price from AgMarkNet website"""
-        
-        # Check cache
-        cached = self.get_cached_price(crop)
-        if cached:
-            return cached
-        
-        try:
-            logger.info(f"🌐 Scraping {crop} from AgMarkNet HTML...")
-            
-            # AgMarkNet has a complex form-based interface
-            # This is a simplified version - actual implementation needs session handling
-            
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            }
-            
-            # For now, return None - full implementation requires form submission
-            # and session management which is beyond quick setup
-            logger.info("ℹ️ AgMarkNet HTML scraping not yet implemented (requires form handling)")
-            return None
-            
-        except Exception as e:
-            logger.error(f"❌ Error scraping AgMarkNet for {crop}: {str(e)}")
-            return None
-
 
 class MSPFallbackSource(PriceDataSource):
     """Provides MSP (Minimum Support Price) fallback data"""
@@ -415,7 +381,6 @@ class MultiSourcePriceScraper:
         self.sources = [
             DataGovAPISource(),
             MandiPricesSource(),
-            AgMarkNetHTMLSource(),
             MSPFallbackSource()
         ]
         # Sort by priority

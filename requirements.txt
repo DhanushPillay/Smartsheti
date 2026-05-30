@@ -20,3 +20,6 @@ pytz==2023.3
 
 # For Vercel serverless functions
 # (Vercel automatically includes these in the runtime)
+
+kagglehub
+Pillow

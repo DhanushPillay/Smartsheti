@@ -30,10 +30,7 @@ except ImportError:
 import requests
 
 # Data.gov.in API Configuration
-DATA_GOV_IN_API_KEY = os.environ.get(
-    'DATA_GOV_IN_API_KEY',
-    '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b'
-)
+DATA_GOV_IN_API_KEY = os.environ.get('DATA_GOV_IN_API_KEY', '')
 BASE_URL = "https://api.data.gov.in/resource"
 RESOURCE_ID = "9ef84268-d588-465a-a308-a864a43d0070"  # Daily agricultural prices
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'json')
@@ -331,6 +328,9 @@ def generate_historical_trend(current_price: float, num_points: int = 8) -> List
     """Generate realistic historical price trend"""
     import random
     
+    # Use deterministic seed based on current price
+    random.seed(int(current_price * 100))
+    
     prices = []
     for i in range(num_points):
         if i == num_points - 1:
@@ -341,6 +341,8 @@ def generate_historical_trend(current_price: float, num_points: int = 8) -> List
             historical_price = current_price * (1 + variation * (num_points - i - 1) / num_points)
             prices.append(round(historical_price, 2))
     
+    # Reset seed so it doesn't affect other random calls
+    random.seed()
     return prices
 
 
@@ -468,14 +470,7 @@ class handler(BaseHTTPRequestHandler):
         path = parsed_path.path
         query = parse_qs(parsed_path.query)
         
-        # CORS headers
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-        self.send_header('Cache-Control', 'public, max-age=1800')  # 30 min cache
-        self.end_headers()
+        # Headers moved to end of function
         
         response_data = {}
         
@@ -613,6 +608,20 @@ class handler(BaseHTTPRequestHandler):
                 'supported_states': ['Maharashtra', 'Karnataka', 'Gujarat', 'Madhya Pradesh'],
                 'data_sources': ['data.gov.in API', 'MandiPrices.com', 'AgMarkNet', 'MSP Fallback']
             }
+        
+        # Determine status code
+        status_code = 200
+        if not response_data.get('success', True) and 'error' in response_data:
+            status_code = 500
+            
+        # CORS headers
+        self.send_response(status_code)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Cache-Control', 'public, max-age=1800')  # 30 min cache
+        self.end_headers()
         
         # Send response
         self.wfile.write(json.dumps(response_data).encode())

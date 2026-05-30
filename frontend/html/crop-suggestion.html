@@ -1636,7 +1636,7 @@
                         </div>
                         
                         <div class="lg:w-56 flex-shrink-0 self-start">
-                            <img src="${getCropImage(crop.name, cropImages, defaultImage)}" 
+                            <img src="${window.getCropImage ? window.getCropImage(crop.name) : defaultImage}" 
                                  alt="${crop.name} cultivation" 
                                  class="w-full h-48 lg:h-48 rounded-lg object-cover hd-crop-image"
                                  loading="lazy"
@@ -1672,79 +1672,6 @@
             // Make clearForm globally available
             window.clearForm = clearForm;
 
-            // Helper function to get crop image with fallback logic
-            function getCropImage(cropName, cropImages, defaultImage) {
-                // First try exact match
-                if (cropImages[cropName]) {
-                    return cropImages[cropName];
-                }
-
-                // Try to find partial matches for crop names with variations
-                const normalizedName = cropName.toLowerCase();
-
-                // Common crop name mappings and variations
-                const nameMapping = {
-                    'jowar': 'Jowar (Sorghum)',
-                    'sorghum': 'Jowar (Sorghum)',
-                    'tur': 'Tur (Pigeon Pea)',
-                    'pigeon pea': 'Tur (Pigeon Pea)',
-                    'arhar': 'Tur (Pigeon Pea)',
-                    'brinjal': 'Brinjal (Eggplant)',
-                    'eggplant': 'Brinjal (Eggplant)',
-                    'baingan': 'Brinjal (Eggplant)',
-                    'okra': 'Okra (Lady Finger)',
-                    'lady finger': 'Okra (Lady Finger)',
-                    'bhindi': 'Okra (Lady Finger)',
-                    'corn': 'Maize',
-                    'makka': 'Maize',
-                    'groundnut': 'Groundnut',
-                    'peanut': 'Groundnut',
-                    'moongphali': 'Groundnut',
-                    'chili': 'Chilli',
-                    'mirchi': 'Chilli',
-                    'pepper': 'Chilli'
-                };
-
-                // Check if there's a mapping for the normalized name
-                for (const [key, value] of Object.entries(nameMapping)) {
-                    if (normalizedName.includes(key)) {
-                        if (cropImages[value]) {
-                            return cropImages[value];
-                        }
-                    }
-                }
-
-                // Try to find a crop that contains the search term or vice versa
-                for (const [imageCropName, imageUrl] of Object.entries(cropImages)) {
-                    if (imageCropName === 'default') continue;
-
-                    const imageNameLower = imageCropName.toLowerCase();
-
-                    // Check for partial matches (at least 3 characters)
-                    if (normalizedName.length >= 3 && imageNameLower.includes(normalizedName)) {
-                        return imageUrl;
-                    }
-                    if (imageCropName.length >= 3 && normalizedName.includes(imageNameLower)) {
-                        return imageUrl;
-                    }
-
-                    // Check for word matches
-                    const cropWords = normalizedName.split(/\s+/);
-                    const imageWords = imageNameLower.split(/\s+/);
-
-                    for (const cropWord of cropWords) {
-                        if (cropWord.length >= 3) {
-                            for (const imageWord of imageWords) {
-                                if (imageWord.includes(cropWord) || cropWord.includes(imageWord)) {
-                                    return imageUrl;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                return defaultImage;
-            }
 
             // Helper function to get suitability color
             function getSuitabilityColor(rating) {

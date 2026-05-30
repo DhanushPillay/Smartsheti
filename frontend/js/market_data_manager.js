@@ -53,12 +53,17 @@ class MarketDataManager {
                 this.dataCache.set('price_data', priceData);
                 this.dataCache.set('summary_data', summaryData);
                 this.lastUpdateTime = new Date();
+                this.isMockData = false;
 
                 console.log('📈 Market data loaded from scraper');
             } else {
-                // Fallback to enhanced mock data
-                this.generateEnhancedMockData();
-                console.log('📝 Using enhanced mock data');
+                // Fallback to enhanced mock data ONLY if we don't already have live data
+                if (this.isMockData === undefined || this.isMockData === true) {
+                    this.generateEnhancedMockData();
+                    console.log('📝 Using enhanced mock data');
+                } else {
+                    console.log('⚠️ Failed to fetch new data, keeping existing live data');
+                }
             }
         } catch (error) {
             console.error('❌ Error loading market data:', error);
@@ -492,7 +497,7 @@ class MarketDataManager {
     }
     async fetchMarketData() {
         try {
-            const response = await fetch('./market_data.json');
+            const response = await fetch('../../data/json/market_data.json');
             if (response.ok) {
                 return await response.json();
             }
@@ -507,7 +512,7 @@ class MarketDataManager {
      */
     async fetchPriceData() {
         try {
-            const response = await fetch('./wheat_price_trends.json');
+            const response = await fetch('../../data/json/wheat_price_trends.json');
             if (response.ok) {
                 return await response.json();
             }
@@ -522,7 +527,7 @@ class MarketDataManager {
      */
     async fetchSummaryData() {
         try {
-            const response = await fetch('./market_summary.json');
+            const response = await fetch('../../data/json/market_summary.json');
             if (response.ok) {
                 return await response.json();
             }
@@ -584,6 +589,7 @@ class MarketDataManager {
         this.dataCache.set('price_data', this.generateMockPriceTrends());
         this.dataCache.set('summary_data', this.generateMockSummary());
         this.lastUpdateTime = new Date();
+        this.isMockData = true;
     }
 
     /**
@@ -1100,7 +1106,9 @@ class MarketDataManager {
         }
 
         const timeString = this.lastUpdateTime.toLocaleTimeString();
-        updateIndicator.innerHTML = `📊 Last updated: ${timeString} | <span class="text-green-600">Live Data</span>`;
+        const statusText = this.isMockData ? "Demo Data" : "Live Data";
+        const statusColor = this.isMockData ? "text-yellow-600" : "text-green-600";
+        updateIndicator.innerHTML = `📊 Last updated: ${timeString} | <span class="${statusColor}">${statusText}</span>`;
     }
 
     /**
